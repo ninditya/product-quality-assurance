@@ -24,6 +24,7 @@ Both are shared public demo systems. Their data changes and resets, and they can
 | Other findings | 6 candidate defects, 4 findings against supporting sources, 2 pending the Product Owner, 2 assumption-based results |
 | Load test (`GET /products`, max 20 VUs, 80 s) | p95 333 ms, 0 % failed requests: all thresholds passed |
 | Stability (exit criterion EX3) | **Not met**: UI-26b (a race condition) gave pass, pass, fail |
+| Postman collection (supplementary) | The same 30 API tests: 90 checks, 75 passed, 15 failed; the failures come from the same 12 tests that fail in Playwright |
 
 A failed test means the observed result differed from its expectation. Tests that find a problem are kept failing on purpose; they are not hidden with `test.fail()` or skips. A failed test is not automatically a confirmed defect: see the classification in [docs/bug-reports.md](docs/bug-reports.md).
 
@@ -36,7 +37,7 @@ A failed test means the observed result differed from its expectation. Tests tha
 | Playwright Chromium | installed by the command below | UI tests |
 | k6 | 2.3.0 ([install](https://grafana.com/docs/k6/latest/set-up/install-k6/)) | load test only |
 
-Dependency versions are pinned in `package.json` and `package-lock.json` (Playwright 1.64.1, ajv 8.20.0, TypeScript 5.9.3).
+Dependency versions are pinned in `package.json` and `package-lock.json` (Playwright 1.64.1, ajv 8.20.0, TypeScript 5.9.3, Newman 6.2.1).
 
 ## Setup
 
@@ -60,15 +61,25 @@ The demo customer Jane Doe is a shared account that locks after 3 failed logins.
 | `npm run test:smoke` | 2 read-only smoke checks (UI and API answer). Use this to check the setup |
 | `npm run test:ui` | UI tests (Part A) |
 | `npm run test:api` | API tests (Part B) |
+| `npm run test:postman` | the same API tests as a Postman collection, run with Newman (supplementary, see below) |
 | `npm test` | the whole suite (UI + API) |
 | `npm run test:p1` | only tests tagged `@P1` |
 | `npm run report` | opens the last HTML report |
 | `npm run typecheck` | TypeScript check |
 | `npm run test:load` | the k6 load test (see below) |
 
-**Exit codes:** `npm test`, `npm run test:ui` and `npm run test:api` end with exit code 1 while the known defects exist, because the tests that detect them fail. That is the expected result of this suite. `npm run test:smoke` and `npm run typecheck` are expected to end with 0.
+**Exit codes:** `npm test`, `npm run test:ui`, `npm run test:api` and `npm run test:postman` end with exit code 1 while the known defects exist, because the tests that detect them fail. That is the expected result of this suite. `npm run test:smoke` and `npm run typecheck` are expected to end with 0.
 
-**Effects on the shared demo:** each full run places one real order with the Jane Doe account (E2E-01) and creates about ten API products, each deleted by the test that created it (only ids registered by that test, never by name). Tests run with one worker to keep the load low.
+**Effects on the shared demo:** each full run places one real order with the Jane Doe account (E2E-01) and creates about ten API products, each deleted by the test that created it (only ids registered by that test, never by name). Tests run with one worker to keep the load low. A Postman run logs in once as Jane Doe and creates about ten products in the same way, each deleted as admin at the end of its folder.
+
+### Postman collection
+
+[postman/](postman/) holds a Postman collection with the same 30 API tests, using the same ids (API-01 … API-32, SMOKE-API) and the same expected results as [docs/test-scenarios.md](docs/test-scenarios.md), and an environment with only the URLs and public demo accounts. It is supplementary: the Playwright suite remains the main result, and the numbers above come from it. Postman counts each check separately, so one Playwright test can be several Postman checks (90 in total).
+
+- Terminal: `npm run test:postman`.
+- Postman app: **Import** both files, select the environment **Toolshop api-with-bugs**, then run the collection in order (00 Setup first).
+
+Each write folder creates its own product and deletes exactly that id; the last request checks that no product of the run is left. If the customer login fails, API-27 is reported as blocked instead of running without a token.
 
 ### Load test
 
@@ -93,12 +104,14 @@ docs/
 ui-tests/                   Playwright UI tests: pages/ (page objects), specs/, data/, helpers/
 api-tests/                  Playwright API tests: specs/, helpers/ (client, schemas, test data)
 load-tests/                 k6 script and exported results
+postman/                    Postman collection and environment (the API tests, run with Newman)
 ```
 
 ## Tool choices
 
 - **Playwright (TypeScript)** for both UI and API tests: one runner, one report, shared fixtures; auto-waiting assertions avoid fixed sleeps.
 - **ajv** to validate API responses against JSON schemas derived from the OpenAPI spec.
+- **Postman + Newman** as a supplementary copy of the API tests: the requests can be explored and re-run in the Postman app, and Newman runs the same collection from the command line.
 - **k6** for the load test: scripted scenarios with ramp-up and built-in thresholds, and it runs from the command line.
 
 ## How the expected results were decided
@@ -122,6 +135,7 @@ The main assumptions (full list in [docs/requirement-analysis.md](docs/requireme
 - **UI-26b** reproduces a race condition and is not deterministic: it only fails when a late account response arrives after typing (annotation "race window not exercised" otherwise). This is why EX3 is not met.
 - **Test oracles:** UI price checks prove consistency with the product data, not that a price is right; API "only and all" filter checks compare with the same API's full list; the bug-free deployment differs from the API under test in id and flag types, so it only decides which fields must exist.
 - **Coverage:** Chromium desktop only; P3 scenarios not run; payment methods other than Bank Transfer only validated, never paid; no payment gateway; one load-test run on one read-only endpoint, not a capacity test.
+- **Dependencies:** `npm audit` reports known vulnerabilities in packages that Newman 6.2.1 depends on (the newer 6.2.2 reports the same). Newman is a development tool that only runs locally against the public demo; it is not shipped anywhere.
 - **Clean-up:** if the API ever answered 201 without an id, that product could not be deleted automatically; the test reports it as a leak instead of deleting by name.
 
 ## How AI was used
@@ -130,12 +144,12 @@ The main assumptions (full list in [docs/requirement-analysis.md](docs/requireme
 
 **Working rules.** I gave Claude Code instructions (kept locally, not in this repository) to follow the STLC step by step, explain risks and options, recommend an approach, and wait for my decision before implementing changes. I kept decisions about unclear requirements, expected results, priorities, defect classifications, and severity under my control. I also required evidence for test results, prohibited weakening assertions to make tests pass, required the changed files and commit message to be shown before every commit, and required approval of the load test design before execution. I reviewed and made every commit myself.
 
-**Work delegated to AI.** I used AI to help explore the application and API, draft documentation, develop page objects, tests and helper functions, prepare the k6 script, execute tests, collect evidence, and analyse initial failures.
+**Work delegated to AI.** I used AI to help explore the application and API, draft documentation, develop page objects, tests and helper functions, prepare the k6 script, execute tests, collect evidence, and analyse initial failures. Claude Code also generated the Postman collection from the Playwright API tests, after I had built a smaller collection myself in Postman to learn the tool.
 
 **My decisions and corrections.** I reviewed the evidence and made the final QA decisions, including acceptance criteria, test priorities, expected results, defect classifications and severity, load test thresholds, and the NO-GO recommendation. Before deciding, I checked the facts behind the main requirement decisions (D1–D6) manually in the browser. For example, I changed the US-3 login criterion from "Partly met" to "Not met" after comparing the observed behaviour with the requirement. I also lowered a finding's severity from Medium to Low, distinguished findings against supporting sources from confirmed defects, and kept only four payment validation tests out of around 40 candidate payment cases, because most lacked a clear basis in the requirements.
 
 I did not accept every AI-generated conclusion without checking it. I requested evidence for expected results, revised the multi-word search rule after observing the reference API, required full-object checks after rejected updates, and ensured test cleanup verified records through GET requests and targeted only IDs created by the tests. For the UI-26b race condition, I required the test to record whether the race actually occurred.
 
-**Verification.** I reviewed test results and supporting evidence, ran the k6 load test myself, retained the raw JSON reports of three consecutive final suite runs (and the text logs of runs 2 and 3), checked for leftover test data, and scanned the evidence for secrets. The three runs used the same commit and test configuration. Their differing UI-26b results were reported rather than hidden.
+**Verification.** I reviewed test results and supporting evidence, ran the k6 load test myself, retained the raw JSON reports of three consecutive final suite runs (and the text logs of runs 2 and 3), checked for leftover test data, and scanned the evidence for secrets. The three runs used the same commit and test configuration. Their differing UI-26b results were reported rather than hidden. I ran the Postman collection in the Postman app and checked that its 15 failed checks belong to the same 12 tests that fail in Playwright and match the documented defects; a Newman run gave the same result.
 
 **Earlier AI-driven round.** I had completed an earlier, AI-driven round of the assignment locally. I used it as a reference for comparison, not as unquestioned evidence. I rechecked and reconsidered the items carried into this version.

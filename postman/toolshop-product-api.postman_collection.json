@@ -1,0 +1,3159 @@
+{
+  "info": {
+    "name": "Toolshop Product API - full suite",
+    "description": "Postman version of the 30 Playwright API tests (api-tests/). Same ids (API-xx) and the same expected results as docs/test-scenarios.md. Tests that find a defect fail on purpose. Run the whole collection in order: 00 Setup first.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "noauth"
+  },
+  "item": [
+    {
+      "name": "00 Setup",
+      "item": [
+        {
+          "name": "Setup: login admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/users/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"email\": \"{{adminEmail}}\", \"password\": \"{{adminPassword}}\" }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.environment.set('runId', 'pm-' + Date.now());"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Setup: admin login 200 (423 = shared account locked: environment blocker)', () => pm.response.to.have.status(200));",
+                  "pm.environment.set('adminToken', pm.response.json().access_token);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Setup: login customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/users/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"email\": \"{{customerEmail}}\", \"password\": \"{{customerPassword}}\" }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Setup: customer login 200 (423 = shared account locked: environment blocker)', () => pm.response.to.have.status(200));",
+                  "if (pm.response.code === 200) pm.environment.set('customerToken', pm.response.json().access_token);",
+                  "else pm.environment.unset('customerToken');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Setup: load catalogue and reference product",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/products?page=1",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const base = pm.environment.get('baseUrl');",
+                  "function fetchAll(root, p, done, page, acc) {",
+                  "  page = page || 1; acc = acc || [];",
+                  "  const sep = p.includes('?') ? '&' : '?';",
+                  "  pm.sendRequest({ url: root + p + sep + 'page=' + page, method: 'GET', header: { Accept: 'application/json' } }, (err, res) => {",
+                  "    if (err) return done(err);",
+                  "    if (res.code !== 200) return done(new Error('GET ' + p + ' page ' + page + ' returned ' + res.code));",
+                  "    const b = res.json();",
+                  "    acc.push(...b.data);",
+                  "    if (page >= b.last_page) return done(null, acc);",
+                  "    fetchAll(root, p, done, page + 1, acc);",
+                  "  });",
+                  "}",
+                  "const ids = (list) => list.map((x) => x.id).sort((a, b) => a - b);",
+                  "const catalogue = () => JSON.parse(pm.environment.get('catalogue') || '[]');",
+                  "// \"Only and all\": the actual id set must equal the expected id set.",
+                  "function expectSameProducts(label, expected, actual) {",
+                  "  pm.test(label + ' (only and all)', () => {",
+                  "    pm.expect(expected.length, 'precondition: expected set is not empty').to.be.above(0);",
+                  "    pm.expect(ids(actual), 'actual ids vs expected ids').to.eql(ids(expected));",
+                  "  });",
+                  "}",
+                  "function failWith(label, err) { pm.test(label, () => { throw err; }); }",
+                  "",
+                  "pm.test('Setup: GET /products returns 200', () => pm.response.to.have.status(200));",
+                  "const ref = pm.response.json().data[0];",
+                  "pm.environment.set('refProduct', JSON.stringify(ref));",
+                  "pm.environment.set('refId', ref.id);",
+                  "pm.environment.set('categoryId', ref.category.id);",
+                  "pm.environment.set('brandId', ref.brand.id);",
+                  "pm.environment.set('imageId', ref.product_image.id);",
+                  "// Full catalogue = default list (for sale) + rental list: the default list holds no rentals on this API.",
+                  "fetchAll(base, '/products', (e1, sale) => {",
+                  "  if (e1) return failWith('Setup: catalogue loaded', e1);",
+                  "  fetchAll(base, '/products?is_rental=true', (e2, rent) => {",
+                  "    if (e2) return failWith('Setup: catalogue loaded', e2);",
+                  "    const byId = {};",
+                  "    sale.concat(rent).forEach((p) => { byId[p.id] = p; });",
+                  "    const all = Object.values(byId);",
+                  "    pm.environment.set('catalogue', JSON.stringify(all));",
+                  "    pm.test('Setup: catalogue loaded', () => pm.expect(all.length).to.be.above(0));",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "description": "Logs in (valid passwords only: the shared demo accounts lock after 3 failures) and loads the data the tests compare against."
+    },
+    {
+      "name": "01 Read endpoints",
+      "item": [
+        {
+          "name": "SMOKE-API GET /products returns 200 with products",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/products",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('SMOKE-API status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('SMOKE-API the list has products', () => pm.expect(pm.response.json().data).to.be.an('array').that.is.not.empty);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API-01 GET /products returns 200 and a body matching the product list schema",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/products",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const brand = { type: 'object', required: ['id', 'name'], properties: { id: { type: 'integer' }, name: { type: 'string' }, slug: { type: 'string' } } };",
+                  "const category = { type: 'object', required: ['id', 'name', 'slug'], properties: { id: { type: 'integer' }, parent_id: { type: ['integer', 'null'] }, name: { type: 'string' }, slug: { type: 'string' } } };",
+                  "const productImage = { type: 'object', required: ['id', 'by_name', 'by_url', 'source_name', 'source_url', 'file_name', 'title'],",
+                  "  properties: { id: { type: 'integer' }, by_name: { type: 'string' }, by_url: { type: 'string' }, source_name: { type: 'string' }, source_url: { type: 'string' }, file_name: { type: 'string' }, title: { type: 'string' } } };",
+                  "const productSchema = { type: 'object',",
+                  "  required: ['id', 'name', 'description', 'price', 'is_location_offer', 'is_rental', 'co2_rating', 'is_eco_friendly', 'brand', 'category', 'product_image'],",
+                  "  properties: { id: { type: 'integer' }, name: { type: 'string' }, description: { type: 'string' }, price: { type: 'number' },",
+                  "    is_location_offer: { type: 'integer' }, is_rental: { type: 'integer' }, co2_rating: { type: 'string' }, is_eco_friendly: { type: 'boolean' },",
+                  "    brand: brand, category: category, product_image: productImage } };",
+                  "const paginatedProductsSchema = { type: 'object', required: ['current_page', 'data', 'per_page', 'to', 'total'],",
+                  "  properties: { current_page: { type: 'integer' }, data: { type: 'array', items: productSchema }, per_page: { type: 'integer' }, to: { type: ['integer', 'null'] }, total: { type: 'integer' } } };",
+                  "const relatedProductsSchema = { type: 'array', items: productSchema };",
+                  "",
+                  "pm.test('API-01 status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('API-01 body matches the product list schema', () => pm.response.to.have.jsonSchema(paginatedProductsSchema));",
+                  "pm.test('API-01 precondition: the list is not empty', () => pm.expect(pm.response.json().data.length).to.be.above(0));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API-02 page 2 of the product list shares no product with page 1",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/products?page=1",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const base = pm.environment.get('baseUrl');",
+                  "function fetchAll(root, p, done, page, acc) {",
+                  "  page = page || 1; acc = acc || [];",
+                  "  const sep = p.includes('?') ? '&' : '?';",
+                  "  pm.sendRequest({ url: root + p + sep + 'page=' + page, method: 'GET', header: { Accept: 'application/json' } }, (err, res) => {",
+                  "    if (err) return done(err);",
+                  "    if (res.code !== 200) return done(new Error('GET ' + p + ' page ' + page + ' returned ' + res.code));",
+                  "    const b = res.json();",
+                  "    acc.push(...b.data);",
+                  "    if (page >= b.last_page) return done(null, acc);",
+                  "    fetchAll(root, p, done, page + 1, acc);",
+                  "  });",
+                  "}",
+                  "const ids = (list) => list.map((x) => x.id).sort((a, b) => a - b);",
+                  "const catalogue = () => JSON.parse(pm.environment.get('catalogue') || '[]');",
+                  "// \"Only and all\": the actual id set must equal the expected id set.",
+                  "function expectSameProducts(label, expected, actual) {",
+                  "  pm.test(label + ' (only and all)', () => {",
+                  "    pm.expect(expected.length, 'precondition: expected set is not empty').to.be.above(0);",
+                  "    pm.expect(ids(actual), 'actual ids vs expected ids').to.eql(ids(expected));",
+                  "  });",
+                  "}",
+                  "function failWith(label, err) { pm.test(label, () => { throw err; }); }",
+                  "",
+                  "const page1 = pm.response.json();",
+                  "pm.test('API-02 page 1 status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('API-02 precondition: the list has at least 2 pages', () => pm.expect(page1.last_page).to.be.at.least(2));",
+                  "pm.sendRequest({ url: base + '/products?page=2', method: 'GET', header: { Accept: 'application/json' } }, (err, res) => {",
+                  "  pm.test('API-02 page 2 status 200', () => { pm.expect(err).to.equal(null); pm.expect(res.code).to.equal(200); });",
+                  "  const page2 = res.json();",
+                  "  pm.test('API-02 precondition: page 2 has products', () => pm.expect(page2.data.length).to.be.above(0));",
+                  "  const overlap = ids(page1.data).filter((id) => ids(page2.data).includes(id));",
+                  "  pm.test('API-02 no product id on both page 1 and page 2', () => pm.expect(overlap).to.eql([]));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API-04 by_category returns only and all products of that category",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/products?by_category={{categoryId}}",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const base = pm.environment.get('baseUrl');",
+                  "function fetchAll(root, p, done, page, acc) {",
+                  "  page = page || 1; acc = acc || [];",
+                  "  const sep = p.includes('?') ? '&' : '?';",
+                  "  pm.sendRequest({ url: root + p + sep + 'page=' + page, method: 'GET', header: { Accept: 'application/json' } }, (err, res) => {",
+                  "    if (err) return done(err);",
+                  "    if (res.code !== 200) return done(new Error('GET ' + p + ' page ' + page + ' returned ' + res.code));",
+                  "    const b = res.json();",
+                  "    acc.push(...b.data);",
+                  "    if (page >= b.last_page) return done(null, acc);",
+                  "    fetchAll(root, p, done, page + 1, acc);",
+                  "  });",
+                  "}",
+                  "const ids = (list) => list.map((x) => x.id).sort((a, b) => a - b);",
+                  "const catalogue = () => JSON.parse(pm.environment.get('catalogue') || '[]');",
+                  "// \"Only and all\": the actual id set must equal the expected id set.",
+                  "function expectSameProducts(label, expected, actual) {",
+                  "  pm.test(label + ' (only and all)', () => {",
+                  "    pm.expect(expected.length, 'precondition: expected set is not empty').to.be.above(0);",
+                  "    pm.expect(ids(actual), 'actual ids vs expected ids').to.eql(ids(expected));",
+                  "  });",
+                  "}",
+                  "function failWith(label, err) { pm.test(label, () => { throw err; }); }",
+                  "",
+                  "pm.test('API-04 status 200', () => pm.response.to.have.status(200));",
+                  "const p = '/products?by_category=' + pm.environment.get('categoryId');",
+                  "const expected = catalogue().filter((x) => x.category.id === Number(pm.environment.get('categoryId')));",
+                  "fetchAll(base, p, (err, actual) => {",
+                  "  if (err) return failWith('API-04 all pages load', err);",
+                  "  expectSameProducts('API-04 ' + p, expected, actual);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API-05 by_brand returns only and all products of that brand",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/products?by_brand={{brandId}}",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const base = pm.environment.get('baseUrl');",
+                  "function fetchAll(root, p, done, page, acc) {",
+                  "  page = page || 1; acc = acc || [];",
+                  "  const sep = p.includes('?') ? '&' : '?';",
+                  "  pm.sendRequest({ url: root + p + sep + 'page=' + page, method: 'GET', header: { Accept: 'application/json' } }, (err, res) => {",
+                  "    if (err) return done(err);",
+                  "    if (res.code !== 200) return done(new Error('GET ' + p + ' page ' + page + ' returned ' + res.code));",
+                  "    const b = res.json();",
+                  "    acc.push(...b.data);",
+                  "    if (page >= b.last_page) return done(null, acc);",
+                  "    fetchAll(root, p, done, page + 1, acc);",
+                  "  });",
+                  "}",
+                  "const ids = (list) => list.map((x) => x.id).sort((a, b) => a - b);",
+                  "const catalogue = () => JSON.parse(pm.environment.get('catalogue') || '[]');",
+                  "// \"Only and all\": the actual id set must equal the expected id set.",
+                  "function expectSameProducts(label, expected, actual) {",
+                  "  pm.test(label + ' (only and all)', () => {",
+                  "    pm.expect(expected.length, 'precondition: expected set is not empty').to.be.above(0);",
+                  "    pm.expect(ids(actual), 'actual ids vs expected ids').to.eql(ids(expected));",
+                  "  });",
+                  "}",
+                  "function failWith(label, err) { pm.test(label, () => { throw err; }); }",
+                  "",
+                  "pm.test('API-05 status 200', () => pm.response.to.have.status(200));",
+                  "const p = '/products?by_brand=' + pm.environment.get('brandId');",
+                  "const expected = catalogue().filter((x) => x.brand.id === Number(pm.environment.get('brandId')));",
+                  "fetchAll(base, p, (err, actual) => {",
+                  "  if (err) return failWith('API-05 all pages load', err);",
+                  "  expectSameProducts('API-05 ' + p, expected, actual);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API-06 is_rental=true returns rental products only",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/products?is_rental=true",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const base = pm.environment.get('baseUrl');",
+                  "function fetchAll(root, p, done, page, acc) {",
+                  "  page = page || 1; acc = acc || [];",
+                  "  const sep = p.includes('?') ? '&' : '?';",
+                  "  pm.sendRequest({ url: root + p + sep + 'page=' + page, method: 'GET', header: { Accept: 'application/json' } }, (err, res) => {",
+                  "    if (err) return done(err);",
+                  "    if (res.code !== 200) return done(new Error('GET ' + p + ' page ' + page + ' returned ' + res.code));",
+                  "    const b = res.json();",
+                  "    acc.push(...b.data);",
+                  "    if (page >= b.last_page) return done(null, acc);",
+                  "    fetchAll(root, p, done, page + 1, acc);",
+                  "  });",
+                  "}",
+                  "const ids = (list) => list.map((x) => x.id).sort((a, b) => a - b);",
+                  "const catalogue = () => JSON.parse(pm.environment.get('catalogue') || '[]');",
+                  "// \"Only and all\": the actual id set must equal the expected id set.",
+                  "function expectSameProducts(label, expected, actual) {",
+                  "  pm.test(label + ' (only and all)', () => {",
+                  "    pm.expect(expected.length, 'precondition: expected set is not empty').to.be.above(0);",
+                  "    pm.expect(ids(actual), 'actual ids vs expected ids').to.eql(ids(expected));",
+                  "  });",
+                  "}",
+                  "function failWith(label, err) { pm.test(label, () => { throw err; }); }",
+                  "",
+                  "pm.test('API-06 status 200', () => pm.response.to.have.status(200));",
+                  "fetchAll(base, '/products?is_rental=true', (err, rentals) => {",
+                  "  if (err) return failWith('API-06 all pages load', err);",
+                  "  pm.test('API-06 precondition: rentals exist', () => pm.expect(rentals.length).to.be.above(0));",
+                  "  pm.test('API-06 no non-rental product in the result', () => pm.expect(rentals.filter((p) => p.is_rental !== 1).map((p) => p.name)).to.eql([]));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API-06b is_rental=false returns only and all products that are not rentals",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/products?is_rental=false",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const base = pm.environment.get('baseUrl');",
+                  "function fetchAll(root, p, done, page, acc) {",
+                  "  page = page || 1; acc = acc || [];",
+                  "  const sep = p.includes('?') ? '&' : '?';",
+                  "  pm.sendRequest({ url: root + p + sep + 'page=' + page, method: 'GET', header: { Accept: 'application/json' } }, (err, res) => {",
+                  "    if (err) return done(err);",
+                  "    if (res.code !== 200) return done(new Error('GET ' + p + ' page ' + page + ' returned ' + res.code));",
+                  "    const b = res.json();",
+                  "    acc.push(...b.data);",
+                  "    if (page >= b.last_page) return done(null, acc);",
+                  "    fetchAll(root, p, done, page + 1, acc);",
+                  "  });",
+                  "}",
+                  "const ids = (list) => list.map((x) => x.id).sort((a, b) => a - b);",
+                  "const catalogue = () => JSON.parse(pm.environment.get('catalogue') || '[]');",
+                  "// \"Only and all\": the actual id set must equal the expected id set.",
+                  "function expectSameProducts(label, expected, actual) {",
+                  "  pm.test(label + ' (only and all)', () => {",
+                  "    pm.expect(expected.length, 'precondition: expected set is not empty').to.be.above(0);",
+                  "    pm.expect(ids(actual), 'actual ids vs expected ids').to.eql(ids(expected));",
+                  "  });",
+                  "}",
+                  "function failWith(label, err) { pm.test(label, () => { throw err; }); }",
+                  "",
+                  "pm.test('API-06b status 200', () => pm.response.to.have.status(200));",
+                  "const p = '/products?is_rental=false';",
+                  "const expected = catalogue().filter((x) => x.is_rental === 0);",
+                  "fetchAll(base, p, (err, actual) => {",
+                  "  if (err) return failWith('API-06b all pages load', err);",
+                  "  expectSameProducts('API-06b ' + p, expected, actual);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API-07 between=price,10,30 returns only and all products priced from 10 to 30",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/products?between=price,10,30",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const base = pm.environment.get('baseUrl');",
+                  "function fetchAll(root, p, done, page, acc) {",
+                  "  page = page || 1; acc = acc || [];",
+                  "  const sep = p.includes('?') ? '&' : '?';",
+                  "  pm.sendRequest({ url: root + p + sep + 'page=' + page, method: 'GET', header: { Accept: 'application/json' } }, (err, res) => {",
+                  "    if (err) return done(err);",
+                  "    if (res.code !== 200) return done(new Error('GET ' + p + ' page ' + page + ' returned ' + res.code));",
+                  "    const b = res.json();",
+                  "    acc.push(...b.data);",
+                  "    if (page >= b.last_page) return done(null, acc);",
+                  "    fetchAll(root, p, done, page + 1, acc);",
+                  "  });",
+                  "}",
+                  "const ids = (list) => list.map((x) => x.id).sort((a, b) => a - b);",
+                  "const catalogue = () => JSON.parse(pm.environment.get('catalogue') || '[]');",
+                  "// \"Only and all\": the actual id set must equal the expected id set.",
+                  "function expectSameProducts(label, expected, actual) {",
+                  "  pm.test(label + ' (only and all)', () => {",
+                  "    pm.expect(expected.length, 'precondition: expected set is not empty').to.be.above(0);",
+                  "    pm.expect(ids(actual), 'actual ids vs expected ids').to.eql(ids(expected));",
+                  "  });",
+                  "}",
+                  "function failWith(label, err) { pm.test(label, () => { throw err; }); }",
+                  "",
+                  "pm.test('API-07 status 200', () => pm.response.to.have.status(200));",
+                  "const p = '/products?between=price,10,30';",
+                  "const expected = catalogue().filter((x) => x.price >= 10 && x.price <= 30);",
+                  "fetchAll(base, p, (err, actual) => {",
+                  "  if (err) return failWith('API-07 all pages load', err);",
+                  "  expectSameProducts('API-07 ' + p, expected, actual);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API-08a sort=price,asc orders the products across all pages",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/products?sort=price,asc",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const base = pm.environment.get('baseUrl');",
+                  "function fetchAll(root, p, done, page, acc) {",
+                  "  page = page || 1; acc = acc || [];",
+                  "  const sep = p.includes('?') ? '&' : '?';",
+                  "  pm.sendRequest({ url: root + p + sep + 'page=' + page, method: 'GET', header: { Accept: 'application/json' } }, (err, res) => {",
+                  "    if (err) return done(err);",
+                  "    if (res.code !== 200) return done(new Error('GET ' + p + ' page ' + page + ' returned ' + res.code));",
+                  "    const b = res.json();",
+                  "    acc.push(...b.data);",
+                  "    if (page >= b.last_page) return done(null, acc);",
+                  "    fetchAll(root, p, done, page + 1, acc);",
+                  "  });",
+                  "}",
+                  "const ids = (list) => list.map((x) => x.id).sort((a, b) => a - b);",
+                  "const catalogue = () => JSON.parse(pm.environment.get('catalogue') || '[]');",
+                  "// \"Only and all\": the actual id set must equal the expected id set.",
+                  "function expectSameProducts(label, expected, actual) {",
+                  "  pm.test(label + ' (only and all)', () => {",
+                  "    pm.expect(expected.length, 'precondition: expected set is not empty').to.be.above(0);",
+                  "    pm.expect(ids(actual), 'actual ids vs expected ids').to.eql(ids(expected));",
+                  "  });",
+                  "}",
+                  "function failWith(label, err) { pm.test(label, () => { throw err; }); }",
+                  "",
+                  "pm.test('API-08a status 200', () => pm.response.to.have.status(200));",
+                  "fetchAll(base, '/products?sort=price,asc', (e1, sorted) => {",
+                  "  if (e1) return failWith('API-08a all pages load', e1);",
+                  "  fetchAll(base, '/products', (e2, unsorted) => {",
+                  "    if (e2) return failWith('API-08a all pages load', e2);",
+                  "    pm.test('API-08a same products as the unsorted list', () => pm.expect(ids(sorted)).to.eql(ids(unsorted)));",
+                  "    // Names: case-insensitive comparison (assumption: the collation is not specified).",
+                  "    const compare = (a, b) => a.price - b.price;",
+                  "    const outOfOrder = sorted.slice(1).filter((p, i) => 1 * compare(sorted[i], p) > 0).map((p) => p.name);",
+                  "    pm.test('API-08a no product out of price,asc order', () => pm.expect(outOfOrder).to.eql([]));",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API-08b sort=price,desc orders the products across all pages",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/products?sort=price,desc",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const base = pm.environment.get('baseUrl');",
+                  "function fetchAll(root, p, done, page, acc) {",
+                  "  page = page || 1; acc = acc || [];",
+                  "  const sep = p.includes('?') ? '&' : '?';",
+                  "  pm.sendRequest({ url: root + p + sep + 'page=' + page, method: 'GET', header: { Accept: 'application/json' } }, (err, res) => {",
+                  "    if (err) return done(err);",
+                  "    if (res.code !== 200) return done(new Error('GET ' + p + ' page ' + page + ' returned ' + res.code));",
+                  "    const b = res.json();",
+                  "    acc.push(...b.data);",
+                  "    if (page >= b.last_page) return done(null, acc);",
+                  "    fetchAll(root, p, done, page + 1, acc);",
+                  "  });",
+                  "}",
+                  "const ids = (list) => list.map((x) => x.id).sort((a, b) => a - b);",
+                  "const catalogue = () => JSON.parse(pm.environment.get('catalogue') || '[]');",
+                  "// \"Only and all\": the actual id set must equal the expected id set.",
+                  "function expectSameProducts(label, expected, actual) {",
+                  "  pm.test(label + ' (only and all)', () => {",
+                  "    pm.expect(expected.length, 'precondition: expected set is not empty').to.be.above(0);",
+                  "    pm.expect(ids(actual), 'actual ids vs expected ids').to.eql(ids(expected));",
+                  "  });",
+                  "}",
+                  "function failWith(label, err) { pm.test(label, () => { throw err; }); }",
+                  "",
+                  "pm.test('API-08b status 200', () => pm.response.to.have.status(200));",
+                  "fetchAll(base, '/products?sort=price,desc', (e1, sorted) => {",
+                  "  if (e1) return failWith('API-08b all pages load', e1);",
+                  "  fetchAll(base, '/products', (e2, unsorted) => {",
+                  "    if (e2) return failWith('API-08b all pages load', e2);",
+                  "    pm.test('API-08b same products as the unsorted list', () => pm.expect(ids(sorted)).to.eql(ids(unsorted)));",
+                  "    // Names: case-insensitive comparison (assumption: the collation is not specified).",
+                  "    const compare = (a, b) => a.price - b.price;",
+                  "    const outOfOrder = sorted.slice(1).filter((p, i) => -1 * compare(sorted[i], p) > 0).map((p) => p.name);",
+                  "    pm.test('API-08b no product out of price,desc order', () => pm.expect(outOfOrder).to.eql([]));",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API-08c sort=name,asc orders the products across all pages",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/products?sort=name,asc",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const base = pm.environment.get('baseUrl');",
+                  "function fetchAll(root, p, done, page, acc) {",
+                  "  page = page || 1; acc = acc || [];",
+                  "  const sep = p.includes('?') ? '&' : '?';",
+                  "  pm.sendRequest({ url: root + p + sep + 'page=' + page, method: 'GET', header: { Accept: 'application/json' } }, (err, res) => {",
+                  "    if (err) return done(err);",
+                  "    if (res.code !== 200) return done(new Error('GET ' + p + ' page ' + page + ' returned ' + res.code));",
+                  "    const b = res.json();",
+                  "    acc.push(...b.data);",
+                  "    if (page >= b.last_page) return done(null, acc);",
+                  "    fetchAll(root, p, done, page + 1, acc);",
+                  "  });",
+                  "}",
+                  "const ids = (list) => list.map((x) => x.id).sort((a, b) => a - b);",
+                  "const catalogue = () => JSON.parse(pm.environment.get('catalogue') || '[]');",
+                  "// \"Only and all\": the actual id set must equal the expected id set.",
+                  "function expectSameProducts(label, expected, actual) {",
+                  "  pm.test(label + ' (only and all)', () => {",
+                  "    pm.expect(expected.length, 'precondition: expected set is not empty').to.be.above(0);",
+                  "    pm.expect(ids(actual), 'actual ids vs expected ids').to.eql(ids(expected));",
+                  "  });",
+                  "}",
+                  "function failWith(label, err) { pm.test(label, () => { throw err; }); }",
+                  "",
+                  "pm.test('API-08c status 200', () => pm.response.to.have.status(200));",
+                  "fetchAll(base, '/products?sort=name,asc', (e1, sorted) => {",
+                  "  if (e1) return failWith('API-08c all pages load', e1);",
+                  "  fetchAll(base, '/products', (e2, unsorted) => {",
+                  "    if (e2) return failWith('API-08c all pages load', e2);",
+                  "    pm.test('API-08c same products as the unsorted list', () => pm.expect(ids(sorted)).to.eql(ids(unsorted)));",
+                  "    // Names: case-insensitive comparison (assumption: the collation is not specified).",
+                  "    const compare = (a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' });",
+                  "    const outOfOrder = sorted.slice(1).filter((p, i) => 1 * compare(sorted[i], p) > 0).map((p) => p.name);",
+                  "    pm.test('API-08c no product out of name,asc order', () => pm.expect(outOfOrder).to.eql([]));",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API-09 is_eco_friendly agrees with the CO2 rating rule of the reference deployment",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/products",
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "The spec is silent; the rule comes from the bug-free reference deployment (referenceUrl). Ratings without a reference example are not judged."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const base = pm.environment.get('baseUrl');",
+                  "function fetchAll(root, p, done, page, acc) {",
+                  "  page = page || 1; acc = acc || [];",
+                  "  const sep = p.includes('?') ? '&' : '?';",
+                  "  pm.sendRequest({ url: root + p + sep + 'page=' + page, method: 'GET', header: { Accept: 'application/json' } }, (err, res) => {",
+                  "    if (err) return done(err);",
+                  "    if (res.code !== 200) return done(new Error('GET ' + p + ' page ' + page + ' returned ' + res.code));",
+                  "    const b = res.json();",
+                  "    acc.push(...b.data);",
+                  "    if (page >= b.last_page) return done(null, acc);",
+                  "    fetchAll(root, p, done, page + 1, acc);",
+                  "  });",
+                  "}",
+                  "const ids = (list) => list.map((x) => x.id).sort((a, b) => a - b);",
+                  "const catalogue = () => JSON.parse(pm.environment.get('catalogue') || '[]');",
+                  "// \"Only and all\": the actual id set must equal the expected id set.",
+                  "function expectSameProducts(label, expected, actual) {",
+                  "  pm.test(label + ' (only and all)', () => {",
+                  "    pm.expect(expected.length, 'precondition: expected set is not empty').to.be.above(0);",
+                  "    pm.expect(ids(actual), 'actual ids vs expected ids').to.eql(ids(expected));",
+                  "  });",
+                  "}",
+                  "function failWith(label, err) { pm.test(label, () => { throw err; }); }",
+                  "",
+                  "pm.test('API-09 status 200', () => pm.response.to.have.status(200));",
+                  "fetchAll(pm.environment.get('referenceUrl'), '/products', (err, refProducts) => {",
+                  "  if (err) return failWith('API-09 reference deployment loads', err);",
+                  "  const rule = {};",
+                  "  refProducts.forEach((p) => { rule[p.co2_rating] = rule[p.co2_rating] || []; if (!rule[p.co2_rating].includes(p.is_eco_friendly)) rule[p.co2_rating].push(p.is_eco_friendly); });",
+                  "  console.log('API-09 reference rule', JSON.stringify(rule));",
+                  "  pm.test('API-09 precondition: the reference gives one eco value per rating', () => pm.expect(Object.keys(rule).filter((r) => rule[r].length > 1)).to.eql([]));",
+                  "  const wrong = catalogue()",
+                  "    .filter((p) => rule[p.co2_rating] && !rule[p.co2_rating].includes(p.is_eco_friendly))",
+                  "    .map((p) => p.name + ' (' + p.co2_rating + ', is_eco_friendly=' + p.is_eco_friendly + ')');",
+                  "  pm.test('API-09 no product whose is_eco_friendly differs from the reference rule', () => pm.expect(wrong).to.eql([]));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API-10 GET /products/{id} returns 200, a valid product and the same data as the list",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/products/{{refId}}",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const brand = { type: 'object', required: ['id', 'name'], properties: { id: { type: 'integer' }, name: { type: 'string' }, slug: { type: 'string' } } };",
+                  "const category = { type: 'object', required: ['id', 'name', 'slug'], properties: { id: { type: 'integer' }, parent_id: { type: ['integer', 'null'] }, name: { type: 'string' }, slug: { type: 'string' } } };",
+                  "const productImage = { type: 'object', required: ['id', 'by_name', 'by_url', 'source_name', 'source_url', 'file_name', 'title'],",
+                  "  properties: { id: { type: 'integer' }, by_name: { type: 'string' }, by_url: { type: 'string' }, source_name: { type: 'string' }, source_url: { type: 'string' }, file_name: { type: 'string' }, title: { type: 'string' } } };",
+                  "const productSchema = { type: 'object',",
+                  "  required: ['id', 'name', 'description', 'price', 'is_location_offer', 'is_rental', 'co2_rating', 'is_eco_friendly', 'brand', 'category', 'product_image'],",
+                  "  properties: { id: { type: 'integer' }, name: { type: 'string' }, description: { type: 'string' }, price: { type: 'number' },",
+                  "    is_location_offer: { type: 'integer' }, is_rental: { type: 'integer' }, co2_rating: { type: 'string' }, is_eco_friendly: { type: 'boolean' },",
+                  "    brand: brand, category: category, product_image: productImage } };",
+                  "const paginatedProductsSchema = { type: 'object', required: ['current_page', 'data', 'per_page', 'to', 'total'],",
+                  "  properties: { current_page: { type: 'integer' }, data: { type: 'array', items: productSchema }, per_page: { type: 'integer' }, to: { type: ['integer', 'null'] }, total: { type: 'integer' } } };",
+                  "const relatedProductsSchema = { type: 'array', items: productSchema };",
+                  "",
+                  "pm.test('API-10 status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('API-10 body matches the product schema', () => pm.response.to.have.jsonSchema(productSchema));",
+                  "// Every field of the listed product must be present in the detail with the same value.",
+                  "function contains(actual, expected, at) {",
+                  "  Object.keys(expected).forEach((k) => {",
+                  "    const where = at + '.' + k;",
+                  "    if (expected[k] !== null && typeof expected[k] === 'object') {",
+                  "      pm.expect(actual[k], where).to.be.an('object');",
+                  "      contains(actual[k], expected[k], where);",
+                  "    } else pm.expect(actual[k], where).to.eql(expected[k]);",
+                  "  });",
+                  "}",
+                  "pm.test('API-10 the detail contains the listed data', () => contains(pm.response.json(), JSON.parse(pm.environment.get('refProduct')), 'product'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API-11 GET /products/{id} with an unknown id returns 404",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/products/999999999",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('API-11 status 404', () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API-13 search returns 200, a valid body, and only and all products whose name contains the query",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/products/search?q=hammer",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const base = pm.environment.get('baseUrl');",
+                  "function fetchAll(root, p, done, page, acc) {",
+                  "  page = page || 1; acc = acc || [];",
+                  "  const sep = p.includes('?') ? '&' : '?';",
+                  "  pm.sendRequest({ url: root + p + sep + 'page=' + page, method: 'GET', header: { Accept: 'application/json' } }, (err, res) => {",
+                  "    if (err) return done(err);",
+                  "    if (res.code !== 200) return done(new Error('GET ' + p + ' page ' + page + ' returned ' + res.code));",
+                  "    const b = res.json();",
+                  "    acc.push(...b.data);",
+                  "    if (page >= b.last_page) return done(null, acc);",
+                  "    fetchAll(root, p, done, page + 1, acc);",
+                  "  });",
+                  "}",
+                  "const ids = (list) => list.map((x) => x.id).sort((a, b) => a - b);",
+                  "const catalogue = () => JSON.parse(pm.environment.get('catalogue') || '[]');",
+                  "// \"Only and all\": the actual id set must equal the expected id set.",
+                  "function expectSameProducts(label, expected, actual) {",
+                  "  pm.test(label + ' (only and all)', () => {",
+                  "    pm.expect(expected.length, 'precondition: expected set is not empty').to.be.above(0);",
+                  "    pm.expect(ids(actual), 'actual ids vs expected ids').to.eql(ids(expected));",
+                  "  });",
+                  "}",
+                  "function failWith(label, err) { pm.test(label, () => { throw err; }); }",
+                  "",
+                  "const brand = { type: 'object', required: ['id', 'name'], properties: { id: { type: 'integer' }, name: { type: 'string' }, slug: { type: 'string' } } };",
+                  "const category = { type: 'object', required: ['id', 'name', 'slug'], properties: { id: { type: 'integer' }, parent_id: { type: ['integer', 'null'] }, name: { type: 'string' }, slug: { type: 'string' } } };",
+                  "const productImage = { type: 'object', required: ['id', 'by_name', 'by_url', 'source_name', 'source_url', 'file_name', 'title'],",
+                  "  properties: { id: { type: 'integer' }, by_name: { type: 'string' }, by_url: { type: 'string' }, source_name: { type: 'string' }, source_url: { type: 'string' }, file_name: { type: 'string' }, title: { type: 'string' } } };",
+                  "const productSchema = { type: 'object',",
+                  "  required: ['id', 'name', 'description', 'price', 'is_location_offer', 'is_rental', 'co2_rating', 'is_eco_friendly', 'brand', 'category', 'product_image'],",
+                  "  properties: { id: { type: 'integer' }, name: { type: 'string' }, description: { type: 'string' }, price: { type: 'number' },",
+                  "    is_location_offer: { type: 'integer' }, is_rental: { type: 'integer' }, co2_rating: { type: 'string' }, is_eco_friendly: { type: 'boolean' },",
+                  "    brand: brand, category: category, product_image: productImage } };",
+                  "const paginatedProductsSchema = { type: 'object', required: ['current_page', 'data', 'per_page', 'to', 'total'],",
+                  "  properties: { current_page: { type: 'integer' }, data: { type: 'array', items: productSchema }, per_page: { type: 'integer' }, to: { type: ['integer', 'null'] }, total: { type: 'integer' } } };",
+                  "const relatedProductsSchema = { type: 'array', items: productSchema };",
+                  "",
+                  "pm.test('API-13 status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('API-13 body matches the product list schema', () => pm.response.to.have.jsonSchema(paginatedProductsSchema));",
+                  "const expected = catalogue().filter((p) => p.name.toLowerCase().includes('hammer'));",
+                  "fetchAll(base, '/products/search?q=hammer', (err, actual) => {",
+                  "  if (err) return failWith('API-13 all pages load', err);",
+                  "  expectSameProducts('API-13 search q=hammer', expected, actual);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API-13c a multi-word search returns only and all products whose name contains every word",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/products/search?q=claw%20hammer",
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "Basis: behaviour of the reference deployment observed on 2026-10-15 (every word, any order); the spec is silent."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const base = pm.environment.get('baseUrl');",
+                  "function fetchAll(root, p, done, page, acc) {",
+                  "  page = page || 1; acc = acc || [];",
+                  "  const sep = p.includes('?') ? '&' : '?';",
+                  "  pm.sendRequest({ url: root + p + sep + 'page=' + page, method: 'GET', header: { Accept: 'application/json' } }, (err, res) => {",
+                  "    if (err) return done(err);",
+                  "    if (res.code !== 200) return done(new Error('GET ' + p + ' page ' + page + ' returned ' + res.code));",
+                  "    const b = res.json();",
+                  "    acc.push(...b.data);",
+                  "    if (page >= b.last_page) return done(null, acc);",
+                  "    fetchAll(root, p, done, page + 1, acc);",
+                  "  });",
+                  "}",
+                  "const ids = (list) => list.map((x) => x.id).sort((a, b) => a - b);",
+                  "const catalogue = () => JSON.parse(pm.environment.get('catalogue') || '[]');",
+                  "// \"Only and all\": the actual id set must equal the expected id set.",
+                  "function expectSameProducts(label, expected, actual) {",
+                  "  pm.test(label + ' (only and all)', () => {",
+                  "    pm.expect(expected.length, 'precondition: expected set is not empty').to.be.above(0);",
+                  "    pm.expect(ids(actual), 'actual ids vs expected ids').to.eql(ids(expected));",
+                  "  });",
+                  "}",
+                  "function failWith(label, err) { pm.test(label, () => { throw err; }); }",
+                  "",
+                  "pm.test('API-13c status 200', () => pm.response.to.have.status(200));",
+                  "const words = ['claw', 'hammer'];",
+                  "const expected = catalogue().filter((p) => words.every((w) => p.name.toLowerCase().includes(w)));",
+                  "fetchAll(base, '/products/search?q=claw%20hammer', (err, actual) => {",
+                  "  if (err) return failWith('API-13c all pages load', err);",
+                  "  expectSameProducts('API-13c search q=\"claw hammer\"', expected, actual);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API-15 related products are valid and do not include the product itself",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/products/{{refId}}/related",
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "\"Excludes itself\" is an assumption to clarify, not stated by the spec."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const brand = { type: 'object', required: ['id', 'name'], properties: { id: { type: 'integer' }, name: { type: 'string' }, slug: { type: 'string' } } };",
+                  "const category = { type: 'object', required: ['id', 'name', 'slug'], properties: { id: { type: 'integer' }, parent_id: { type: ['integer', 'null'] }, name: { type: 'string' }, slug: { type: 'string' } } };",
+                  "const productImage = { type: 'object', required: ['id', 'by_name', 'by_url', 'source_name', 'source_url', 'file_name', 'title'],",
+                  "  properties: { id: { type: 'integer' }, by_name: { type: 'string' }, by_url: { type: 'string' }, source_name: { type: 'string' }, source_url: { type: 'string' }, file_name: { type: 'string' }, title: { type: 'string' } } };",
+                  "const productSchema = { type: 'object',",
+                  "  required: ['id', 'name', 'description', 'price', 'is_location_offer', 'is_rental', 'co2_rating', 'is_eco_friendly', 'brand', 'category', 'product_image'],",
+                  "  properties: { id: { type: 'integer' }, name: { type: 'string' }, description: { type: 'string' }, price: { type: 'number' },",
+                  "    is_location_offer: { type: 'integer' }, is_rental: { type: 'integer' }, co2_rating: { type: 'string' }, is_eco_friendly: { type: 'boolean' },",
+                  "    brand: brand, category: category, product_image: productImage } };",
+                  "const paginatedProductsSchema = { type: 'object', required: ['current_page', 'data', 'per_page', 'to', 'total'],",
+                  "  properties: { current_page: { type: 'integer' }, data: { type: 'array', items: productSchema }, per_page: { type: 'integer' }, to: { type: ['integer', 'null'] }, total: { type: 'integer' } } };",
+                  "const relatedProductsSchema = { type: 'array', items: productSchema };",
+                  "",
+                  "pm.test('API-15 status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('API-15 body matches the related products schema', () => pm.response.to.have.jsonSchema(relatedProductsSchema));",
+                  "pm.test('API-15 the product itself is not among its related products', () => {",
+                  "  pm.expect(pm.response.json().map((p) => p.id)).to.not.include(Number(pm.environment.get('refId')));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API-17 related products of an unknown id return 404",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/products/999999999/related",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('API-17 status 404', () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "description": "Read-only. Expected sets are computed from the full catalogue of the same API, never hard-coded."
+    },
+    {
+      "name": "02 Write endpoints",
+      "item": [
+        {
+          "name": "API-20 POST /products creates a product that a later GET returns",
+          "item": [
+            {
+              "name": "API-20 POST /products",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products",
+                "auth": {
+                  "type": "noauth"
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Postman QA {{runId}} create\",\n  \"description\": \"Created by the Postman collection and deleted by the same folder.\",\n  \"price\": 12.34,\n  \"category_id\": {{categoryId}},\n  \"brand_id\": {{brandId}},\n  \"product_image_id\": {{imageId}},\n  \"is_location_offer\": 0,\n  \"is_rental\": 0,\n  \"co2_rating\": \"C\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (pm.response.code === 201 && typeof pm.response.json().id === 'number') {",
+                      "  pm.environment.set('ownId', pm.response.json().id);",
+                      "}",
+                      "const sent = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));",
+                      "const stored = pm.response.json();",
+                      "pm.test('API-20 status 201', () => pm.response.to.have.status(201));",
+                      "pm.test('API-20 response echoes the input', () => {",
+                      "  pm.expect(stored.name).to.eql(sent.name);",
+                      "  pm.expect(stored.description).to.eql(sent.description);",
+                      "  pm.expect(stored.price).to.eql(sent.price);",
+                      "});",
+                      "pm.test('API-20 id is a number', () => pm.expect(stored.id).to.be.a('number'));",
+                      "pm.environment.set('ownName', sent.name);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "API-20 GET the created product",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products/{{ownId}}",
+                "auth": {
+                  "type": "noauth"
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (!pm.environment.get('ownId')) {",
+                      "  console.log('Skipped: the test product of this folder was not created');",
+                      "  pm.execution.skipRequest();",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('API-20 GET status 200', () => pm.response.to.have.status(200));",
+                      "pm.test('API-20 GET returns the created product', () => {",
+                      "  const p = pm.response.json();",
+                      "  pm.expect(p.id).to.eql(Number(pm.environment.get('ownId')));",
+                      "  pm.expect(p.name).to.eql(pm.environment.get('ownName'));",
+                      "  pm.expect(p.price).to.eql(12.34);",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "API-20 clean-up: delete own product as admin",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products/{{ownId}}",
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (!pm.environment.get('ownId')) {",
+                      "  console.log('Skipped: the test product of this folder was not created');",
+                      "  pm.execution.skipRequest();",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// The DELETE status is only recorded (the test itself may already have deleted the product); GET decides.",
+                      "const ownId = pm.environment.get('ownId');",
+                      "console.log('API-20 clean-up DELETE status', pm.response.code);",
+                      "pm.sendRequest({ url: pm.environment.get('baseUrl') + '/products/' + ownId, method: 'GET', header: { Accept: 'application/json' } }, (err, res) => {",
+                      "  pm.test('API-20 clean-up: the product is removed (GET 404)', () => {",
+                      "    pm.expect(err).to.equal(null);",
+                      "    pm.expect(res.code, 'GET after clean-up').to.equal(404);",
+                      "  });",
+                      "  pm.environment.unset('ownId');",
+                      "  pm.environment.unset('ownName');",
+                      "  pm.environment.unset('snapshot');",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "API-21 POST /products with an empty body is refused with 422 and validation errors",
+          "item": [
+            {
+              "name": "API-21 POST /products with an empty body",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products",
+                "auth": {
+                  "type": "noauth"
+                },
+                "description": "Which fields are required is an assumption (the spec marks none); only the status and the presence of errors are checked.",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (pm.response.code === 201 && typeof pm.response.json().id === 'number') {",
+                      "  pm.environment.set('ownId', pm.response.json().id);",
+                      "}",
+                      "pm.test('API-21 status 422', () => pm.response.to.have.status(422));",
+                      "pm.test('API-21 the 422 body contains validation errors', () => pm.expect(Object.keys(pm.response.json()).length).to.be.above(0));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "API-21 clean-up: delete own product as admin",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products/{{ownId}}",
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (!pm.environment.get('ownId')) {",
+                      "  console.log('Skipped: the test product of this folder was not created');",
+                      "  pm.execution.skipRequest();",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// The DELETE status is only recorded (the test itself may already have deleted the product); GET decides.",
+                      "const ownId = pm.environment.get('ownId');",
+                      "console.log('API-21 clean-up DELETE status', pm.response.code);",
+                      "pm.sendRequest({ url: pm.environment.get('baseUrl') + '/products/' + ownId, method: 'GET', header: { Accept: 'application/json' } }, (err, res) => {",
+                      "  pm.test('API-21 clean-up: the product is removed (GET 404)', () => {",
+                      "    pm.expect(err).to.equal(null);",
+                      "    pm.expect(res.code, 'GET after clean-up').to.equal(404);",
+                      "  });",
+                      "  pm.environment.unset('ownId');",
+                      "  pm.environment.unset('ownName');",
+                      "  pm.environment.unset('snapshot');",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "API-22a POST /products with a negative price is refused with 422",
+          "item": [
+            {
+              "name": "API-22a POST /products with a negative price",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products",
+                "auth": {
+                  "type": "noauth"
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Postman QA {{runId}} API-22a\",\n  \"description\": \"Created by the Postman collection and deleted by the same folder.\",\n  \"price\": -1,\n  \"category_id\": {{categoryId}},\n  \"brand_id\": {{brandId}},\n  \"product_image_id\": {{imageId}},\n  \"is_location_offer\": 0,\n  \"is_rental\": 0,\n  \"co2_rating\": \"C\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (pm.response.code === 201 && typeof pm.response.json().id === 'number') {",
+                      "  pm.environment.set('ownId', pm.response.json().id);",
+                      "}",
+                      "pm.test('API-22a status 422 for a negative price', () => pm.response.to.have.status(422));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "API-22a clean-up: delete own product as admin",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products/{{ownId}}",
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (!pm.environment.get('ownId')) {",
+                      "  console.log('Skipped: the test product of this folder was not created');",
+                      "  pm.execution.skipRequest();",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// The DELETE status is only recorded (the test itself may already have deleted the product); GET decides.",
+                      "const ownId = pm.environment.get('ownId');",
+                      "console.log('API-22a clean-up DELETE status', pm.response.code);",
+                      "pm.sendRequest({ url: pm.environment.get('baseUrl') + '/products/' + ownId, method: 'GET', header: { Accept: 'application/json' } }, (err, res) => {",
+                      "  pm.test('API-22a clean-up: the product is removed (GET 404)', () => {",
+                      "    pm.expect(err).to.equal(null);",
+                      "    pm.expect(res.code, 'GET after clean-up').to.equal(404);",
+                      "  });",
+                      "  pm.environment.unset('ownId');",
+                      "  pm.environment.unset('ownName');",
+                      "  pm.environment.unset('snapshot');",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "API-22b POST /products with a non-numeric price is refused with 422",
+          "item": [
+            {
+              "name": "API-22b POST /products with a non-numeric price",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products",
+                "auth": {
+                  "type": "noauth"
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Postman QA {{runId}} API-22b\",\n  \"description\": \"Created by the Postman collection and deleted by the same folder.\",\n  \"price\": \"abc\",\n  \"category_id\": {{categoryId}},\n  \"brand_id\": {{brandId}},\n  \"product_image_id\": {{imageId}},\n  \"is_location_offer\": 0,\n  \"is_rental\": 0,\n  \"co2_rating\": \"C\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (pm.response.code === 201 && typeof pm.response.json().id === 'number') {",
+                      "  pm.environment.set('ownId', pm.response.json().id);",
+                      "}",
+                      "pm.test('API-22b status 422 for a non-numeric price', () => pm.response.to.have.status(422));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "API-22b clean-up: delete own product as admin",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products/{{ownId}}",
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (!pm.environment.get('ownId')) {",
+                      "  console.log('Skipped: the test product of this folder was not created');",
+                      "  pm.execution.skipRequest();",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// The DELETE status is only recorded (the test itself may already have deleted the product); GET decides.",
+                      "const ownId = pm.environment.get('ownId');",
+                      "console.log('API-22b clean-up DELETE status', pm.response.code);",
+                      "pm.sendRequest({ url: pm.environment.get('baseUrl') + '/products/' + ownId, method: 'GET', header: { Accept: 'application/json' } }, (err, res) => {",
+                      "  pm.test('API-22b clean-up: the product is removed (GET 404)', () => {",
+                      "    pm.expect(err).to.equal(null);",
+                      "    pm.expect(res.code, 'GET after clean-up').to.equal(404);",
+                      "  });",
+                      "  pm.environment.unset('ownId');",
+                      "  pm.environment.unset('ownName');",
+                      "  pm.environment.unset('snapshot');",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "API-22c POST /products with CO2 rating \"Z\" is refused with 422",
+          "item": [
+            {
+              "name": "API-22c POST /products with CO2 rating \"Z\"",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products",
+                "auth": {
+                  "type": "noauth"
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Postman QA {{runId}} API-22c\",\n  \"description\": \"Created by the Postman collection and deleted by the same folder.\",\n  \"price\": 12.34,\n  \"category_id\": {{categoryId}},\n  \"brand_id\": {{brandId}},\n  \"product_image_id\": {{imageId}},\n  \"is_location_offer\": 0,\n  \"is_rental\": 0,\n  \"co2_rating\": \"Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (pm.response.code === 201 && typeof pm.response.json().id === 'number') {",
+                      "  pm.environment.set('ownId', pm.response.json().id);",
+                      "}",
+                      "pm.test('API-22c status 422 for CO2 rating \"Z\"', () => pm.response.to.have.status(422));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "API-22c clean-up: delete own product as admin",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products/{{ownId}}",
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (!pm.environment.get('ownId')) {",
+                      "  console.log('Skipped: the test product of this folder was not created');",
+                      "  pm.execution.skipRequest();",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// The DELETE status is only recorded (the test itself may already have deleted the product); GET decides.",
+                      "const ownId = pm.environment.get('ownId');",
+                      "console.log('API-22c clean-up DELETE status', pm.response.code);",
+                      "pm.sendRequest({ url: pm.environment.get('baseUrl') + '/products/' + ownId, method: 'GET', header: { Accept: 'application/json' } }, (err, res) => {",
+                      "  pm.test('API-22c clean-up: the product is removed (GET 404)', () => {",
+                      "    pm.expect(err).to.equal(null);",
+                      "    pm.expect(res.code, 'GET after clean-up').to.equal(404);",
+                      "  });",
+                      "  pm.environment.unset('ownId');",
+                      "  pm.environment.unset('ownName');",
+                      "  pm.environment.unset('snapshot');",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "API-22d POST /products with an unknown category id is refused with 422",
+          "item": [
+            {
+              "name": "API-22d POST /products with an unknown category id",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products",
+                "auth": {
+                  "type": "noauth"
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Postman QA {{runId}} API-22d\",\n  \"description\": \"Created by the Postman collection and deleted by the same folder.\",\n  \"price\": 12.34,\n  \"category_id\": 999999999,\n  \"brand_id\": {{brandId}},\n  \"product_image_id\": {{imageId}},\n  \"is_location_offer\": 0,\n  \"is_rental\": 0,\n  \"co2_rating\": \"C\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (pm.response.code === 201 && typeof pm.response.json().id === 'number') {",
+                      "  pm.environment.set('ownId', pm.response.json().id);",
+                      "}",
+                      "pm.test('API-22d status 422 for an unknown category id', () => pm.response.to.have.status(422));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "API-22d clean-up: delete own product as admin",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products/{{ownId}}",
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (!pm.environment.get('ownId')) {",
+                      "  console.log('Skipped: the test product of this folder was not created');",
+                      "  pm.execution.skipRequest();",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// The DELETE status is only recorded (the test itself may already have deleted the product); GET decides.",
+                      "const ownId = pm.environment.get('ownId');",
+                      "console.log('API-22d clean-up DELETE status', pm.response.code);",
+                      "pm.sendRequest({ url: pm.environment.get('baseUrl') + '/products/' + ownId, method: 'GET', header: { Accept: 'application/json' } }, (err, res) => {",
+                      "  pm.test('API-22d clean-up: the product is removed (GET 404)', () => {",
+                      "    pm.expect(err).to.equal(null);",
+                      "    pm.expect(res.code, 'GET after clean-up').to.equal(404);",
+                      "  });",
+                      "  pm.environment.unset('ownId');",
+                      "  pm.environment.unset('ownName');",
+                      "  pm.environment.unset('snapshot');",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "API-23 PUT /products/{id} updates the product and the change persists",
+          "item": [
+            {
+              "name": "API-23 precondition: create own product",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products",
+                "auth": {
+                  "type": "noauth"
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Postman QA {{runId}} update\",\n  \"description\": \"Created by the Postman collection and deleted by the same folder.\",\n  \"price\": 12.34,\n  \"category_id\": {{categoryId}},\n  \"brand_id\": {{brandId}},\n  \"product_image_id\": {{imageId}},\n  \"is_location_offer\": 0,\n  \"is_rental\": 0,\n  \"co2_rating\": \"C\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (pm.response.code === 201 && typeof pm.response.json().id === 'number') {",
+                      "  pm.environment.set('ownId', pm.response.json().id);",
+                      "}",
+                      "if (pm.response.code === 201) pm.environment.set('ownName', pm.response.json().name);",
+                      "pm.test('API-23 precondition: the test product is created (201 with an id)', () => {",
+                      "  pm.response.to.have.status(201);",
+                      "  pm.expect(pm.response.json().id).to.be.a('number');",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "API-23 PUT /products/{id} with a new price",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products/{{ownId}}",
+                "auth": {
+                  "type": "noauth"
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"{{ownName}}\",\n  \"description\": \"Created by the Postman collection and deleted by the same folder.\",\n  \"price\": 23.45,\n  \"category_id\": {{categoryId}},\n  \"brand_id\": {{brandId}},\n  \"product_image_id\": {{imageId}},\n  \"is_location_offer\": 0,\n  \"is_rental\": 0,\n  \"co2_rating\": \"C\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (!pm.environment.get('ownId')) {",
+                      "  console.log('Skipped: the test product of this folder was not created');",
+                      "  pm.execution.skipRequest();",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('API-23 status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "API-23 GET shows the new price",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products/{{ownId}}",
+                "auth": {
+                  "type": "noauth"
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (!pm.environment.get('ownId')) {",
+                      "  console.log('Skipped: the test product of this folder was not created');",
+                      "  pm.execution.skipRequest();",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('API-23 stored price after the update is 23.45', () => pm.expect(pm.response.json().price).to.eql(23.45));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "API-23 clean-up: delete own product as admin",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products/{{ownId}}",
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (!pm.environment.get('ownId')) {",
+                      "  console.log('Skipped: the test product of this folder was not created');",
+                      "  pm.execution.skipRequest();",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// The DELETE status is only recorded (the test itself may already have deleted the product); GET decides.",
+                      "const ownId = pm.environment.get('ownId');",
+                      "console.log('API-23 clean-up DELETE status', pm.response.code);",
+                      "pm.sendRequest({ url: pm.environment.get('baseUrl') + '/products/' + ownId, method: 'GET', header: { Accept: 'application/json' } }, (err, res) => {",
+                      "  pm.test('API-23 clean-up: the product is removed (GET 404)', () => {",
+                      "    pm.expect(err).to.equal(null);",
+                      "    pm.expect(res.code, 'GET after clean-up').to.equal(404);",
+                      "  });",
+                      "  pm.environment.unset('ownId');",
+                      "  pm.environment.unset('ownName');",
+                      "  pm.environment.unset('snapshot');",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "API-24 DELETE /products/{id} without a token is refused with 401 and the product still exists",
+          "item": [
+            {
+              "name": "API-24 precondition: create own product",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products",
+                "auth": {
+                  "type": "noauth"
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Postman QA {{runId}} delete-no-token\",\n  \"description\": \"Created by the Postman collection and deleted by the same folder.\",\n  \"price\": 12.34,\n  \"category_id\": {{categoryId}},\n  \"brand_id\": {{brandId}},\n  \"product_image_id\": {{imageId}},\n  \"is_location_offer\": 0,\n  \"is_rental\": 0,\n  \"co2_rating\": \"C\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (pm.response.code === 201 && typeof pm.response.json().id === 'number') {",
+                      "  pm.environment.set('ownId', pm.response.json().id);",
+                      "}",
+                      "if (pm.response.code === 201) pm.environment.set('ownName', pm.response.json().name);",
+                      "pm.test('API-24 precondition: the test product is created (201 with an id)', () => {",
+                      "  pm.response.to.have.status(201);",
+                      "  pm.expect(pm.response.json().id).to.be.a('number');",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "API-24 DELETE without a token",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products/{{ownId}}",
+                "auth": {
+                  "type": "noauth"
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (!pm.environment.get('ownId')) {",
+                      "  console.log('Skipped: the test product of this folder was not created');",
+                      "  pm.execution.skipRequest();",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('API-24 DELETE status without a token is 401', () => pm.response.to.have.status(401));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "API-24 GET: the product still exists",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products/{{ownId}}",
+                "auth": {
+                  "type": "noauth"
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (!pm.environment.get('ownId')) {",
+                      "  console.log('Skipped: the test product of this folder was not created');",
+                      "  pm.execution.skipRequest();",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('API-24 the product still exists (200)', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "API-24 clean-up: delete own product as admin",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products/{{ownId}}",
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (!pm.environment.get('ownId')) {",
+                      "  console.log('Skipped: the test product of this folder was not created');",
+                      "  pm.execution.skipRequest();",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// The DELETE status is only recorded (the test itself may already have deleted the product); GET decides.",
+                      "const ownId = pm.environment.get('ownId');",
+                      "console.log('API-24 clean-up DELETE status', pm.response.code);",
+                      "pm.sendRequest({ url: pm.environment.get('baseUrl') + '/products/' + ownId, method: 'GET', header: { Accept: 'application/json' } }, (err, res) => {",
+                      "  pm.test('API-24 clean-up: the product is removed (GET 404)', () => {",
+                      "    pm.expect(err).to.equal(null);",
+                      "    pm.expect(res.code, 'GET after clean-up').to.equal(404);",
+                      "  });",
+                      "  pm.environment.unset('ownId');",
+                      "  pm.environment.unset('ownName');",
+                      "  pm.environment.unset('snapshot');",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "API-25 DELETE /products/{id} as admin returns 204 and the product is gone",
+          "item": [
+            {
+              "name": "API-25 precondition: create own product",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products",
+                "auth": {
+                  "type": "noauth"
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Postman QA {{runId}} delete-admin\",\n  \"description\": \"Created by the Postman collection and deleted by the same folder.\",\n  \"price\": 12.34,\n  \"category_id\": {{categoryId}},\n  \"brand_id\": {{brandId}},\n  \"product_image_id\": {{imageId}},\n  \"is_location_offer\": 0,\n  \"is_rental\": 0,\n  \"co2_rating\": \"C\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (pm.response.code === 201 && typeof pm.response.json().id === 'number') {",
+                      "  pm.environment.set('ownId', pm.response.json().id);",
+                      "}",
+                      "if (pm.response.code === 201) pm.environment.set('ownName', pm.response.json().name);",
+                      "pm.test('API-25 precondition: the test product is created (201 with an id)', () => {",
+                      "  pm.response.to.have.status(201);",
+                      "  pm.expect(pm.response.json().id).to.be.a('number');",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "API-25 DELETE as admin",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products/{{ownId}}",
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (!pm.environment.get('ownId')) {",
+                      "  console.log('Skipped: the test product of this folder was not created');",
+                      "  pm.execution.skipRequest();",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('API-25 status 204', () => pm.response.to.have.status(204));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "API-25 GET after delete",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products/{{ownId}}",
+                "auth": {
+                  "type": "noauth"
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (!pm.environment.get('ownId')) {",
+                      "  console.log('Skipped: the test product of this folder was not created');",
+                      "  pm.execution.skipRequest();",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('API-25 GET after delete is 404', () => pm.response.to.have.status(404));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "API-25 clean-up: delete own product as admin",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products/{{ownId}}",
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (!pm.environment.get('ownId')) {",
+                      "  console.log('Skipped: the test product of this folder was not created');",
+                      "  pm.execution.skipRequest();",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// The DELETE status is only recorded (the test itself may already have deleted the product); GET decides.",
+                      "const ownId = pm.environment.get('ownId');",
+                      "console.log('API-25 clean-up DELETE status', pm.response.code);",
+                      "pm.sendRequest({ url: pm.environment.get('baseUrl') + '/products/' + ownId, method: 'GET', header: { Accept: 'application/json' } }, (err, res) => {",
+                      "  pm.test('API-25 clean-up: the product is removed (GET 404)', () => {",
+                      "    pm.expect(err).to.equal(null);",
+                      "    pm.expect(res.code, 'GET after clean-up').to.equal(404);",
+                      "  });",
+                      "  pm.environment.unset('ownId');",
+                      "  pm.environment.unset('ownName');",
+                      "  pm.environment.unset('snapshot');",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "API-27 DELETE /products/{id} with a customer token is rejected and the product still exists",
+          "item": [
+            {
+              "name": "API-27 precondition: create own product",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products",
+                "auth": {
+                  "type": "noauth"
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Postman QA {{runId}} delete-customer\",\n  \"description\": \"Created by the Postman collection and deleted by the same folder.\",\n  \"price\": 12.34,\n  \"category_id\": {{categoryId}},\n  \"brand_id\": {{brandId}},\n  \"product_image_id\": {{imageId}},\n  \"is_location_offer\": 0,\n  \"is_rental\": 0,\n  \"co2_rating\": \"C\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (pm.response.code === 201 && typeof pm.response.json().id === 'number') {",
+                      "  pm.environment.set('ownId', pm.response.json().id);",
+                      "}",
+                      "if (pm.response.code === 201) pm.environment.set('ownName', pm.response.json().name);",
+                      "pm.test('API-27 precondition: the test product is created (201 with an id)', () => {",
+                      "  pm.response.to.have.status(201);",
+                      "  pm.expect(pm.response.json().id).to.be.a('number');",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "API-27 DELETE with a customer token",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products/{{ownId}}",
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{customerToken}}",
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (!pm.environment.get('ownId')) {",
+                      "  console.log('Skipped: the test product of this folder was not created');",
+                      "  pm.execution.skipRequest();",
+                      "}",
+                      "// Without a customer token the check means nothing (a DELETE without a token is API-24): report BLOCKED.",
+                      "if (!pm.environment.get('customerToken')) {",
+                      "  pm.test('API-27 BLOCKED: no customer token (Setup: login customer failed)', () => { throw new Error('customer login failed; API-27 not executed'); });",
+                      "  pm.environment.set('api27Blocked', 'true');",
+                      "  pm.execution.skipRequest();",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('API-27 DELETE with a customer token is rejected (401 or 403)', () => pm.expect(pm.response.code, 'returned ' + pm.response.code).to.be.oneOf([401, 403]));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "API-27 GET: the product still exists",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products/{{ownId}}",
+                "auth": {
+                  "type": "noauth"
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (!pm.environment.get('ownId')) {",
+                      "  console.log('Skipped: the test product of this folder was not created');",
+                      "  pm.execution.skipRequest();",
+                      "}",
+                      "if (pm.environment.get('api27Blocked')) { pm.environment.unset('api27Blocked'); pm.execution.skipRequest(); }"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('API-27 the product still exists (200)', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "API-27 clean-up: delete own product as admin",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products/{{ownId}}",
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (!pm.environment.get('ownId')) {",
+                      "  console.log('Skipped: the test product of this folder was not created');",
+                      "  pm.execution.skipRequest();",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// The DELETE status is only recorded (the test itself may already have deleted the product); GET decides.",
+                      "const ownId = pm.environment.get('ownId');",
+                      "console.log('API-27 clean-up DELETE status', pm.response.code);",
+                      "pm.sendRequest({ url: pm.environment.get('baseUrl') + '/products/' + ownId, method: 'GET', header: { Accept: 'application/json' } }, (err, res) => {",
+                      "  pm.test('API-27 clean-up: the product is removed (GET 404)', () => {",
+                      "    pm.expect(err).to.equal(null);",
+                      "    pm.expect(res.code, 'GET after clean-up').to.equal(404);",
+                      "  });",
+                      "  pm.environment.unset('ownId');",
+                      "  pm.environment.unset('ownName');",
+                      "  pm.environment.unset('snapshot');",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "API-31 PUT /products/{id} with a non-numeric price is refused with 422 and the product is unchanged",
+          "item": [
+            {
+              "name": "API-31 precondition: create own product",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products",
+                "auth": {
+                  "type": "noauth"
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Postman QA {{runId}} put-bad-price\",\n  \"description\": \"Created by the Postman collection and deleted by the same folder.\",\n  \"price\": 12.34,\n  \"category_id\": {{categoryId}},\n  \"brand_id\": {{brandId}},\n  \"product_image_id\": {{imageId}},\n  \"is_location_offer\": 0,\n  \"is_rental\": 0,\n  \"co2_rating\": \"C\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (pm.response.code === 201 && typeof pm.response.json().id === 'number') {",
+                      "  pm.environment.set('ownId', pm.response.json().id);",
+                      "}",
+                      "if (pm.response.code === 201) pm.environment.set('ownName', pm.response.json().name);",
+                      "pm.test('API-31 precondition: the test product is created (201 with an id)', () => {",
+                      "  pm.response.to.have.status(201);",
+                      "  pm.expect(pm.response.json().id).to.be.a('number');",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "API-31 GET snapshot before",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products/{{ownId}}",
+                "auth": {
+                  "type": "noauth"
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (!pm.environment.get('ownId')) {",
+                      "  console.log('Skipped: the test product of this folder was not created');",
+                      "  pm.execution.skipRequest();",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "const p = pm.response.json();",
+                      "const snap = { id: p.id, name: p.name, description: p.description, price: p.price, is_location_offer: p.is_location_offer,",
+                      "  is_rental: p.is_rental, co2_rating: p.co2_rating, is_eco_friendly: p.is_eco_friendly, brand: p.brand, category: p.category, product_image: p.product_image };",
+                      "pm.test('API-31 snapshot GET status 200', () => pm.response.to.have.status(200));",
+                      "pm.environment.set('snapshot', JSON.stringify(snap));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "API-31 PUT with a non-numeric price",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products/{{ownId}}",
+                "auth": {
+                  "type": "noauth"
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"{{ownName}}\",\n  \"description\": \"Created by the Postman collection and deleted by the same folder.\",\n  \"price\": \"abc\",\n  \"category_id\": {{categoryId}},\n  \"brand_id\": {{brandId}},\n  \"product_image_id\": {{imageId}},\n  \"is_location_offer\": 0,\n  \"is_rental\": 0,\n  \"co2_rating\": \"C\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (!pm.environment.get('ownId')) {",
+                      "  console.log('Skipped: the test product of this folder was not created');",
+                      "  pm.execution.skipRequest();",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('API-31 PUT status 422', () => pm.response.to.have.status(422));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "API-31 GET: every stored field is unchanged",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products/{{ownId}}",
+                "auth": {
+                  "type": "noauth"
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (!pm.environment.get('ownId')) {",
+                      "  console.log('Skipped: the test product of this folder was not created');",
+                      "  pm.execution.skipRequest();",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "const p = pm.response.json();",
+                      "const snap = { id: p.id, name: p.name, description: p.description, price: p.price, is_location_offer: p.is_location_offer,",
+                      "  is_rental: p.is_rental, co2_rating: p.co2_rating, is_eco_friendly: p.is_eco_friendly, brand: p.brand, category: p.category, product_image: p.product_image };",
+                      "pm.test('API-31 every stored field is unchanged', () => pm.expect(snap).to.eql(JSON.parse(pm.environment.get('snapshot'))));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "API-31 clean-up: delete own product as admin",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products/{{ownId}}",
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (!pm.environment.get('ownId')) {",
+                      "  console.log('Skipped: the test product of this folder was not created');",
+                      "  pm.execution.skipRequest();",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// The DELETE status is only recorded (the test itself may already have deleted the product); GET decides.",
+                      "const ownId = pm.environment.get('ownId');",
+                      "console.log('API-31 clean-up DELETE status', pm.response.code);",
+                      "pm.sendRequest({ url: pm.environment.get('baseUrl') + '/products/' + ownId, method: 'GET', header: { Accept: 'application/json' } }, (err, res) => {",
+                      "  pm.test('API-31 clean-up: the product is removed (GET 404)', () => {",
+                      "    pm.expect(err).to.equal(null);",
+                      "    pm.expect(res.code, 'GET after clean-up').to.equal(404);",
+                      "  });",
+                      "  pm.environment.unset('ownId');",
+                      "  pm.environment.unset('ownName');",
+                      "  pm.environment.unset('snapshot');",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "API-32 PUT /products/{id} with an empty body is refused with 422 and the product is unchanged",
+          "item": [
+            {
+              "name": "API-32 precondition: create own product",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products",
+                "auth": {
+                  "type": "noauth"
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Postman QA {{runId}} put-empty\",\n  \"description\": \"Created by the Postman collection and deleted by the same folder.\",\n  \"price\": 12.34,\n  \"category_id\": {{categoryId}},\n  \"brand_id\": {{brandId}},\n  \"product_image_id\": {{imageId}},\n  \"is_location_offer\": 0,\n  \"is_rental\": 0,\n  \"co2_rating\": \"C\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (pm.response.code === 201 && typeof pm.response.json().id === 'number') {",
+                      "  pm.environment.set('ownId', pm.response.json().id);",
+                      "}",
+                      "if (pm.response.code === 201) pm.environment.set('ownName', pm.response.json().name);",
+                      "pm.test('API-32 precondition: the test product is created (201 with an id)', () => {",
+                      "  pm.response.to.have.status(201);",
+                      "  pm.expect(pm.response.json().id).to.be.a('number');",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "API-32 GET snapshot before",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products/{{ownId}}",
+                "auth": {
+                  "type": "noauth"
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (!pm.environment.get('ownId')) {",
+                      "  console.log('Skipped: the test product of this folder was not created');",
+                      "  pm.execution.skipRequest();",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "const p = pm.response.json();",
+                      "const snap = { id: p.id, name: p.name, description: p.description, price: p.price, is_location_offer: p.is_location_offer,",
+                      "  is_rental: p.is_rental, co2_rating: p.co2_rating, is_eco_friendly: p.is_eco_friendly, brand: p.brand, category: p.category, product_image: p.product_image };",
+                      "pm.test('API-32 snapshot GET status 200', () => pm.response.to.have.status(200));",
+                      "pm.environment.set('snapshot', JSON.stringify(snap));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "API-32 PUT with an empty body",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products/{{ownId}}",
+                "auth": {
+                  "type": "noauth"
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (!pm.environment.get('ownId')) {",
+                      "  console.log('Skipped: the test product of this folder was not created');",
+                      "  pm.execution.skipRequest();",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('API-32 PUT status 422', () => pm.response.to.have.status(422));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "API-32 GET: every stored field is unchanged",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products/{{ownId}}",
+                "auth": {
+                  "type": "noauth"
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (!pm.environment.get('ownId')) {",
+                      "  console.log('Skipped: the test product of this folder was not created');",
+                      "  pm.execution.skipRequest();",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "const p = pm.response.json();",
+                      "const snap = { id: p.id, name: p.name, description: p.description, price: p.price, is_location_offer: p.is_location_offer,",
+                      "  is_rental: p.is_rental, co2_rating: p.co2_rating, is_eco_friendly: p.is_eco_friendly, brand: p.brand, category: p.category, product_image: p.product_image };",
+                      "pm.test('API-32 every stored field is unchanged', () => pm.expect(snap).to.eql(JSON.parse(pm.environment.get('snapshot'))));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "API-32 clean-up: delete own product as admin",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": "{{baseUrl}}/products/{{ownId}}",
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{adminToken}}",
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "if (!pm.environment.get('ownId')) {",
+                      "  console.log('Skipped: the test product of this folder was not created');",
+                      "  pm.execution.skipRequest();",
+                      "}"
+                    ]
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "// The DELETE status is only recorded (the test itself may already have deleted the product); GET decides.",
+                      "const ownId = pm.environment.get('ownId');",
+                      "console.log('API-32 clean-up DELETE status', pm.response.code);",
+                      "pm.sendRequest({ url: pm.environment.get('baseUrl') + '/products/' + ownId, method: 'GET', header: { Accept: 'application/json' } }, (err, res) => {",
+                      "  pm.test('API-32 clean-up: the product is removed (GET 404)', () => {",
+                      "    pm.expect(err).to.equal(null);",
+                      "    pm.expect(res.code, 'GET after clean-up').to.equal(404);",
+                      "  });",
+                      "  pm.environment.unset('ownId');",
+                      "  pm.environment.unset('ownName');",
+                      "  pm.environment.unset('snapshot');",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "description": "Every folder creates its OWN product and deletes exactly that id as admin at the end, even when a check failed. Seeded products are never changed."
+    },
+    {
+      "name": "99 Teardown",
+      "item": [
+        {
+          "name": "Teardown: no product of this run is left",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/products?page=1",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const base = pm.environment.get('baseUrl');",
+                  "function fetchAll(root, p, done, page, acc) {",
+                  "  page = page || 1; acc = acc || [];",
+                  "  const sep = p.includes('?') ? '&' : '?';",
+                  "  pm.sendRequest({ url: root + p + sep + 'page=' + page, method: 'GET', header: { Accept: 'application/json' } }, (err, res) => {",
+                  "    if (err) return done(err);",
+                  "    if (res.code !== 200) return done(new Error('GET ' + p + ' page ' + page + ' returned ' + res.code));",
+                  "    const b = res.json();",
+                  "    acc.push(...b.data);",
+                  "    if (page >= b.last_page) return done(null, acc);",
+                  "    fetchAll(root, p, done, page + 1, acc);",
+                  "  });",
+                  "}",
+                  "const ids = (list) => list.map((x) => x.id).sort((a, b) => a - b);",
+                  "const catalogue = () => JSON.parse(pm.environment.get('catalogue') || '[]');",
+                  "// \"Only and all\": the actual id set must equal the expected id set.",
+                  "function expectSameProducts(label, expected, actual) {",
+                  "  pm.test(label + ' (only and all)', () => {",
+                  "    pm.expect(expected.length, 'precondition: expected set is not empty').to.be.above(0);",
+                  "    pm.expect(ids(actual), 'actual ids vs expected ids').to.eql(ids(expected));",
+                  "  });",
+                  "}",
+                  "function failWith(label, err) { pm.test(label, () => { throw err; }); }",
+                  "",
+                  "const prefix = 'Postman QA ' + pm.environment.get('runId');",
+                  "fetchAll(base, '/products', (e1, sale) => {",
+                  "  if (e1) return failWith('Teardown: lists load', e1);",
+                  "  fetchAll(base, '/products?is_rental=true', (e2, rent) => {",
+                  "    if (e2) return failWith('Teardown: lists load', e2);",
+                  "    const left = sale.concat(rent).map((p) => p.name).filter((n) => n.startsWith(prefix));",
+                  "    pm.test('Teardown: no product of this run is left on the shared API', () => pm.expect(left).to.eql([]));",
+                  "    ['adminToken', 'customerToken', 'catalogue', 'refProduct', 'refId', 'categoryId', 'brandId', 'imageId', 'ownId', 'ownName', 'snapshot', 'runId', 'api27Blocked']",
+                  "      .forEach((k) => pm.environment.unset(k));",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
