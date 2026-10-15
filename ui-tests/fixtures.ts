@@ -1,4 +1,5 @@
 import { test as base, expect } from '@playwright/test';
+import { AccountApi } from './helpers/account-api';
 import { CatalogApi } from './helpers/catalog-api';
 import { ProductsPage } from './pages/ProductsPage';
 import { ProductDetailsPage } from './pages/ProductDetailsPage';
@@ -10,6 +11,7 @@ import { InvoicePage } from './pages/InvoicePage';
 
 interface UiFixtures {
   catalog: CatalogApi;
+  account: AccountApi;
   products: ProductsPage;
   productDetails: ProductDetailsPage;
   cart: CartPage;
@@ -25,6 +27,11 @@ export const test = base.extend<UiFixtures>({
     // answers slowly (one E2E run hit a 15 s timeout), so it gets 30 s per request.
     const request = await playwright.request.newContext({ baseURL: process.env.UI_API_URL, timeout: 30_000 });
     await use(new CatalogApi(request));
+    await request.dispose();
+  },
+  account: async ({ playwright }, use) => {
+    const request = await playwright.request.newContext({ baseURL: process.env.UI_API_URL, timeout: 30_000 });
+    await use(new AccountApi(request));
     await request.dispose();
   },
   products: async ({ page }, use) => use(new ProductsPage(page)),

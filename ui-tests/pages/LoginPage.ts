@@ -10,6 +10,16 @@ export class LoginPage {
   readonly proceed: Locator;
   /** Shown when the account is locked after 3 failed logins (S2 User Login AC4, HTTP 423). */
   readonly accountLockedMessage: Locator;
+  readonly loginError: Locator;
+  readonly emailError: Locator;
+  readonly passwordError: Locator;
+  // "Continue as Guest" tab
+  readonly guestTab: Locator;
+  readonly guestEmail: Locator;
+  readonly guestFirstName: Locator;
+  readonly guestLastName: Locator;
+  readonly guestSubmit: Locator;
+  readonly proceedAsGuest: Locator;
 
   constructor(page: Page) {
     this.email = page.getByTestId('email');
@@ -18,6 +28,23 @@ export class LoginPage {
     this.alreadyLoggedInMessage = page.getByText(/you are already logged in/i);
     this.proceed = page.getByTestId('proceed-2');
     this.accountLockedMessage = page.getByText(/account locked/i);
+    this.loginError = page.getByTestId('login-error');
+    this.emailError = page.getByTestId('email-error');
+    this.passwordError = page.getByTestId('password-error');
+    this.guestTab = page.getByRole('tab', { name: 'Continue as Guest' });
+    this.guestEmail = page.getByTestId('guest-email');
+    this.guestFirstName = page.getByTestId('guest-first-name');
+    this.guestLastName = page.getByTestId('guest-last-name');
+    this.guestSubmit = page.getByTestId('guest-submit');
+    this.proceedAsGuest = page.getByTestId('proceed-2-guest');
+  }
+
+  async continueAsGuest(guest: { email: string; firstName: string; lastName: string }) {
+    await this.guestTab.click();
+    await this.guestEmail.fill(guest.email);
+    await this.guestFirstName.fill(guest.firstName);
+    await this.guestLastName.fill(guest.lastName);
+    await this.guestSubmit.click();
   }
 
   async logIn(email: string, password: string) {

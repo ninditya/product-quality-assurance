@@ -17,8 +17,12 @@ export class BillingAddressPage {
   readonly city: Locator;
   readonly state: Locator;
   readonly proceed: Locator;
-  /** Account profile requests (GET /users/me) that fill this form. */
-  private readonly profile = { inFlight: 0, lastActivity: Date.now() };
+  /**
+   * Account profile requests (GET /users/me) that fill this form. Only requests seen STARTING are
+   * tracked, because this page object can be created while a profile request is already running
+   * (it is created when a test first uses it); a counter would then go negative and never settle.
+   */
+  private readonly profile = { running: new Set<Request>(), lastActivity: Date.now(), finished: 0 };
 
   constructor(page: Page) {
     this.country = page.getByTestId('country');
@@ -28,15 +32,18 @@ export class BillingAddressPage {
     this.city = page.getByTestId('city');
     this.state = page.getByTestId('state');
     this.proceed = page.getByTestId('proceed-3');
-    const started = (r: Request) => {
-      if (isProfileRequest(r)) Object.assign(this.profile, { inFlight: this.profile.inFlight + 1, lastActivity: Date.now() });
+    page.on('request', (r) => {
+      if (!isProfileRequest(r)) return;
+      this.profile.running.add(r);
+      this.profile.lastActivity = Date.now();
+    });
+    const ended = (r: Request, completed: boolean) => {
+      if (!this.profile.running.delete(r)) return; // started before tracking began: ignored
+      this.profile.lastActivity = Date.now();
+      if (completed) this.profile.finished++;
     };
-    const ended = (r: Request) => {
-      if (isProfileRequest(r)) Object.assign(this.profile, { inFlight: this.profile.inFlight - 1, lastActivity: Date.now() });
-    };
-    page.on('request', started);
-    page.on('requestfinished', ended);
-    page.on('requestfailed', ended);
+    page.on('requestfinished', (r) => ended(r, true));
+    page.on('requestfailed', (r) => ended(r, false));
   }
 
   /**
@@ -48,8 +55,18 @@ export class BillingAddressPage {
    */
   async waitForAccountPrefill() {
     await expect(this.street, 'street pre-filled from the account').not.toHaveValue('', { timeout: 15_000 });
+    await this.waitForProfileRequestsToSettle();
+  }
+
+  /** Number of profile requests (GET /users/me) that have completed so far; used as evidence by UI-26b. */
+  profileResponsesSoFar(): number {
+    return this.profile.finished;
+  }
+
+  /** No profile request (GET /users/me) running or started for 1 s (see waitForAccountPrefill). */
+  async waitForProfileRequestsToSettle() {
     await expect
-      .poll(() => this.profile.inFlight === 0 && Date.now() - this.profile.lastActivity >= 1_000, {
+      .poll(() => this.profile.running.size === 0 && Date.now() - this.profile.lastActivity >= 1_000, {
         message: 'account profile requests have settled',
         timeout: 15_000,
         intervals: [250],

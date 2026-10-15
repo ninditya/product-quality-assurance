@@ -48,6 +48,15 @@ export const customer = {
   password: process.env.CUSTOMER_PASSWORD ?? '',
 };
 
+/** Guest details for "Continue as Guest". Never Jane's e-mail. Unique per run. */
+export const guest = () => ({ email: `guest.${Date.now()}@example.com`, firstName: 'Guest', lastName: 'Tester' });
+
+/**
+ * An account that does not exist. Negative login tests use this, never Jane's e-mail:
+ * three failed attempts would lock the shared demo account (S2 User Login AC4).
+ */
+export const unknownUser = () => ({ email: `no-such-user.${Date.now()}@example.com`, password: 'NotARealPassword1!' });
+
 /** Texts the app shows. Wording is only asserted where a source (S2) defines it. */
 export const messages = {
   /** S2 Product Detail AC8. */
@@ -55,4 +64,6 @@ export const messages = {
   /** S2 Cart Review AC2. */
   quantityUpdated: 'Product quantity updated.',
   noProductsFound: 'There are no products found.',
+  /** S2 User Login AC3. */
+  invalidLogin: 'Invalid email or password',
 };
