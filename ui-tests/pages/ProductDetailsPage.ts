@@ -60,6 +60,17 @@ export class ProductDetailsPage {
     await expect(this.rentalDurationHandle).toHaveAttribute('aria-valuenow', String(hours));
   }
 
+  async rentalHours(): Promise<number> {
+    return Number(await this.rentalDurationHandle.getAttribute('aria-valuenow'));
+  }
+
+  /** Tries to move the slider past its maximum: End, then one more step to the right. */
+  async pushRentalSliderToMaximumAndBeyond() {
+    await this.rentalDurationHandle.focus();
+    await this.page.keyboard.press('End');
+    await this.page.keyboard.press('ArrowRight');
+  }
+
   async rentalTotalCents() {
     return toCents(await this.rentalTotal.innerText());
   }

@@ -31,6 +31,8 @@ export class CartPage {
       quantity: row.getByTestId('product-quantity'),
       unitPrice: row.getByTestId('product-price'),
       lineTotal: row.getByTestId('line-price'),
+      /** The delete control is an icon-only <a class="btn-danger"> without an accessible name. */
+      remove: row.locator('a.btn-danger'),
     };
   }
 

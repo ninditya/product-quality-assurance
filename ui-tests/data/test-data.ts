@@ -66,4 +66,21 @@ export const messages = {
   noProductsFound: 'There are no products found.',
   /** S2 User Login AC3. */
   invalidLogin: 'Invalid email or password',
+  /** S2 Payment AC4. */
+  expirationInPast: 'Expiration date must be in the future.',
 };
+
+/** S2 Payment AC2: account number must be digits only; this one is not. */
+export const invalidBankTransfer = { ...bankTransfer, accountNumber: '12AB34' };
+
+/** Breaks the formats of S2 Payment AC3: card XXXX-XXXX-XXXX-XXXX, expiry MM/YYYY, CVV 3–4 digits. */
+export const badlyFormattedCard = { number: '1234', expirationDate: '13/20', cvv: '1', holderName: 'Jane Doe' };
+
+/** Well-formed card data whose expiry is last month, computed from the run date (S2 Payment AC4). Not a real card. */
+export function expiredCard() {
+  const lastMonth = new Date();
+  lastMonth.setDate(1);
+  lastMonth.setMonth(lastMonth.getMonth() - 1);
+  const expirationDate = `${String(lastMonth.getMonth() + 1).padStart(2, '0')}/${lastMonth.getFullYear()}`;
+  return { number: '4111-1111-1111-1111', expirationDate, cvv: '123', holderName: 'Jane Doe' };
+}
