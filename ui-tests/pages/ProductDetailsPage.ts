@@ -9,6 +9,7 @@ export class ProductDetailsPage {
   readonly activeCo2Rating: Locator;
   readonly quantity: Locator;
   readonly increaseQuantity: Locator;
+  readonly decreaseQuantity: Locator;
   readonly addToCartButton: Locator;
   /** Rental only: the ngx-slider handle has no ARIA role, so its component class is used. */
   readonly rentalDurationHandle: Locator;
@@ -21,6 +22,7 @@ export class ProductDetailsPage {
     this.activeCo2Rating = page.getByTestId('co2-rating-badge').locator('.co2-letter.active');
     this.quantity = page.getByTestId('quantity');
     this.increaseQuantity = page.getByTestId('increase-quantity');
+    this.decreaseQuantity = page.getByTestId('decrease-quantity');
     this.addToCartButton = page.getByTestId('add-to-cart');
     this.rentalDurationHandle = page.locator('.ngx-slider-pointer-min');
     this.rentalTotal = page.locator('#total-price');
