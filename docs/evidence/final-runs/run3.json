@@ -1,0 +1,3067 @@
+{
+  "config": {
+    "argv": [
+      "/opt/homebrew/Cellar/node@22/22.23.2_1/bin/node",
+      "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/node_modules/.bin/playwright",
+      "test",
+      "--reporter=list,json"
+    ],
+    "configFile": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/playwright.config.ts",
+    "rootDir": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "ui",
+        "name": "ui",
+        "testDir": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 120000
+      },
+      {
+        "outputDir": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "api",
+        "name": "api",
+        "testDir": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "ui",
+        "testDir": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs",
+        "snapshotDir": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 120000,
+        "use": {
+          "trace": "on-first-retry",
+          "testIdAttribute": "data-test",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "screen": {
+            "width": 1920,
+            "height": 1080
+          },
+          "deviceScaleFactor": 1,
+          "isMobile": false,
+          "hasTouch": false,
+          "defaultBrowserType": "chromium",
+          "baseURL": "https://practicesoftwaretesting.com",
+          "screenshot": "only-on-failure",
+          "video": "retain-on-failure",
+          "actionTimeout": 15000,
+          "navigationTimeout": 30000
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "ui"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "api",
+        "testDir": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs",
+        "snapshotDir": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "trace": "on-first-retry",
+          "testIdAttribute": "data-test",
+          "baseURL": "https://api-with-bugs.practicesoftwaretesting.com",
+          "extraHTTPHeaders": {
+            "Accept": "application/json"
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "api"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "ui-tests/specs/e2e-purchase-flow.spec.ts",
+      "file": "ui-tests/specs/e2e-purchase-flow.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "E2E-01 Jane Doe buys 2 of a Power Tool rated better than E plus a 10-hour Excavator rental",
+          "ok": true,
+          "tags": [
+            "P1"
+          ],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "workaround",
+                  "description": "A1: product picked from the unfiltered Power Tools list; US-1 is judged by UI-01"
+                },
+                {
+                  "type": "account",
+                  "description": "Jane Doe (required by the brief)"
+                },
+                {
+                  "type": "synchronisation",
+                  "description": "Billing waits for the late account pre-fill before typing (candidate C7, reproduced by UI-26b)"
+                },
+                {
+                  "type": "invoice",
+                  "description": "INV-2026000040"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "ui",
+              "projectName": "ui",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 23298,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "[S1] US-1 (A1 workaround): pick a Power Tools product rated better than E from the unfiltered list",
+                      "duration": 2074
+                    },
+                    {
+                      "title": "[S1] US-2: the detail page matches the selected product",
+                      "duration": 1564
+                    },
+                    {
+                      "title": "[S1] US-2: add 3; the cart shows quantity 3 and line total 3 × unit price",
+                      "duration": 2559
+                    },
+                    {
+                      "title": "[S1] US-3: reduce to 2; line total and cart total become 2 × unit price",
+                      "duration": 983
+                    },
+                    {
+                      "title": "[S1] US-3: checkout asks for a login; log in as Jane Doe",
+                      "duration": 1060
+                    },
+                    {
+                      "title": "[S1] US-3: enter the billing address and reach the payment step",
+                      "duration": 2658
+                    },
+                    {
+                      "title": "[S1] US-4: before paying, add the Excavator for 10 hours at rate × 10",
+                      "duration": 4364
+                    },
+                    {
+                      "title": "[S1] US-3/US-4: the cart holds the product × 2 and the Excavator × 10 h with correct line prices",
+                      "duration": 846
+                    },
+                    {
+                      "title": "[S2] cart: subtotal, 15 % combination discount and total (A5, A6)",
+                      "duration": 3
+                    },
+                    {
+                      "title": "[S1] US-4: pay by Bank Transfer; the order is confirmed with an invoice number",
+                      "duration": 4315
+                    },
+                    {
+                      "title": "[S2] the cart is cleared after the order (S2 Payment AC9)",
+                      "duration": 278
+                    },
+                    {
+                      "title": "[S1] US-3/US-4: the invoice of this order lists the product × 2 and the Excavator × 10 h",
+                      "duration": 2335
+                    },
+                    {
+                      "title": "[S2] invoice: subtotal, 15 % discount and total (S2 Combination Discount AC4)",
+                      "duration": 3
+                    }
+                  ],
+                  "startTime": "2026-10-15T12:28:21.575Z",
+                  "annotations": [
+                    {
+                      "type": "workaround",
+                      "description": "A1: product picked from the unfiltered Power Tools list; US-1 is judged by UI-01"
+                    },
+                    {
+                      "type": "account",
+                      "description": "Jane Doe (required by the brief)"
+                    },
+                    {
+                      "type": "synchronisation",
+                      "description": "Billing waits for the late account pre-fill before typing (candidate C7, reproduced by UI-26b)"
+                    },
+                    {
+                      "type": "invoice",
+                      "description": "INV-2026000040"
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "be5822e5917cd7abd921-7c4526a99dcea23e3e7d",
+          "file": "ui-tests/specs/e2e-purchase-flow.spec.ts",
+          "line": 17,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "ui-tests/specs/smoke.spec.ts",
+      "file": "ui-tests/specs/smoke.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "SMOKE-UI the home page lists product cards",
+          "ok": true,
+          "tags": [
+            "smoke"
+          ],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui",
+              "projectName": "ui",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2372,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-15T12:28:45.098Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4219922fea2e2bd3c691-97a0a0a960635f10e0da",
+          "file": "ui-tests/specs/smoke.spec.ts",
+          "line": 4,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "ui-tests/specs/us1-filter.spec.ts",
+      "file": "ui-tests/specs/us1-filter.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "UI-01 the environmental filter in Power Tools lists only and all products rated better than E",
+          "ok": false,
+          "tags": [
+            "P1"
+          ],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui",
+              "projectName": "ui",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6560,
+                  "error": {
+                    "message": "Error: Power Tools listed after the environmental filter.\nExpected (product data, rating A–D): [\"Circular Saw\"]\nActual (UI): []\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 3\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[32m- Array [\u001b[39m\n\u001b[32m-   \"Circular Saw\",\u001b[39m\n\u001b[32m- ]\u001b[39m\n\u001b[31m+ Array []\u001b[39m",
+                    "stack": "Error: Power Tools listed after the environmental filter.\nExpected (product data, rating A–D): [\"Circular Saw\"]\nActual (UI): []\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 3\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[32m- Array [\u001b[39m\n\u001b[32m-   \"Circular Saw\",\u001b[39m\n\u001b[32m- ]\u001b[39m\n\u001b[31m+ Array []\u001b[39m\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us1-filter.spec.ts:39:5",
+                    "location": {
+                      "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us1-filter.spec.ts",
+                      "column": 5,
+                      "line": 39
+                    },
+                    "snippet": "  37 |       `Expected (product data, rating A–D): ${JSON.stringify(expected)}\\n` +\n  38 |       `Actual (UI): ${JSON.stringify(actual)}`,\n> 39 |   ).toEqual(expected);\n     |     ^\n  40 | });\n  41 |\n  42 | /**"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us1-filter.spec.ts",
+                        "column": 5,
+                        "line": 39
+                      },
+                      "message": "Error: Power Tools listed after the environmental filter.\nExpected (product data, rating A–D): [\"Circular Saw\"]\nActual (UI): []\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 3\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[32m- Array [\u001b[39m\n\u001b[32m-   \"Circular Saw\",\u001b[39m\n\u001b[32m- ]\u001b[39m\n\u001b[31m+ Array []\u001b[39m\n\n  37 |       `Expected (product data, rating A–D): ${JSON.stringify(expected)}\\n` +\n  38 |       `Actual (UI): ${JSON.stringify(actual)}`,\n> 39 |   ).toEqual(expected);\n     |     ^\n  40 | });\n  41 |\n  42 | /**\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us1-filter.spec.ts:39:5"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-15T12:28:47.476Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "UI-01 expected vs actual",
+                      "contentType": "application/json",
+                      "body": "ewogICJleHBlY3RlZEZyb21BcGkiOiBbCiAgICAiQ2lyY3VsYXIgU2F3IgogIF0sCiAgImFjdHVhbEluVWkiOiBbXQp9"
+                    },
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/us1-filter-UI-01-the-envir-270ab-roducts-rated-better-than-E-ui/test-failed-1.png"
+                    },
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/us1-filter-UI-01-the-envir-270ab-roducts-rated-better-than-E-ui/video.webm"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/us1-filter-UI-01-the-envir-270ab-roducts-rated-better-than-E-ui/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us1-filter.spec.ts",
+                    "column": 5,
+                    "line": 39
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "7bfcad254578c2f2d512-8c688fc618d0dfe5bfa5",
+          "file": "ui-tests/specs/us1-filter.spec.ts",
+          "line": 18,
+          "column": 5
+        },
+        {
+          "title": "UI-02 each Power Tools card shows the price and CO2 rating stored for that product",
+          "ok": true,
+          "tags": [
+            "P2"
+          ],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ui",
+              "projectName": "ui",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6448,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-15T12:28:54.265Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "UI-02 shown vs stored",
+                      "contentType": "application/json",
+                      "body": "ewogICJzaG93bkluVWkiOiBbCiAgICB7CiAgICAgICJuYW1lIjogIlNoZWV0IFNhbmRlciIsCiAgICAgICJwcmljZUNlbnRzIjogNTg0OCwKICAgICAgImNvMiI6ICJFIgogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiQmVsdCBTYW5kZXIiLAogICAgICAicHJpY2VDZW50cyI6IDczNTksCiAgICAgICJjbzIiOiAiRSIKICAgIH0sCiAgICB7CiAgICAgICJuYW1lIjogIkNpcmN1bGFyIFNhdyIsCiAgICAgICJwcmljZUNlbnRzIjogODAxOSwKICAgICAgImNvMiI6ICJEIgogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiUmFuZG9tIE9yYml0IFNhbmRlciIsCiAgICAgICJwcmljZUNlbnRzIjogMTAwNzksCiAgICAgICJjbzIiOiAiRSIKICAgIH0sCiAgICB7CiAgICAgICJuYW1lIjogIkNvcmRsZXNzIERyaWxsIDIwViIsCiAgICAgICJwcmljZUNlbnRzIjogMTI1MjMsCiAgICAgICJjbzIiOiAiRSIKICAgIH0sCiAgICB7CiAgICAgICJuYW1lIjogIkNvcmRsZXNzIERyaWxsIDI0ViIsCiAgICAgICJwcmljZUNlbnRzIjogNjY1NCwKICAgICAgImNvMiI6ICJFIgogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiQ29yZGxlc3MgRHJpbGwgMThWIiwKICAgICAgInByaWNlQ2VudHMiOiAxMTkyNCwKICAgICAgImNvMiI6ICJFIgogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiQ29yZGxlc3MgRHJpbGwgMTJWIiwKICAgICAgInByaWNlQ2VudHMiOiA0NjUwLAogICAgICAiY28yIjogIkUiCiAgICB9CiAgXSwKICAic3RvcmVkSW5Qcm9kdWN0RGF0YSI6IFsKICAgIHsKICAgICAgIm5hbWUiOiAiU2hlZXQgU2FuZGVyIiwKICAgICAgInByaWNlQ2VudHMiOiA1ODQ4LAogICAgICAiY28yIjogIkUiCiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJCZWx0IFNhbmRlciIsCiAgICAgICJwcmljZUNlbnRzIjogNzM1OSwKICAgICAgImNvMiI6ICJFIgogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiQ2lyY3VsYXIgU2F3IiwKICAgICAgInByaWNlQ2VudHMiOiA4MDE5LAogICAgICAiY28yIjogIkQiCiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJSYW5kb20gT3JiaXQgU2FuZGVyIiwKICAgICAgInByaWNlQ2VudHMiOiAxMDA3OSwKICAgICAgImNvMiI6ICJFIgogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiQ29yZGxlc3MgRHJpbGwgMjBWIiwKICAgICAgInByaWNlQ2VudHMiOiAxMjUyMywKICAgICAgImNvMiI6ICJFIgogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiQ29yZGxlc3MgRHJpbGwgMjRWIiwKICAgICAgInByaWNlQ2VudHMiOiA2NjU0LAogICAgICAiY28yIjogIkUiCiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJDb3JkbGVzcyBEcmlsbCAxOFYiLAogICAgICAicHJpY2VDZW50cyI6IDExOTI0LAogICAgICAiY28yIjogIkUiCiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJDb3JkbGVzcyBEcmlsbCAxMlYiLAogICAgICAicHJpY2VDZW50cyI6IDQ2NTAsCiAgICAgICJjbzIiOiAiRSIKICAgIH0KICBdCn0="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7bfcad254578c2f2d512-8ba37e192e4f6c1f970b",
+          "file": "ui-tests/specs/us1-filter.spec.ts",
+          "line": 49,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "ui-tests/specs/us2-quantity.spec.ts",
+      "file": "ui-tests/specs/us2-quantity.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "US-2 quantity lower boundary on the product detail page",
+          "file": "ui-tests/specs/us2-quantity.spec.ts",
+          "line": 9,
+          "column": 6,
+          "specs": [
+            {
+              "title": "UI-12 pressing minus at quantity 1 keeps the quantity at 1",
+              "ok": true,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3225,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:29:00.793Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "734a8957074f42116d69-7f736579cfb3f6600922",
+              "file": "ui-tests/specs/us2-quantity.spec.ts",
+              "line": 19,
+              "column": 7
+            },
+            {
+              "title": "UI-13 typing 0 as quantity is corrected to 1",
+              "ok": true,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3177,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:29:04.022Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "734a8957074f42116d69-b7357b15a60112b1a25f",
+              "file": "ui-tests/specs/us2-quantity.spec.ts",
+              "line": 26,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "ui-tests/specs/us3-checkout.spec.ts",
+      "file": "ui-tests/specs/us3-checkout.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "US-3 checkout sign-in and billing",
+          "file": "ui-tests/specs/us3-checkout.spec.ts",
+          "line": 24,
+          "column": 6,
+          "specs": [
+            {
+              "title": "UI-21 a guest proceeding from the cart gets a sign-in step with e-mail and password fields",
+              "ok": true,
+              "tags": [
+                "P1"
+              ],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5594,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:29:07.207Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0c9ea57caeee3d37db89-f53c1481a03521488e72",
+              "file": "ui-tests/specs/us3-checkout.spec.ts",
+              "line": 37,
+              "column": 7
+            },
+            {
+              "title": "UI-21b a guest cannot reach the billing address step without logging in",
+              "ok": false,
+              "tags": [
+                "P1"
+              ],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [
+                    {
+                      "type": "requirement conflict",
+                      "description": "D6: S1 \"Checkout requires login\" vs S2 guest checkout; a failure = potential defect pending PO"
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 5413,
+                      "error": {
+                        "message": "Error: a guest reached the billing address step without logging in (D6: potential defect pending PO)\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m",
+                        "stack": "Error: a guest reached the billing address step without logging in (D6: potential defect pending PO)\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us3-checkout.spec.ts:57:125",
+                        "location": {
+                          "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us3-checkout.spec.ts",
+                          "column": 125,
+                          "line": 57
+                        },
+                        "snippet": "  55 |       reachedBilling = await becomesVisibleWithin(billing.country, 10_000);\n  56 |     }\n> 57 |     expect(reachedBilling, 'a guest reached the billing address step without logging in (D6: potential defect pending PO)').toBe(false);\n     |                                                                                                                             ^\n  58 |   });\n  59 |\n  60 |   // S2 User Login AC3: incorrect credentials show \"Invalid email or password\". Uses an unknown e-mail, never Jane's."
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us3-checkout.spec.ts",
+                            "column": 125,
+                            "line": 57
+                          },
+                          "message": "Error: a guest reached the billing address step without logging in (D6: potential defect pending PO)\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\n  55 |       reachedBilling = await becomesVisibleWithin(billing.country, 10_000);\n  56 |     }\n> 57 |     expect(reachedBilling, 'a guest reached the billing address step without logging in (D6: potential defect pending PO)').toBe(false);\n     |                                                                                                                             ^\n  58 |   });\n  59 |\n  60 |   // S2 User Login AC3: incorrect credentials show \"Invalid email or password\". Uses an unknown e-mail, never Jane's.\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us3-checkout.spec.ts:57:125"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:29:12.805Z",
+                      "annotations": [
+                        {
+                          "type": "requirement conflict",
+                          "description": "D6: S1 \"Checkout requires login\" vs S2 guest checkout; a failure = potential defect pending PO"
+                        }
+                      ],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/us3-checkout-US-3-checkout-4cb79-ess-step-without-logging-in-ui/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/us3-checkout-US-3-checkout-4cb79-ess-step-without-logging-in-ui/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/us3-checkout-US-3-checkout-4cb79-ess-step-without-logging-in-ui/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us3-checkout.spec.ts",
+                        "column": 125,
+                        "line": 57
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "0c9ea57caeee3d37db89-70043d43c3abd8b70a49",
+              "file": "ui-tests/specs/us3-checkout.spec.ts",
+              "line": 46,
+              "column": 7
+            },
+            {
+              "title": "UI-23 an unknown e-mail is rejected on the checkout sign-in step",
+              "ok": true,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6561,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:29:18.447Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0c9ea57caeee3d37db89-eee5671b9847a3f7dfd5",
+              "file": "ui-tests/specs/us3-checkout.spec.ts",
+              "line": 61,
+              "column": 7
+            },
+            {
+              "title": "UI-29 submitting empty credentials shows an error for each field",
+              "ok": true,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5362,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:29:25.089Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0c9ea57caeee3d37db89-2a46aa7c2c6c0eeedc89",
+              "file": "ui-tests/specs/us3-checkout.spec.ts",
+              "line": 70,
+              "column": 7
+            },
+            {
+              "title": "UI-26 the billing step is pre-filled with the address stored on Jane's account, including the country",
+              "ok": false,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 9243,
+                      "error": {
+                        "message": "Error: billing pre-fill vs the stored account address\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[2m    \"city\": \"Vienna\",\u001b[22m\n\u001b[32m-   \"country\": \"Austria\",\u001b[39m\n\u001b[31m+   \"country\": \"\",\u001b[39m\n\u001b[2m    \"street\": \"Test street 98\",\u001b[22m\n\u001b[2m  }\u001b[22m",
+                        "stack": "Error: billing pre-fill vs the stored account address\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[2m    \"city\": \"Vienna\",\u001b[22m\n\u001b[32m-   \"country\": \"Austria\",\u001b[39m\n\u001b[31m+   \"country\": \"\",\u001b[39m\n\u001b[2m    \"street\": \"Test street 98\",\u001b[22m\n\u001b[2m  }\u001b[22m\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us3-checkout.spec.ts:98:69",
+                        "location": {
+                          "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us3-checkout.spec.ts",
+                          "column": 69,
+                          "line": 98
+                        },
+                        "snippet": "   96 |     // Only the compared fields are attached (no token, no password, no other account data).\n   97 |     await test.info().attach('UI-26 shown vs stored', { contentType: 'application/json', body: JSON.stringify({ shown, stored: expected }, null, 2) });\n>  98 |     expect(shown, 'billing pre-fill vs the stored account address').toEqual(expected);\n      |                                                                     ^\n   99 |   });\n  100 |\n  101 |   // Candidate C7. Basis: the customer's typed input must not be lost (S2 Billing Address AC3 needs all fields filled to proceed)."
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us3-checkout.spec.ts",
+                            "column": 69,
+                            "line": 98
+                          },
+                          "message": "Error: billing pre-fill vs the stored account address\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[2m    \"city\": \"Vienna\",\u001b[22m\n\u001b[32m-   \"country\": \"Austria\",\u001b[39m\n\u001b[31m+   \"country\": \"\",\u001b[39m\n\u001b[2m    \"street\": \"Test street 98\",\u001b[22m\n\u001b[2m  }\u001b[22m\n\n   96 |     // Only the compared fields are attached (no token, no password, no other account data).\n   97 |     await test.info().attach('UI-26 shown vs stored', { contentType: 'application/json', body: JSON.stringify({ shown, stored: expected }, null, 2) });\n>  98 |     expect(shown, 'billing pre-fill vs the stored account address').toEqual(expected);\n      |                                                                     ^\n   99 |   });\n  100 |\n  101 |   // Candidate C7. Basis: the customer's typed input must not be lost (S2 Billing Address AC3 needs all fields filled to proceed).\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us3-checkout.spec.ts:98:69"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:29:30.462Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "UI-26 shown vs stored",
+                          "contentType": "application/json",
+                          "body": "ewogICJzaG93biI6IHsKICAgICJzdHJlZXQiOiAiVGVzdCBzdHJlZXQgOTgiLAogICAgImNpdHkiOiAiVmllbm5hIiwKICAgICJjb3VudHJ5IjogIiIKICB9LAogICJzdG9yZWQiOiB7CiAgICAic3RyZWV0IjogIlRlc3Qgc3RyZWV0IDk4IiwKICAgICJjaXR5IjogIlZpZW5uYSIsCiAgICAiY291bnRyeSI6ICJBdXN0cmlhIgogIH0KfQ=="
+                        },
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/us3-checkout-US-3-checkout-cc345-count-including-the-country-ui/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/us3-checkout-US-3-checkout-cc345-count-including-the-country-ui/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/us3-checkout-US-3-checkout-cc345-count-including-the-country-ui/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us3-checkout.spec.ts",
+                        "column": 69,
+                        "line": 98
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "0c9ea57caeee3d37db89-4fc706b1f7abf640946d",
+              "file": "ui-tests/specs/us3-checkout.spec.ts",
+              "line": 81,
+              "column": 7
+            },
+            {
+              "title": "UI-26b typed billing input is kept when the account pre-fill arrives late",
+              "ok": false,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 11137,
+                      "error": {
+                        "message": "Error: typed billing input after the profile requests settled\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 3\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \"country\": \"AT\",\u001b[39m\n\u001b[32m-   \"houseNumber\": \"98\",\u001b[39m\n\u001b[32m-   \"postalCode\": \"1010\",\u001b[39m\n\u001b[31m+   \"country\": \"\",\u001b[39m\n\u001b[31m+   \"houseNumber\": \"\",\u001b[39m\n\u001b[31m+   \"postalCode\": \"\",\u001b[39m\n\u001b[2m  }\u001b[22m",
+                        "stack": "Error: typed billing input after the profile requests settled\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 3\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \"country\": \"AT\",\u001b[39m\n\u001b[32m-   \"houseNumber\": \"98\",\u001b[39m\n\u001b[32m-   \"postalCode\": \"1010\",\u001b[39m\n\u001b[31m+   \"country\": \"\",\u001b[39m\n\u001b[31m+   \"houseNumber\": \"\",\u001b[39m\n\u001b[31m+   \"postalCode\": \"\",\u001b[39m\n\u001b[2m  }\u001b[22m\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us3-checkout.spec.ts:129:76",
+                        "location": {
+                          "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us3-checkout.spec.ts",
+                          "column": 76,
+                          "line": 129
+                        },
+                        "snippet": "  127 |     };\n  128 |     await test.info().attach('UI-26b typed vs kept', { contentType: 'application/json', body: JSON.stringify({ typed: billingAddress, kept, lateProfileResponses }, null, 2) });\n> 129 |     expect(kept, 'typed billing input after the profile requests settled').toEqual({\n      |                                                                            ^\n  130 |       country: billingAddress.countryCode,\n  131 |       postalCode: billingAddress.postalCode,\n  132 |       houseNumber: billingAddress.houseNumber,"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us3-checkout.spec.ts",
+                            "column": 76,
+                            "line": 129
+                          },
+                          "message": "Error: typed billing input after the profile requests settled\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 3\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \"country\": \"AT\",\u001b[39m\n\u001b[32m-   \"houseNumber\": \"98\",\u001b[39m\n\u001b[32m-   \"postalCode\": \"1010\",\u001b[39m\n\u001b[31m+   \"country\": \"\",\u001b[39m\n\u001b[31m+   \"houseNumber\": \"\",\u001b[39m\n\u001b[31m+   \"postalCode\": \"\",\u001b[39m\n\u001b[2m  }\u001b[22m\n\n  127 |     };\n  128 |     await test.info().attach('UI-26b typed vs kept', { contentType: 'application/json', body: JSON.stringify({ typed: billingAddress, kept, lateProfileResponses }, null, 2) });\n> 129 |     expect(kept, 'typed billing input after the profile requests settled').toEqual({\n      |                                                                            ^\n  130 |       country: billingAddress.countryCode,\n  131 |       postalCode: billingAddress.postalCode,\n  132 |       houseNumber: billingAddress.houseNumber,\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us3-checkout.spec.ts:129:76"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:29:39.934Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "UI-26b typed vs kept",
+                          "contentType": "application/json",
+                          "body": "ewogICJ0eXBlZCI6IHsKICAgICJjb3VudHJ5Q29kZSI6ICJBVCIsCiAgICAicG9zdGFsQ29kZSI6ICIxMDEwIiwKICAgICJob3VzZU51bWJlciI6ICI5OCIKICB9LAogICJrZXB0IjogewogICAgImNvdW50cnkiOiAiIiwKICAgICJwb3N0YWxDb2RlIjogIiIsCiAgICAiaG91c2VOdW1iZXIiOiAiIgogIH0sCiAgImxhdGVQcm9maWxlUmVzcG9uc2VzIjogMQp9"
+                        },
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/us3-checkout-US-3-checkout-bb0d4-count-pre-fill-arrives-late-ui/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/us3-checkout-US-3-checkout-bb0d4-count-pre-fill-arrives-late-ui/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/us3-checkout-US-3-checkout-bb0d4-count-pre-fill-arrives-late-ui/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us3-checkout.spec.ts",
+                        "column": 76,
+                        "line": 129
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "0c9ea57caeee3d37db89-9624f2cac14e329925ae",
+              "file": "ui-tests/specs/us3-checkout.spec.ts",
+              "line": 104,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "ui-tests/specs/us4-rental-payment.spec.ts",
+      "file": "ui-tests/specs/us4-rental-payment.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "US-4 Excavator rental",
+          "file": "ui-tests/specs/us4-rental-payment.spec.ts",
+          "line": 21,
+          "column": 6,
+          "specs": [
+            {
+              "title": "UI-33 the rental slider stops at 1 and 10 hours and the total is rate × hours at both ends",
+              "ok": true,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [
+                    {
+                      "type": "basis",
+                      "description": "S2 Rental AC3 + Product Detail AC10 (supporting source; S1 only says \"for 10 hours\")"
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3956,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:29:51.381Z",
+                      "annotations": [
+                        {
+                          "type": "basis",
+                          "description": "S2 Rental AC3 + Product Detail AC10 (supporting source; S1 only says \"for 10 hours\")"
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "78370513223072aff4e5-29b8ba750c23f411f02b",
+              "file": "ui-tests/specs/us4-rental-payment.spec.ts",
+              "line": 29,
+              "column": 7
+            },
+            {
+              "title": "UI-34 removing the rental from a mixed cart removes the 15 % discount",
+              "ok": true,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [
+                    {
+                      "type": "basis",
+                      "description": "S2 Cart Review AC8 (supporting source; the brief does not mention the discount)"
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 14205,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:29:55.418Z",
+                      "annotations": [
+                        {
+                          "type": "basis",
+                          "description": "S2 Cart Review AC8 (supporting source; the brief does not mention the discount)"
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "78370513223072aff4e5-3752ff0db24d6a1f9400",
+              "file": "ui-tests/specs/us4-rental-payment.spec.ts",
+              "line": 40,
+              "column": 7
+            },
+            {
+              "title": "UI-35 the cart does not keep more than 10 rental hours",
+              "ok": false,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [
+                    {
+                      "type": "basis",
+                      "description": "Inference from S2 Product Detail AC10; neither S1 nor S2 states a cart limit (PO question 7)"
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 9029,
+                      "error": {
+                        "message": "Error: rental hours stored in the cart after typing 11\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: <= \u001b[32m10\u001b[39m\nReceived:    \u001b[31m11\u001b[39m",
+                        "stack": "Error: rental hours stored in the cart after typing 11\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: <= \u001b[32m10\u001b[39m\nReceived:    \u001b[31m11\u001b[39m\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us4-rental-payment.spec.ts:76:76",
+                        "location": {
+                          "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us4-rental-payment.spec.ts",
+                          "column": 76,
+                          "line": 76
+                        },
+                        "snippet": "  74 |     const storedHours = Number(await hours.inputValue());\n  75 |     await test.info().attach('UI-35 typed vs stored', { contentType: 'application/json', body: JSON.stringify({ typed: 11, storedHours }) });\n> 76 |     expect(storedHours, 'rental hours stored in the cart after typing 11').toBeLessThanOrEqual(10);\n     |                                                                            ^\n  77 |     await expect(cart.row(US4.rentalProduct).lineTotal, 'line total = stored hours × rate').toHaveText(formatCents(storedHours * rateCents));\n  78 |   });\n  79 | });"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us4-rental-payment.spec.ts",
+                            "column": 76,
+                            "line": 76
+                          },
+                          "message": "Error: rental hours stored in the cart after typing 11\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: <= \u001b[32m10\u001b[39m\nReceived:    \u001b[31m11\u001b[39m\n\n  74 |     const storedHours = Number(await hours.inputValue());\n  75 |     await test.info().attach('UI-35 typed vs stored', { contentType: 'application/json', body: JSON.stringify({ typed: 11, storedHours }) });\n> 76 |     expect(storedHours, 'rental hours stored in the cart after typing 11').toBeLessThanOrEqual(10);\n     |                                                                            ^\n  77 |     await expect(cart.row(US4.rentalProduct).lineTotal, 'line total = stored hours × rate').toHaveText(formatCents(storedHours * rateCents));\n  78 |   });\n  79 | });\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us4-rental-payment.spec.ts:76:76"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:30:09.629Z",
+                      "annotations": [
+                        {
+                          "type": "basis",
+                          "description": "Inference from S2 Product Detail AC10; neither S1 nor S2 states a cart limit (PO question 7)"
+                        }
+                      ],
+                      "attachments": [
+                        {
+                          "name": "UI-35 typed vs stored",
+                          "contentType": "application/json",
+                          "body": "eyJ0eXBlZCI6MTEsInN0b3JlZEhvdXJzIjoxMX0="
+                        },
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/us4-rental-payment-US-4-Ex-95931-p-more-than-10-rental-hours-ui/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/us4-rental-payment-US-4-Ex-95931-p-more-than-10-rental-hours-ui/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/us4-rental-payment-US-4-Ex-95931-p-more-than-10-rental-hours-ui/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us4-rental-payment.spec.ts",
+                        "column": 76,
+                        "line": 76
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "78370513223072aff4e5-da6b3dd1f36e65b4cc21",
+              "file": "ui-tests/specs/us4-rental-payment.spec.ts",
+              "line": 63,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "US-4 payment validation",
+          "file": "ui-tests/specs/us4-rental-payment.spec.ts",
+          "line": 85,
+          "column": 6,
+          "specs": [
+            {
+              "title": "UI-38 \"Check payment\" is disabled while no payment method is chosen",
+              "ok": true,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [
+                    {
+                      "type": "precondition",
+                      "description": "payment step reached via \"Continue as Guest\" (Q3)"
+                    },
+                    {
+                      "type": "basis",
+                      "description": "Assumption (K9); S1 only says \"Payment can be completed\""
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6743,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:30:18.908Z",
+                      "annotations": [
+                        {
+                          "type": "precondition",
+                          "description": "payment step reached via \"Continue as Guest\" (Q3)"
+                        },
+                        {
+                          "type": "basis",
+                          "description": "Assumption (K9); S1 only says \"Payment can be completed\""
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "78370513223072aff4e5-120fd015291f2074806e",
+              "file": "ui-tests/specs/us4-rental-payment.spec.ts",
+              "line": 102,
+              "column": 7
+            },
+            {
+              "title": "UI-36 Bank Transfer rejects a non-digit account number and payment cannot be checked",
+              "ok": true,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [
+                    {
+                      "type": "precondition",
+                      "description": "payment step reached via \"Continue as Guest\" (Q3)"
+                    },
+                    {
+                      "type": "basis",
+                      "description": "S2 Payment AC2 (supporting source; S1 only says \"Payment can be completed\")"
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6170,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:30:25.732Z",
+                      "annotations": [
+                        {
+                          "type": "precondition",
+                          "description": "payment step reached via \"Continue as Guest\" (Q3)"
+                        },
+                        {
+                          "type": "basis",
+                          "description": "S2 Payment AC2 (supporting source; S1 only says \"Payment can be completed\")"
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "78370513223072aff4e5-499dc9fc3e481121d3a1",
+              "file": "ui-tests/specs/us4-rental-payment.spec.ts",
+              "line": 109,
+              "column": 7
+            },
+            {
+              "title": "UI-39 a wrongly formatted credit card shows an error on each invalid field",
+              "ok": true,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [
+                    {
+                      "type": "precondition",
+                      "description": "payment step reached via \"Continue as Guest\" (Q3)"
+                    },
+                    {
+                      "type": "basis",
+                      "description": "S2 Payment AC3 (supporting source; S1 only says \"Payment can be completed\")"
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6137,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:30:31.906Z",
+                      "annotations": [
+                        {
+                          "type": "precondition",
+                          "description": "payment step reached via \"Continue as Guest\" (Q3)"
+                        },
+                        {
+                          "type": "basis",
+                          "description": "S2 Payment AC3 (supporting source; S1 only says \"Payment can be completed\")"
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "78370513223072aff4e5-ca165bece80ea0e3d049",
+              "file": "ui-tests/specs/us4-rental-payment.spec.ts",
+              "line": 118,
+              "column": 7
+            },
+            {
+              "title": "UI-40 a credit card that expired last month is rejected with \"Expiration date must be in the future.\"",
+              "ok": true,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [
+                    {
+                      "type": "precondition",
+                      "description": "payment step reached via \"Continue as Guest\" (Q3)"
+                    },
+                    {
+                      "type": "basis",
+                      "description": "S2 Payment AC4 (supporting source; S1 only says \"Payment can be completed\")"
+                    },
+                    {
+                      "type": "expiry used",
+                      "description": "09/2026"
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "ui",
+                  "projectName": "ui",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 7439,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:30:38.047Z",
+                      "annotations": [
+                        {
+                          "type": "precondition",
+                          "description": "payment step reached via \"Continue as Guest\" (Q3)"
+                        },
+                        {
+                          "type": "basis",
+                          "description": "S2 Payment AC4 (supporting source; S1 only says \"Payment can be completed\")"
+                        },
+                        {
+                          "type": "expiry used",
+                          "description": "09/2026"
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "78370513223072aff4e5-22bf93ab418abbcc73b3",
+              "file": "ui-tests/specs/us4-rental-payment.spec.ts",
+              "line": 128,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "api-tests/specs/products-read.spec.ts",
+      "file": "api-tests/specs/products-read.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Product read endpoints",
+          "file": "api-tests/specs/products-read.spec.ts",
+          "line": 27,
+          "column": 6,
+          "specs": [
+            {
+              "title": "API-01 GET /products returns 200 and a body matching the product list schema",
+              "ok": true,
+              "tags": [
+                "P1"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 844,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:30:45.737Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f1a21802362f6464ea9e-c79b760e17a966651904",
+              "file": "api-tests/specs/products-read.spec.ts",
+              "line": 29,
+              "column": 7
+            },
+            {
+              "title": "API-02 page 2 of the product list shares no product with page 1",
+              "ok": true,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 922,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:30:46.598Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f1a21802362f6464ea9e-4a2f3b8ea607d760a583",
+              "file": "api-tests/specs/products-read.spec.ts",
+              "line": 38,
+              "column": 7
+            },
+            {
+              "title": "API-04 by_category returns only and all products of that category",
+              "ok": true,
+              "tags": [
+                "P1"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1825,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:30:47.529Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "by_category=7 expected vs actual",
+                          "contentType": "application/json",
+                          "body": "ewogICJleHBlY3RlZCI6IFsKICAgIHsKICAgICAgImlkIjogMSwKICAgICAgIm5hbWUiOiAiQ29tYmluYXRpb24gUGxpZXJzIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMiwKICAgICAgIm5hbWUiOiAiUGxpZXJzIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMywKICAgICAgIm5hbWUiOiAiQm9sdCBDdXR0ZXJzIgogICAgfSwKICAgIHsKICAgICAgImlkIjogNCwKICAgICAgIm5hbWUiOiAiTG9uZyBOb3NlIFBsaWVycyIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDUsCiAgICAgICJuYW1lIjogIlNsaXAgSm9pbnQgUGxpZXJzIgogICAgfQogIF0sCiAgImFjdHVhbCI6IFsKICAgIHsKICAgICAgImlkIjogMSwKICAgICAgIm5hbWUiOiAiQ29tYmluYXRpb24gUGxpZXJzIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMiwKICAgICAgIm5hbWUiOiAiUGxpZXJzIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMywKICAgICAgIm5hbWUiOiAiQm9sdCBDdXR0ZXJzIgogICAgfSwKICAgIHsKICAgICAgImlkIjogNCwKICAgICAgIm5hbWUiOiAiTG9uZyBOb3NlIFBsaWVycyIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDUsCiAgICAgICJuYW1lIjogIlNsaXAgSm9pbnQgUGxpZXJzIgogICAgfQogIF0KfQ=="
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f1a21802362f6464ea9e-3e9182664478e1d674e0",
+              "file": "api-tests/specs/products-read.spec.ts",
+              "line": 52,
+              "column": 7
+            },
+            {
+              "title": "API-05 by_brand returns only and all products of that brand",
+              "ok": true,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2108,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:30:49.369Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "by_brand=1 expected vs actual",
+                          "contentType": "application/json",
+                          "body": "ewogICJleHBlY3RlZCI6IFsKICAgIHsKICAgICAgImlkIjogMSwKICAgICAgIm5hbWUiOiAiQ29tYmluYXRpb24gUGxpZXJzIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMiwKICAgICAgIm5hbWUiOiAiUGxpZXJzIgogICAgfSwKICAgIHsKICAgICAgImlkIjogNCwKICAgICAgIm5hbWUiOiAiTG9uZyBOb3NlIFBsaWVycyIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDYsCiAgICAgICJuYW1lIjogIkNsYXcgSGFtbWVyIHdpdGggU2hvY2sgUmVkdWN0aW9uIEdyaXAiCiAgICB9LAogICAgewogICAgICAiaWQiOiA3LAogICAgICAibmFtZSI6ICJIYW1tZXIiCiAgICB9LAogICAgewogICAgICAiaWQiOiA4LAogICAgICAibmFtZSI6ICJDbGF3IEhhbW1lciIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDksCiAgICAgICJuYW1lIjogIlRob3IgSGFtbWVyIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMTAsCiAgICAgICJuYW1lIjogIlNsZWRnZWhhbW1lciIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDExLAogICAgICAibmFtZSI6ICJDbGF3IEhhbW1lciB3aXRoIEZpYmVyZ2xhc3MgSGFuZGxlIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMTIsCiAgICAgICJuYW1lIjogIkNvdXJ0IEhhbW1lciIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDEzLAogICAgICAibmFtZSI6ICJXb29kIFNhdyIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDE0LAogICAgICAibmFtZSI6ICJBZGp1c3RhYmxlIFdyZW5jaCIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDE1LAogICAgICAibmFtZSI6ICJBbmdsZWQgU3Bhbm5lciIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDE2LAogICAgICAibmFtZSI6ICJPcGVuLWVuZCBTcGFubmVycyAoU2V0KSIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDE3LAogICAgICAibmFtZSI6ICJQaGlsbGlwcyBTY3Jld2RyaXZlciIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDE4LAogICAgICAibmFtZSI6ICJNaW5pIFNjcmV3ZHJpdmVyIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMTksCiAgICAgICJuYW1lIjogIlNoZWV0IFNhbmRlciIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDIwLAogICAgICAibmFtZSI6ICJCZWx0IFNhbmRlciIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDIxLAogICAgICAibmFtZSI6ICJDaXJjdWxhciBTYXciCiAgICB9LAogICAgewogICAgICAiaWQiOiAyMiwKICAgICAgIm5hbWUiOiAiUmFuZG9tIE9yYml0IFNhbmRlciIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDIzLAogICAgICAibmFtZSI6ICJDb3JkbGVzcyBEcmlsbCAyMFYiCiAgICB9LAogICAgewogICAgICAiaWQiOiAyNCwKICAgICAgIm5hbWUiOiAiQ29yZGxlc3MgRHJpbGwgMjRWIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMjUsCiAgICAgICJuYW1lIjogIkNvcmRsZXNzIERyaWxsIDE4ViIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDI2LAogICAgICAibmFtZSI6ICJDb3JkbGVzcyBEcmlsbCAxMlYiCiAgICB9LAogICAgewogICAgICAiaWQiOiAyNywKICAgICAgIm5hbWUiOiAiRXhjYXZhdG9yIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMjgsCiAgICAgICJuYW1lIjogIkJ1bGxkb3plciIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDI5LAogICAgICAibmFtZSI6ICJDcmFuZSIKICAgIH0KICBdLAogICJhY3R1YWwiOiBbCiAgICB7CiAgICAgICJpZCI6IDEsCiAgICAgICJuYW1lIjogIkNvbWJpbmF0aW9uIFBsaWVycyIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDIsCiAgICAgICJuYW1lIjogIlBsaWVycyIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDQsCiAgICAgICJuYW1lIjogIkxvbmcgTm9zZSBQbGllcnMiCiAgICB9LAogICAgewogICAgICAiaWQiOiA2LAogICAgICAibmFtZSI6ICJDbGF3IEhhbW1lciB3aXRoIFNob2NrIFJlZHVjdGlvbiBHcmlwIgogICAgfSwKICAgIHsKICAgICAgImlkIjogNywKICAgICAgIm5hbWUiOiAiSGFtbWVyIgogICAgfSwKICAgIHsKICAgICAgImlkIjogOCwKICAgICAgIm5hbWUiOiAiQ2xhdyBIYW1tZXIiCiAgICB9LAogICAgewogICAgICAiaWQiOiA5LAogICAgICAibmFtZSI6ICJUaG9yIEhhbW1lciIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDEwLAogICAgICAibmFtZSI6ICJTbGVkZ2VoYW1tZXIiCiAgICB9LAogICAgewogICAgICAiaWQiOiAxMSwKICAgICAgIm5hbWUiOiAiQ2xhdyBIYW1tZXIgd2l0aCBGaWJlcmdsYXNzIEhhbmRsZSIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDEyLAogICAgICAibmFtZSI6ICJDb3VydCBIYW1tZXIiCiAgICB9LAogICAgewogICAgICAiaWQiOiAxMywKICAgICAgIm5hbWUiOiAiV29vZCBTYXciCiAgICB9LAogICAgewogICAgICAiaWQiOiAxNCwKICAgICAgIm5hbWUiOiAiQWRqdXN0YWJsZSBXcmVuY2giCiAgICB9LAogICAgewogICAgICAiaWQiOiAxNSwKICAgICAgIm5hbWUiOiAiQW5nbGVkIFNwYW5uZXIiCiAgICB9LAogICAgewogICAgICAiaWQiOiAxNiwKICAgICAgIm5hbWUiOiAiT3Blbi1lbmQgU3Bhbm5lcnMgKFNldCkiCiAgICB9LAogICAgewogICAgICAiaWQiOiAxNywKICAgICAgIm5hbWUiOiAiUGhpbGxpcHMgU2NyZXdkcml2ZXIiCiAgICB9LAogICAgewogICAgICAiaWQiOiAxOCwKICAgICAgIm5hbWUiOiAiTWluaSBTY3Jld2RyaXZlciIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDE5LAogICAgICAibmFtZSI6ICJTaGVldCBTYW5kZXIiCiAgICB9LAogICAgewogICAgICAiaWQiOiAyMCwKICAgICAgIm5hbWUiOiAiQmVsdCBTYW5kZXIiCiAgICB9LAogICAgewogICAgICAiaWQiOiAyMSwKICAgICAgIm5hbWUiOiAiQ2lyY3VsYXIgU2F3IgogICAgfSwKICAgIHsKICAgICAgImlkIjogMjIsCiAgICAgICJuYW1lIjogIlJhbmRvbSBPcmJpdCBTYW5kZXIiCiAgICB9LAogICAgewogICAgICAiaWQiOiAyMywKICAgICAgIm5hbWUiOiAiQ29yZGxlc3MgRHJpbGwgMjBWIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMjQsCiAgICAgICJuYW1lIjogIkNvcmRsZXNzIERyaWxsIDI0ViIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDI1LAogICAgICAibmFtZSI6ICJDb3JkbGVzcyBEcmlsbCAxOFYiCiAgICB9LAogICAgewogICAgICAiaWQiOiAyNiwKICAgICAgIm5hbWUiOiAiQ29yZGxlc3MgRHJpbGwgMTJWIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMjcsCiAgICAgICJuYW1lIjogIkV4Y2F2YXRvciIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDI4LAogICAgICAibmFtZSI6ICJCdWxsZG96ZXIiCiAgICB9LAogICAgewogICAgICAiaWQiOiAyOSwKICAgICAgIm5hbWUiOiAiQ3JhbmUiCiAgICB9CiAgXQp9"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f1a21802362f6464ea9e-e9a16afee9f9c33a61fe",
+              "file": "api-tests/specs/products-read.spec.ts",
+              "line": 59,
+              "column": 7
+            },
+            {
+              "title": "API-06 is_rental=true returns rental products only",
+              "ok": true,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 648,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:30:51.487Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f1a21802362f6464ea9e-784208659d5b8e378ccf",
+              "file": "api-tests/specs/products-read.spec.ts",
+              "line": 66,
+              "column": 7
+            },
+            {
+              "title": "API-06b is_rental=false returns only and all products that are not rentals",
+              "ok": false,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1830,
+                      "error": {
+                        "message": "Error: is_rental=false: product ids (only and all)\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 26\u001b[39m\n\u001b[31m+ Received  +  3\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[32m-   1,\u001b[39m\n\u001b[32m-   2,\u001b[39m\n\u001b[32m-   3,\u001b[39m\n\u001b[32m-   4,\u001b[39m\n\u001b[32m-   5,\u001b[39m\n\u001b[32m-   6,\u001b[39m\n\u001b[32m-   7,\u001b[39m\n\u001b[32m-   8,\u001b[39m\n\u001b[32m-   9,\u001b[39m\n\u001b[32m-   10,\u001b[39m\n\u001b[32m-   11,\u001b[39m\n\u001b[32m-   12,\u001b[39m\n\u001b[32m-   13,\u001b[39m\n\u001b[32m-   14,\u001b[39m\n\u001b[32m-   15,\u001b[39m\n\u001b[32m-   16,\u001b[39m\n\u001b[32m-   17,\u001b[39m\n\u001b[32m-   18,\u001b[39m\n\u001b[32m-   19,\u001b[39m\n\u001b[32m-   20,\u001b[39m\n\u001b[32m-   21,\u001b[39m\n\u001b[32m-   22,\u001b[39m\n\u001b[32m-   23,\u001b[39m\n\u001b[32m-   24,\u001b[39m\n\u001b[32m-   25,\u001b[39m\n\u001b[32m-   26,\u001b[39m\n\u001b[31m+   27,\u001b[39m\n\u001b[31m+   28,\u001b[39m\n\u001b[31m+   29,\u001b[39m\n\u001b[2m  ]\u001b[22m",
+                        "stack": "Error: is_rental=false: product ids (only and all)\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 26\u001b[39m\n\u001b[31m+ Received  +  3\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[32m-   1,\u001b[39m\n\u001b[32m-   2,\u001b[39m\n\u001b[32m-   3,\u001b[39m\n\u001b[32m-   4,\u001b[39m\n\u001b[32m-   5,\u001b[39m\n\u001b[32m-   6,\u001b[39m\n\u001b[32m-   7,\u001b[39m\n\u001b[32m-   8,\u001b[39m\n\u001b[32m-   9,\u001b[39m\n\u001b[32m-   10,\u001b[39m\n\u001b[32m-   11,\u001b[39m\n\u001b[32m-   12,\u001b[39m\n\u001b[32m-   13,\u001b[39m\n\u001b[32m-   14,\u001b[39m\n\u001b[32m-   15,\u001b[39m\n\u001b[32m-   16,\u001b[39m\n\u001b[32m-   17,\u001b[39m\n\u001b[32m-   18,\u001b[39m\n\u001b[32m-   19,\u001b[39m\n\u001b[32m-   20,\u001b[39m\n\u001b[32m-   21,\u001b[39m\n\u001b[32m-   22,\u001b[39m\n\u001b[32m-   23,\u001b[39m\n\u001b[32m-   24,\u001b[39m\n\u001b[32m-   25,\u001b[39m\n\u001b[32m-   26,\u001b[39m\n\u001b[31m+   27,\u001b[39m\n\u001b[31m+   28,\u001b[39m\n\u001b[31m+   29,\u001b[39m\n\u001b[2m  ]\u001b[22m\n    at expectSameProducts (/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts:24:63)\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts:75:5",
+                        "location": {
+                          "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts",
+                          "column": 63,
+                          "line": 24
+                        },
+                        "snippet": "  22 |     body: JSON.stringify({ expected: view(expected), actual: view(actual) }, null, 2),\n  23 |   });\n> 24 |   expect(ids(actual), `${label}: product ids (only and all)`).toEqual(ids(expected));\n     |                                                               ^\n  25 | }\n  26 |\n  27 | test.describe('Product read endpoints', () => {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts",
+                            "column": 63,
+                            "line": 24
+                          },
+                          "message": "Error: is_rental=false: product ids (only and all)\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 26\u001b[39m\n\u001b[31m+ Received  +  3\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[32m-   1,\u001b[39m\n\u001b[32m-   2,\u001b[39m\n\u001b[32m-   3,\u001b[39m\n\u001b[32m-   4,\u001b[39m\n\u001b[32m-   5,\u001b[39m\n\u001b[32m-   6,\u001b[39m\n\u001b[32m-   7,\u001b[39m\n\u001b[32m-   8,\u001b[39m\n\u001b[32m-   9,\u001b[39m\n\u001b[32m-   10,\u001b[39m\n\u001b[32m-   11,\u001b[39m\n\u001b[32m-   12,\u001b[39m\n\u001b[32m-   13,\u001b[39m\n\u001b[32m-   14,\u001b[39m\n\u001b[32m-   15,\u001b[39m\n\u001b[32m-   16,\u001b[39m\n\u001b[32m-   17,\u001b[39m\n\u001b[32m-   18,\u001b[39m\n\u001b[32m-   19,\u001b[39m\n\u001b[32m-   20,\u001b[39m\n\u001b[32m-   21,\u001b[39m\n\u001b[32m-   22,\u001b[39m\n\u001b[32m-   23,\u001b[39m\n\u001b[32m-   24,\u001b[39m\n\u001b[32m-   25,\u001b[39m\n\u001b[32m-   26,\u001b[39m\n\u001b[31m+   27,\u001b[39m\n\u001b[31m+   28,\u001b[39m\n\u001b[31m+   29,\u001b[39m\n\u001b[2m  ]\u001b[22m\n\n  22 |     body: JSON.stringify({ expected: view(expected), actual: view(actual) }, null, 2),\n  23 |   });\n> 24 |   expect(ids(actual), `${label}: product ids (only and all)`).toEqual(ids(expected));\n     |                                                               ^\n  25 | }\n  26 |\n  27 | test.describe('Product read endpoints', () => {\n    at expectSameProducts (/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts:24:63)\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts:75:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:30:52.145Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "is_rental=false expected vs actual",
+                          "contentType": "application/json",
+                          "body": "ewogICJleHBlY3RlZCI6IFsKICAgIHsKICAgICAgImlkIjogMSwKICAgICAgIm5hbWUiOiAiQ29tYmluYXRpb24gUGxpZXJzIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMiwKICAgICAgIm5hbWUiOiAiUGxpZXJzIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMywKICAgICAgIm5hbWUiOiAiQm9sdCBDdXR0ZXJzIgogICAgfSwKICAgIHsKICAgICAgImlkIjogNCwKICAgICAgIm5hbWUiOiAiTG9uZyBOb3NlIFBsaWVycyIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDUsCiAgICAgICJuYW1lIjogIlNsaXAgSm9pbnQgUGxpZXJzIgogICAgfSwKICAgIHsKICAgICAgImlkIjogNiwKICAgICAgIm5hbWUiOiAiQ2xhdyBIYW1tZXIgd2l0aCBTaG9jayBSZWR1Y3Rpb24gR3JpcCIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDcsCiAgICAgICJuYW1lIjogIkhhbW1lciIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDgsCiAgICAgICJuYW1lIjogIkNsYXcgSGFtbWVyIgogICAgfSwKICAgIHsKICAgICAgImlkIjogOSwKICAgICAgIm5hbWUiOiAiVGhvciBIYW1tZXIiCiAgICB9LAogICAgewogICAgICAiaWQiOiAxMCwKICAgICAgIm5hbWUiOiAiU2xlZGdlaGFtbWVyIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMTEsCiAgICAgICJuYW1lIjogIkNsYXcgSGFtbWVyIHdpdGggRmliZXJnbGFzcyBIYW5kbGUiCiAgICB9LAogICAgewogICAgICAiaWQiOiAxMiwKICAgICAgIm5hbWUiOiAiQ291cnQgSGFtbWVyIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMTMsCiAgICAgICJuYW1lIjogIldvb2QgU2F3IgogICAgfSwKICAgIHsKICAgICAgImlkIjogMTQsCiAgICAgICJuYW1lIjogIkFkanVzdGFibGUgV3JlbmNoIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMTUsCiAgICAgICJuYW1lIjogIkFuZ2xlZCBTcGFubmVyIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMTYsCiAgICAgICJuYW1lIjogIk9wZW4tZW5kIFNwYW5uZXJzIChTZXQpIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMTcsCiAgICAgICJuYW1lIjogIlBoaWxsaXBzIFNjcmV3ZHJpdmVyIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMTgsCiAgICAgICJuYW1lIjogIk1pbmkgU2NyZXdkcml2ZXIiCiAgICB9LAogICAgewogICAgICAiaWQiOiAxOSwKICAgICAgIm5hbWUiOiAiU2hlZXQgU2FuZGVyIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMjAsCiAgICAgICJuYW1lIjogIkJlbHQgU2FuZGVyIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMjEsCiAgICAgICJuYW1lIjogIkNpcmN1bGFyIFNhdyIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDIyLAogICAgICAibmFtZSI6ICJSYW5kb20gT3JiaXQgU2FuZGVyIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMjMsCiAgICAgICJuYW1lIjogIkNvcmRsZXNzIERyaWxsIDIwViIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDI0LAogICAgICAibmFtZSI6ICJDb3JkbGVzcyBEcmlsbCAyNFYiCiAgICB9LAogICAgewogICAgICAiaWQiOiAyNSwKICAgICAgIm5hbWUiOiAiQ29yZGxlc3MgRHJpbGwgMThWIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMjYsCiAgICAgICJuYW1lIjogIkNvcmRsZXNzIERyaWxsIDEyViIKICAgIH0KICBdLAogICJhY3R1YWwiOiBbCiAgICB7CiAgICAgICJpZCI6IDI3LAogICAgICAibmFtZSI6ICJFeGNhdmF0b3IiCiAgICB9LAogICAgewogICAgICAiaWQiOiAyOCwKICAgICAgIm5hbWUiOiAiQnVsbGRvemVyIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMjksCiAgICAgICJuYW1lIjogIkNyYW5lIgogICAgfQogIF0KfQ=="
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/products-read-Product-read-6b8db-oducts-that-are-not-rentals-api/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts",
+                        "column": 63,
+                        "line": 24
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "f1a21802362f6464ea9e-dad4381087148eb9a74a",
+              "file": "api-tests/specs/products-read.spec.ts",
+              "line": 73,
+              "column": 7
+            },
+            {
+              "title": "API-07 between=price,10,30 returns only and all products priced from 10 to 30",
+              "ok": true,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2118,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:30:54.208Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "between=price,10,30 expected vs actual",
+                          "contentType": "application/json",
+                          "body": "ewogICJleHBlY3RlZCI6IFsKICAgIHsKICAgICAgImlkIjogMSwKICAgICAgIm5hbWUiOiAiQ29tYmluYXRpb24gUGxpZXJzIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMiwKICAgICAgIm5hbWUiOiAiUGxpZXJzIgogICAgfSwKICAgIHsKICAgICAgImlkIjogNCwKICAgICAgIm5hbWUiOiAiTG9uZyBOb3NlIFBsaWVycyIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDYsCiAgICAgICJuYW1lIjogIkNsYXcgSGFtbWVyIHdpdGggU2hvY2sgUmVkdWN0aW9uIEdyaXAiCiAgICB9LAogICAgewogICAgICAiaWQiOiA3LAogICAgICAibmFtZSI6ICJIYW1tZXIiCiAgICB9LAogICAgewogICAgICAiaWQiOiA4LAogICAgICAibmFtZSI6ICJDbGF3IEhhbW1lciIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDksCiAgICAgICJuYW1lIjogIlRob3IgSGFtbWVyIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMTAsCiAgICAgICJuYW1lIjogIlNsZWRnZWhhbW1lciIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDExLAogICAgICAibmFtZSI6ICJDbGF3IEhhbW1lciB3aXRoIEZpYmVyZ2xhc3MgSGFuZGxlIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMTIsCiAgICAgICJuYW1lIjogIkNvdXJ0IEhhbW1lciIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDEzLAogICAgICAibmFtZSI6ICJXb29kIFNhdyIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDE0LAogICAgICAibmFtZSI6ICJBZGp1c3RhYmxlIFdyZW5jaCIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDE1LAogICAgICAibmFtZSI6ICJBbmdsZWQgU3Bhbm5lciIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDE4LAogICAgICAibmFtZSI6ICJNaW5pIFNjcmV3ZHJpdmVyIgogICAgfQogIF0sCiAgImFjdHVhbCI6IFsKICAgIHsKICAgICAgImlkIjogMSwKICAgICAgIm5hbWUiOiAiQ29tYmluYXRpb24gUGxpZXJzIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMiwKICAgICAgIm5hbWUiOiAiUGxpZXJzIgogICAgfSwKICAgIHsKICAgICAgImlkIjogNCwKICAgICAgIm5hbWUiOiAiTG9uZyBOb3NlIFBsaWVycyIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDYsCiAgICAgICJuYW1lIjogIkNsYXcgSGFtbWVyIHdpdGggU2hvY2sgUmVkdWN0aW9uIEdyaXAiCiAgICB9LAogICAgewogICAgICAiaWQiOiA3LAogICAgICAibmFtZSI6ICJIYW1tZXIiCiAgICB9LAogICAgewogICAgICAiaWQiOiA4LAogICAgICAibmFtZSI6ICJDbGF3IEhhbW1lciIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDksCiAgICAgICJuYW1lIjogIlRob3IgSGFtbWVyIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMTAsCiAgICAgICJuYW1lIjogIlNsZWRnZWhhbW1lciIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDExLAogICAgICAibmFtZSI6ICJDbGF3IEhhbW1lciB3aXRoIEZpYmVyZ2xhc3MgSGFuZGxlIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMTIsCiAgICAgICJuYW1lIjogIkNvdXJ0IEhhbW1lciIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDEzLAogICAgICAibmFtZSI6ICJXb29kIFNhdyIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDE0LAogICAgICAibmFtZSI6ICJBZGp1c3RhYmxlIFdyZW5jaCIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDE1LAogICAgICAibmFtZSI6ICJBbmdsZWQgU3Bhbm5lciIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDE4LAogICAgICAibmFtZSI6ICJNaW5pIFNjcmV3ZHJpdmVyIgogICAgfQogIF0KfQ=="
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f1a21802362f6464ea9e-97d4759c59d5bfdc94bc",
+              "file": "api-tests/specs/products-read.spec.ts",
+              "line": 79,
+              "column": 7
+            },
+            {
+              "title": "API-08a sort=price,asc orders the products across all pages",
+              "ok": true,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1966,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:30:56.348Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f1a21802362f6464ea9e-c199c2de7a9a4ca85e7a",
+              "file": "api-tests/specs/products-read.spec.ts",
+              "line": 90,
+              "column": 9
+            },
+            {
+              "title": "API-08b sort=price,desc orders the products across all pages",
+              "ok": true,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2096,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:30:58.326Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f1a21802362f6464ea9e-90495be53c0a158f5b73",
+              "file": "api-tests/specs/products-read.spec.ts",
+              "line": 90,
+              "column": 9
+            },
+            {
+              "title": "API-08c sort=name,asc orders the products across all pages",
+              "ok": true,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1956,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:31:00.432Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f1a21802362f6464ea9e-d4628a5cf985d1383135",
+              "file": "api-tests/specs/products-read.spec.ts",
+              "line": 90,
+              "column": 9
+            },
+            {
+              "title": "API-09 is_eco_friendly agrees with the CO2 rating rule of the reference deployment",
+              "ok": false,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 5588,
+                      "error": {
+                        "message": "Error: products whose is_eco_friendly differs from the S6 rule\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 29\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"Combination Pliers (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Pliers (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Bolt Cutters (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Long Nose Pliers (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Slip Joint Pliers (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Claw Hammer with Shock Reduction Grip (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Hammer (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Claw Hammer (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Thor Hammer (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Sledgehammer (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Claw Hammer with Fiberglass Handle (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Court Hammer (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Wood Saw (B, is_eco_friendly=false)\",\u001b[39m\n\u001b[31m+   \"Adjustable Wrench (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Angled Spanner (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Open-end Spanners (Set) (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Sheet Sander (E, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Belt Sander (E, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Circular Saw (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Random Orbit Sander (E, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Cordless Drill 20V (B, is_eco_friendly=false)\",\u001b[39m\n\u001b[31m+   \"Cordless Drill 24V (B, is_eco_friendly=false)\",\u001b[39m\n\u001b[31m+   \"Cordless Drill 18V (B, is_eco_friendly=false)\",\u001b[39m\n\u001b[31m+   \"Cordless Drill 12V (B, is_eco_friendly=false)\",\u001b[39m\n\u001b[31m+   \"Excavator (E, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Bulldozer (E, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Crane (E, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+ ]\u001b[39m",
+                        "stack": "Error: products whose is_eco_friendly differs from the S6 rule\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 29\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"Combination Pliers (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Pliers (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Bolt Cutters (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Long Nose Pliers (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Slip Joint Pliers (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Claw Hammer with Shock Reduction Grip (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Hammer (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Claw Hammer (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Thor Hammer (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Sledgehammer (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Claw Hammer with Fiberglass Handle (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Court Hammer (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Wood Saw (B, is_eco_friendly=false)\",\u001b[39m\n\u001b[31m+   \"Adjustable Wrench (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Angled Spanner (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Open-end Spanners (Set) (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Sheet Sander (E, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Belt Sander (E, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Circular Saw (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Random Orbit Sander (E, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Cordless Drill 20V (B, is_eco_friendly=false)\",\u001b[39m\n\u001b[31m+   \"Cordless Drill 24V (B, is_eco_friendly=false)\",\u001b[39m\n\u001b[31m+   \"Cordless Drill 18V (B, is_eco_friendly=false)\",\u001b[39m\n\u001b[31m+   \"Cordless Drill 12V (B, is_eco_friendly=false)\",\u001b[39m\n\u001b[31m+   \"Excavator (E, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Bulldozer (E, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Crane (E, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts:117:78",
+                        "location": {
+                          "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts",
+                          "column": 78,
+                          "line": 117
+                        },
+                        "snippet": "  115 |       .map((p) => `${p.name} (${p.co2_rating}, is_eco_friendly=${p.is_eco_friendly})`);\n  116 |     await test.info().attach('API-09 S6 rule', { contentType: 'application/json', body: JSON.stringify(Object.fromEntries([...rule].map(([r, v]) => [r, [...v]]))) });\n> 117 |     expect(wrong, 'products whose is_eco_friendly differs from the S6 rule').toEqual([]);\n      |                                                                              ^\n  118 |   });\n  119 |\n  120 |   // S5: GET /products/{id} returns that product (the spec's BrandResponse reference is a documentation error)."
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts",
+                            "column": 78,
+                            "line": 117
+                          },
+                          "message": "Error: products whose is_eco_friendly differs from the S6 rule\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 29\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"Combination Pliers (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Pliers (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Bolt Cutters (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Long Nose Pliers (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Slip Joint Pliers (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Claw Hammer with Shock Reduction Grip (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Hammer (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Claw Hammer (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Thor Hammer (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Sledgehammer (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Claw Hammer with Fiberglass Handle (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Court Hammer (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Wood Saw (B, is_eco_friendly=false)\",\u001b[39m\n\u001b[31m+   \"Adjustable Wrench (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Angled Spanner (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Open-end Spanners (Set) (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Sheet Sander (E, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Belt Sander (E, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Circular Saw (D, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Random Orbit Sander (E, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Cordless Drill 20V (B, is_eco_friendly=false)\",\u001b[39m\n\u001b[31m+   \"Cordless Drill 24V (B, is_eco_friendly=false)\",\u001b[39m\n\u001b[31m+   \"Cordless Drill 18V (B, is_eco_friendly=false)\",\u001b[39m\n\u001b[31m+   \"Cordless Drill 12V (B, is_eco_friendly=false)\",\u001b[39m\n\u001b[31m+   \"Excavator (E, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Bulldozer (E, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+   \"Crane (E, is_eco_friendly=true)\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  115 |       .map((p) => `${p.name} (${p.co2_rating}, is_eco_friendly=${p.is_eco_friendly})`);\n  116 |     await test.info().attach('API-09 S6 rule', { contentType: 'application/json', body: JSON.stringify(Object.fromEntries([...rule].map(([r, v]) => [r, [...v]]))) });\n> 117 |     expect(wrong, 'products whose is_eco_friendly differs from the S6 rule').toEqual([]);\n      |                                                                              ^\n  118 |   });\n  119 |\n  120 |   // S5: GET /products/{id} returns that product (the spec's BrandResponse reference is a documentation error).\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts:117:78"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:31:02.397Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "API-09 S6 rule",
+                          "contentType": "application/json",
+                          "body": "eyJEIjpbZmFsc2VdLCJCIjpbdHJ1ZV0sIkMiOltmYWxzZV0sIkUiOltmYWxzZV19"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/products-read-Product-read-15720-of-the-reference-deployment-api/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts",
+                        "column": 78,
+                        "line": 117
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "f1a21802362f6464ea9e-1eb8f112d32c8305be72",
+              "file": "api-tests/specs/products-read.spec.ts",
+              "line": 105,
+              "column": 7
+            },
+            {
+              "title": "API-10 GET /products/{id} returns 200, a valid product and the same data as the list",
+              "ok": true,
+              "tags": [
+                "P1"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 932,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:31:08.258Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f1a21802362f6464ea9e-5dcec56c542889cad474",
+              "file": "api-tests/specs/products-read.spec.ts",
+              "line": 121,
+              "column": 7
+            },
+            {
+              "title": "API-11 GET /products/{id} with an unknown id returns 404",
+              "ok": true,
+              "tags": [
+                "P1"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 650,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:31:09.208Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f1a21802362f6464ea9e-b7ddf64aeda7332706e9",
+              "file": "api-tests/specs/products-read.spec.ts",
+              "line": 131,
+              "column": 7
+            },
+            {
+              "title": "API-13 search returns 200, a valid body, and only and all products whose name contains the query",
+              "ok": false,
+              "tags": [
+                "P1"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 667,
+                      "error": {
+                        "message": "Error: schema errors\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 14\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"/data/0 must have required property 'brand'\",\u001b[39m\n\u001b[31m+   \"/data/0 must have required property 'category'\",\u001b[39m\n\u001b[31m+   \"/data/1 must have required property 'brand'\",\u001b[39m\n\u001b[31m+   \"/data/1 must have required property 'category'\",\u001b[39m\n\u001b[31m+   \"/data/2 must have required property 'brand'\",\u001b[39m\n\u001b[31m+   \"/data/2 must have required property 'category'\",\u001b[39m\n\u001b[31m+   \"/data/3 must have required property 'brand'\",\u001b[39m\n\u001b[31m+   \"/data/3 must have required property 'category'\",\u001b[39m\n\u001b[31m+   \"/data/4 must have required property 'brand'\",\u001b[39m\n\u001b[31m+   \"/data/4 must have required property 'category'\",\u001b[39m\n\u001b[31m+   \"/data/5 must have required property 'brand'\",\u001b[39m\n\u001b[31m+   \"/data/5 must have required property 'category'\",\u001b[39m\n\u001b[31m+ ]\u001b[39m",
+                        "stack": "Error: schema errors\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 14\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"/data/0 must have required property 'brand'\",\u001b[39m\n\u001b[31m+   \"/data/0 must have required property 'category'\",\u001b[39m\n\u001b[31m+   \"/data/1 must have required property 'brand'\",\u001b[39m\n\u001b[31m+   \"/data/1 must have required property 'category'\",\u001b[39m\n\u001b[31m+   \"/data/2 must have required property 'brand'\",\u001b[39m\n\u001b[31m+   \"/data/2 must have required property 'category'\",\u001b[39m\n\u001b[31m+   \"/data/3 must have required property 'brand'\",\u001b[39m\n\u001b[31m+   \"/data/3 must have required property 'category'\",\u001b[39m\n\u001b[31m+   \"/data/4 must have required property 'brand'\",\u001b[39m\n\u001b[31m+   \"/data/4 must have required property 'category'\",\u001b[39m\n\u001b[31m+   \"/data/5 must have required property 'brand'\",\u001b[39m\n\u001b[31m+   \"/data/5 must have required property 'category'\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts:140:91",
+                        "location": {
+                          "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts",
+                          "column": 91,
+                          "line": 140
+                        },
+                        "snippet": "  138 |     const response = await api.search(q);\n  139 |     expect(response.status()).toBe(200);\n> 140 |     expect(schemaErrors(paginatedProductsSchema, await response.json()), 'schema errors').toEqual([]);\n      |                                                                                           ^\n  141 |     const expected = (await api.catalogue()).filter((p) => p.name.toLowerCase().includes(q));\n  142 |     expect(expected.length, 'precondition: the catalogue has matching products').toBeGreaterThan(0);\n  143 |     await expectSameProducts(`search q=${q}`, expected, await api.searchAll(q));"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts",
+                            "column": 91,
+                            "line": 140
+                          },
+                          "message": "Error: schema errors\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 14\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"/data/0 must have required property 'brand'\",\u001b[39m\n\u001b[31m+   \"/data/0 must have required property 'category'\",\u001b[39m\n\u001b[31m+   \"/data/1 must have required property 'brand'\",\u001b[39m\n\u001b[31m+   \"/data/1 must have required property 'category'\",\u001b[39m\n\u001b[31m+   \"/data/2 must have required property 'brand'\",\u001b[39m\n\u001b[31m+   \"/data/2 must have required property 'category'\",\u001b[39m\n\u001b[31m+   \"/data/3 must have required property 'brand'\",\u001b[39m\n\u001b[31m+   \"/data/3 must have required property 'category'\",\u001b[39m\n\u001b[31m+   \"/data/4 must have required property 'brand'\",\u001b[39m\n\u001b[31m+   \"/data/4 must have required property 'category'\",\u001b[39m\n\u001b[31m+   \"/data/5 must have required property 'brand'\",\u001b[39m\n\u001b[31m+   \"/data/5 must have required property 'category'\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  138 |     const response = await api.search(q);\n  139 |     expect(response.status()).toBe(200);\n> 140 |     expect(schemaErrors(paginatedProductsSchema, await response.json()), 'schema errors').toEqual([]);\n      |                                                                                           ^\n  141 |     const expected = (await api.catalogue()).filter((p) => p.name.toLowerCase().includes(q));\n  142 |     expect(expected.length, 'precondition: the catalogue has matching products').toBeGreaterThan(0);\n  143 |     await expectSameProducts(`search q=${q}`, expected, await api.searchAll(q));\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts:140:91"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:31:09.864Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/products-read-Product-read-471f1-ose-name-contains-the-query-api/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts",
+                        "column": 91,
+                        "line": 140
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "f1a21802362f6464ea9e-362a0f5f850cd98c5c3b",
+              "file": "api-tests/specs/products-read.spec.ts",
+              "line": 136,
+              "column": 7
+            },
+            {
+              "title": "API-13c a multi-word search returns only and all products whose name contains every word",
+              "ok": false,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [
+                    {
+                      "type": "basis",
+                      "description": "S6 observed rule: every word of the query, any order (S5 is silent)"
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1694,
+                      "error": {
+                        "message": "Error: search q=\"claw hammer\": product ids (only and all)\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 0\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[2m    6,\u001b[22m\n\u001b[31m+   7,\u001b[39m\n\u001b[2m    8,\u001b[22m\n\u001b[31m+   9,\u001b[39m\n\u001b[2m    11,\u001b[22m\n\u001b[31m+   12,\u001b[39m\n\u001b[2m  ]\u001b[22m",
+                        "stack": "Error: search q=\"claw hammer\": product ids (only and all)\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 0\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[2m    6,\u001b[22m\n\u001b[31m+   7,\u001b[39m\n\u001b[2m    8,\u001b[22m\n\u001b[31m+   9,\u001b[39m\n\u001b[2m    11,\u001b[22m\n\u001b[31m+   12,\u001b[39m\n\u001b[2m  ]\u001b[22m\n    at expectSameProducts (/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts:24:63)\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts:154:5",
+                        "location": {
+                          "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts",
+                          "column": 63,
+                          "line": 24
+                        },
+                        "snippet": "  22 |     body: JSON.stringify({ expected: view(expected), actual: view(actual) }, null, 2),\n  23 |   });\n> 24 |   expect(ids(actual), `${label}: product ids (only and all)`).toEqual(ids(expected));\n     |                                                               ^\n  25 | }\n  26 |\n  27 | test.describe('Product read endpoints', () => {"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts",
+                            "column": 63,
+                            "line": 24
+                          },
+                          "message": "Error: search q=\"claw hammer\": product ids (only and all)\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 0\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[2m    6,\u001b[22m\n\u001b[31m+   7,\u001b[39m\n\u001b[2m    8,\u001b[22m\n\u001b[31m+   9,\u001b[39m\n\u001b[2m    11,\u001b[22m\n\u001b[31m+   12,\u001b[39m\n\u001b[2m  ]\u001b[22m\n\n  22 |     body: JSON.stringify({ expected: view(expected), actual: view(actual) }, null, 2),\n  23 |   });\n> 24 |   expect(ids(actual), `${label}: product ids (only and all)`).toEqual(ids(expected));\n     |                                                               ^\n  25 | }\n  26 |\n  27 | test.describe('Product read endpoints', () => {\n    at expectSameProducts (/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts:24:63)\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts:154:5"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:31:10.766Z",
+                      "annotations": [
+                        {
+                          "type": "basis",
+                          "description": "S6 observed rule: every word of the query, any order (S5 is silent)"
+                        }
+                      ],
+                      "attachments": [
+                        {
+                          "name": "search q=\"claw hammer\" expected vs actual",
+                          "contentType": "application/json",
+                          "body": "ewogICJleHBlY3RlZCI6IFsKICAgIHsKICAgICAgImlkIjogNiwKICAgICAgIm5hbWUiOiAiQ2xhdyBIYW1tZXIgd2l0aCBTaG9jayBSZWR1Y3Rpb24gR3JpcCIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDgsCiAgICAgICJuYW1lIjogIkNsYXcgSGFtbWVyIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMTEsCiAgICAgICJuYW1lIjogIkNsYXcgSGFtbWVyIHdpdGggRmliZXJnbGFzcyBIYW5kbGUiCiAgICB9CiAgXSwKICAiYWN0dWFsIjogWwogICAgewogICAgICAiaWQiOiA2LAogICAgICAibmFtZSI6ICJDbGF3IEhhbW1lciB3aXRoIFNob2NrIFJlZHVjdGlvbiBHcmlwIgogICAgfSwKICAgIHsKICAgICAgImlkIjogNywKICAgICAgIm5hbWUiOiAiSGFtbWVyIgogICAgfSwKICAgIHsKICAgICAgImlkIjogOCwKICAgICAgIm5hbWUiOiAiQ2xhdyBIYW1tZXIiCiAgICB9LAogICAgewogICAgICAiaWQiOiA5LAogICAgICAibmFtZSI6ICJUaG9yIEhhbW1lciIKICAgIH0sCiAgICB7CiAgICAgICJpZCI6IDExLAogICAgICAibmFtZSI6ICJDbGF3IEhhbW1lciB3aXRoIEZpYmVyZ2xhc3MgSGFuZGxlIgogICAgfSwKICAgIHsKICAgICAgImlkIjogMTIsCiAgICAgICJuYW1lIjogIkNvdXJ0IEhhbW1lciIKICAgIH0KICBdCn0="
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/products-read-Product-read-abc8c-se-name-contains-every-word-api/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts",
+                        "column": 63,
+                        "line": 24
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "f1a21802362f6464ea9e-3a0ccc6f4a0152147374",
+              "file": "api-tests/specs/products-read.spec.ts",
+              "line": 148,
+              "column": 7
+            },
+            {
+              "title": "API-15 related products are valid and do not include the product itself",
+              "ok": true,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [
+                    {
+                      "type": "basis",
+                      "description": "S5 for status and schema; \"excludes itself\" is an assumption to clarify"
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 946,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:31:12.706Z",
+                      "annotations": [
+                        {
+                          "type": "basis",
+                          "description": "S5 for status and schema; \"excludes itself\" is an assumption to clarify"
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f1a21802362f6464ea9e-c1fdc8af6cecc6d72001",
+              "file": "api-tests/specs/products-read.spec.ts",
+              "line": 159,
+              "column": 7
+            },
+            {
+              "title": "API-17 related products of an unknown id return 404",
+              "ok": false,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 10,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 634,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m404\u001b[39m\nReceived: \u001b[31m500\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m404\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts:171:59",
+                        "location": {
+                          "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts",
+                          "column": 59,
+                          "line": 171
+                        },
+                        "snippet": "  169 |   // S5: related products of an unknown id answer 404 (never 5xx).\n  170 |   test('API-17 related products of an unknown id return 404', { tag: '@P2' }, async ({ api }) => {\n> 171 |     expect((await api.related(NON_EXISTENT_ID)).status()).toBe(404);\n      |                                                           ^\n  172 |   });\n  173 | });\n  174 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts",
+                            "column": 59,
+                            "line": 171
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m404\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n\n  169 |   // S5: related products of an unknown id answer 404 (never 5xx).\n  170 |   test('API-17 related products of an unknown id return 404', { tag: '@P2' }, async ({ api }) => {\n> 171 |     expect((await api.related(NON_EXISTENT_ID)).status()).toBe(404);\n      |                                                           ^\n  172 |   });\n  173 | });\n  174 |\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts:171:59"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:31:13.670Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/products-read-Product-read-2c3b4-of-an-unknown-id-return-404-api/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts",
+                        "column": 59,
+                        "line": 171
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "f1a21802362f6464ea9e-ad19ecf02d6a80889317",
+              "file": "api-tests/specs/products-read.spec.ts",
+              "line": 170,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "api-tests/specs/products-write.spec.ts",
+      "file": "api-tests/specs/products-write.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Product write endpoints",
+          "file": "api-tests/specs/products-write.spec.ts",
+          "line": 61,
+          "column": 6,
+          "specs": [
+            {
+              "title": "API-20 POST /products creates a product that a later GET returns",
+              "ok": true,
+              "tags": [
+                "P1"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 11,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2083,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:31:14.528Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "clean-up",
+                          "contentType": "application/json",
+                          "body": "WwogIHsKICAgICJpZCI6IDUwLAogICAgImRlbGV0ZVN0YXR1cyI6IDIwNCwKICAgICJnZXRBZnRlciI6IDQwNCwKICAgICJvdXRjb21lIjogInJlbW92ZWQiCiAgfQpd"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05721555c6b6d3976439-85be4ab15577f7c02609",
+              "file": "api-tests/specs/products-write.spec.ts",
+              "line": 63,
+              "column": 7
+            },
+            {
+              "title": "API-21 POST /products with an empty body is refused with 422 and validation errors",
+              "ok": true,
+              "tags": [
+                "P1"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [
+                    {
+                      "type": "assumption",
+                      "description": "expected required fields (not in S5): name, price, category_id, brand_id, product_image_id"
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 11,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 891,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:31:16.632Z",
+                      "annotations": [
+                        {
+                          "type": "assumption",
+                          "description": "expected required fields (not in S5): name, price, category_id, brand_id, product_image_id"
+                        }
+                      ],
+                      "attachments": [
+                        {
+                          "name": "API-21 response",
+                          "contentType": "application/json",
+                          "body": "ewogICJzdGF0dXMiOiA0MjIsCiAgImJvZHkiOiB7CiAgICAibmFtZSI6IFsKICAgICAgIlRoZSBuYW1lIGZpZWxkIGlzIHJlcXVpcmVkLiIKICAgIF0sCiAgICAicHJpY2UiOiBbCiAgICAgICJUaGUgcHJpY2UgZmllbGQgaXMgcmVxdWlyZWQuIgogICAgXSwKICAgICJjYXRlZ29yeV9pZCI6IFsKICAgICAgIlRoZSBjYXRlZ29yeSBpZCBmaWVsZCBpcyByZXF1aXJlZC4iCiAgICBdLAogICAgImJyYW5kX2lkIjogWwogICAgICAiVGhlIGJyYW5kIGlkIGZpZWxkIGlzIHJlcXVpcmVkLiIKICAgIF0sCiAgICAiaXNfbG9jYXRpb25fb2ZmZXIiOiBbCiAgICAgICJUaGUgaXMgbG9jYXRpb24gb2ZmZXIgZmllbGQgaXMgcmVxdWlyZWQuIgogICAgXSwKICAgICJpc19yZW50YWwiOiBbCiAgICAgICJUaGUgaXMgcmVudGFsIGZpZWxkIGlzIHJlcXVpcmVkLiIKICAgIF0sCiAgICAicHJvZHVjdF9pbWFnZV9pZCI6IFsKICAgICAgIlRoZSBwcm9kdWN0IGltYWdlIGlkIGZpZWxkIGlzIHJlcXVpcmVkLiIKICAgIF0KICB9Cn0="
+                        },
+                        {
+                          "name": "clean-up",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05721555c6b6d3976439-26fcf9b1698f1d28aae3",
+              "file": "api-tests/specs/products-write.spec.ts",
+              "line": 77,
+              "column": 7
+            },
+            {
+              "title": "API-22a POST /products with a negative price is refused with 422",
+              "ok": false,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [
+                    {
+                      "type": "basis",
+                      "description": "ASSUMPTION: S5 sets no minimum price (question Q-API-1)"
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 11,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1743,
+                      "error": {
+                        "message": "Error: status for a negative price\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m422\u001b[39m\nReceived: \u001b[31m201\u001b[39m",
+                        "stack": "Error: status for a negative price\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m422\u001b[39m\nReceived: \u001b[31m201\u001b[39m\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts:98:56",
+                        "location": {
+                          "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts",
+                          "column": 56,
+                          "line": 98
+                        },
+                        "snippet": "   96 |       const body = await response.json().catch(() => ({}));\n   97 |       registerIfCreated(response.status(), body, created);\n>  98 |       expect(response.status(), `status for ${label}`).toBe(422);\n      |                                                        ^\n   99 |     });\n  100 |   }\n  101 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts",
+                            "column": 56,
+                            "line": 98
+                          },
+                          "message": "Error: status for a negative price\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m422\u001b[39m\nReceived: \u001b[31m201\u001b[39m\n\n   96 |       const body = await response.json().catch(() => ({}));\n   97 |       registerIfCreated(response.status(), body, created);\n>  98 |       expect(response.status(), `status for ${label}`).toBe(422);\n      |                                                        ^\n   99 |     });\n  100 |   }\n  101 |\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts:98:56"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:31:17.539Z",
+                      "annotations": [
+                        {
+                          "type": "basis",
+                          "description": "ASSUMPTION: S5 sets no minimum price (question Q-API-1)"
+                        }
+                      ],
+                      "attachments": [
+                        {
+                          "name": "clean-up",
+                          "contentType": "application/json",
+                          "body": "WwogIHsKICAgICJpZCI6IDUxLAogICAgImRlbGV0ZVN0YXR1cyI6IDIwNCwKICAgICJnZXRBZnRlciI6IDQwNCwKICAgICJvdXRjb21lIjogInJlbW92ZWQiCiAgfQpd"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/products-write-Product-wri-bd6fa-e-price-is-refused-with-422-api/error-context.md"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/products-write-Product-wri-bd6fa-e-price-is-refused-with-422-api/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts",
+                        "column": 56,
+                        "line": 98
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "05721555c6b6d3976439-bec0da228776d6bb5b14",
+              "file": "api-tests/specs/products-write.spec.ts",
+              "line": 93,
+              "column": 9
+            },
+            {
+              "title": "API-22b POST /products with a non-numeric price is refused with 422",
+              "ok": true,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [
+                    {
+                      "type": "basis",
+                      "description": "S5: price is a number"
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 12,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1233,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:31:20.914Z",
+                      "annotations": [
+                        {
+                          "type": "basis",
+                          "description": "S5: price is a number"
+                        }
+                      ],
+                      "attachments": [
+                        {
+                          "name": "clean-up",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05721555c6b6d3976439-48832fd63e8659378ed7",
+              "file": "api-tests/specs/products-write.spec.ts",
+              "line": 93,
+              "column": 9
+            },
+            {
+              "title": "API-22c POST /products with CO2 rating \"Z\" is refused with 422",
+              "ok": false,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [
+                    {
+                      "type": "basis",
+                      "description": "S5: co2_rating enum A–E"
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 12,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1101,
+                      "error": {
+                        "message": "Error: status for CO2 rating \"Z\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m422\u001b[39m\nReceived: \u001b[31m500\u001b[39m",
+                        "stack": "Error: status for CO2 rating \"Z\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m422\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts:98:56",
+                        "location": {
+                          "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts",
+                          "column": 56,
+                          "line": 98
+                        },
+                        "snippet": "   96 |       const body = await response.json().catch(() => ({}));\n   97 |       registerIfCreated(response.status(), body, created);\n>  98 |       expect(response.status(), `status for ${label}`).toBe(422);\n      |                                                        ^\n   99 |     });\n  100 |   }\n  101 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts",
+                            "column": 56,
+                            "line": 98
+                          },
+                          "message": "Error: status for CO2 rating \"Z\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m422\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n\n   96 |       const body = await response.json().catch(() => ({}));\n   97 |       registerIfCreated(response.status(), body, created);\n>  98 |       expect(response.status(), `status for ${label}`).toBe(422);\n      |                                                        ^\n   99 |     });\n  100 |   }\n  101 |\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts:98:56"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:31:22.164Z",
+                      "annotations": [
+                        {
+                          "type": "basis",
+                          "description": "S5: co2_rating enum A–E"
+                        }
+                      ],
+                      "attachments": [
+                        {
+                          "name": "clean-up",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/products-write-Product-wri-47483-ating-Z-is-refused-with-422-api/error-context.md"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/products-write-Product-wri-47483-ating-Z-is-refused-with-422-api/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts",
+                        "column": 56,
+                        "line": 98
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "05721555c6b6d3976439-e1e7605a526f50403ea3",
+              "file": "api-tests/specs/products-write.spec.ts",
+              "line": 93,
+              "column": 9
+            },
+            {
+              "title": "API-22d POST /products with an unknown category id is refused with 422",
+              "ok": false,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [
+                    {
+                      "type": "basis",
+                      "description": "ASSUMPTION: a referenced category must exist"
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 13,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1221,
+                      "error": {
+                        "message": "Error: status for an unknown category id\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m422\u001b[39m\nReceived: \u001b[31m500\u001b[39m",
+                        "stack": "Error: status for an unknown category id\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m422\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts:98:56",
+                        "location": {
+                          "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts",
+                          "column": 56,
+                          "line": 98
+                        },
+                        "snippet": "   96 |       const body = await response.json().catch(() => ({}));\n   97 |       registerIfCreated(response.status(), body, created);\n>  98 |       expect(response.status(), `status for ${label}`).toBe(422);\n      |                                                        ^\n   99 |     });\n  100 |   }\n  101 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts",
+                            "column": 56,
+                            "line": 98
+                          },
+                          "message": "Error: status for an unknown category id\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m422\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n\n   96 |       const body = await response.json().catch(() => ({}));\n   97 |       registerIfCreated(response.status(), body, created);\n>  98 |       expect(response.status(), `status for ${label}`).toBe(422);\n      |                                                        ^\n   99 |     });\n  100 |   }\n  101 |\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts:98:56"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:31:24.928Z",
+                      "annotations": [
+                        {
+                          "type": "basis",
+                          "description": "ASSUMPTION: a referenced category must exist"
+                        }
+                      ],
+                      "attachments": [
+                        {
+                          "name": "clean-up",
+                          "contentType": "application/json",
+                          "body": "W10="
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/products-write-Product-wri-a75a0-gory-id-is-refused-with-422-api/error-context.md"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/products-write-Product-wri-a75a0-gory-id-is-refused-with-422-api/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts",
+                        "column": 56,
+                        "line": 98
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "05721555c6b6d3976439-2ad29b000427f4dc7a05",
+              "file": "api-tests/specs/products-write.spec.ts",
+              "line": 93,
+              "column": 9
+            },
+            {
+              "title": "API-23 PUT /products/{id} updates the product and the change persists",
+              "ok": true,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 14,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2349,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:31:27.786Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "clean-up",
+                          "contentType": "application/json",
+                          "body": "WwogIHsKICAgICJpZCI6IDUzLAogICAgImRlbGV0ZVN0YXR1cyI6IDIwNCwKICAgICJnZXRBZnRlciI6IDQwNCwKICAgICJvdXRjb21lIjogInJlbW92ZWQiCiAgfQpd"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05721555c6b6d3976439-4c8654a3fa07e458c7b9",
+              "file": "api-tests/specs/products-write.spec.ts",
+              "line": 103,
+              "column": 7
+            },
+            {
+              "title": "API-24 DELETE /products/{id} without a token is refused with 401 and the product still exists",
+              "ok": false,
+              "tags": [
+                "P1"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 14,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2246,
+                      "error": {
+                        "message": "Error: DELETE status without a token\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m401\u001b[39m\nReceived: \u001b[31m204\u001b[39m",
+                        "stack": "Error: DELETE status without a token\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m401\u001b[39m\nReceived: \u001b[31m204\u001b[39m\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts:113:91",
+                        "location": {
+                          "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts",
+                          "column": 91,
+                          "line": 113
+                        },
+                        "snippet": "  111 |   test('API-24 DELETE /products/{id} without a token is refused with 401 and the product still exists', { tag: '@P1' }, async ({ api, created }) => {\n  112 |     const { product } = await createOwnProduct(api, created, 'delete-no-token');\n> 113 |     expect.soft((await api.remove(product.id)).status(), 'DELETE status without a token').toBe(401);\n      |                                                                                           ^\n  114 |     expect((await api.get(product.id)).status(), 'the product still exists').toBe(200);\n  115 |   });\n  116 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts",
+                            "column": 91,
+                            "line": 113
+                          },
+                          "message": "Error: DELETE status without a token\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m401\u001b[39m\nReceived: \u001b[31m204\u001b[39m\n\n  111 |   test('API-24 DELETE /products/{id} without a token is refused with 401 and the product still exists', { tag: '@P1' }, async ({ api, created }) => {\n  112 |     const { product } = await createOwnProduct(api, created, 'delete-no-token');\n> 113 |     expect.soft((await api.remove(product.id)).status(), 'DELETE status without a token').toBe(401);\n      |                                                                                           ^\n  114 |     expect((await api.get(product.id)).status(), 'the product still exists').toBe(200);\n  115 |   });\n  116 |\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts:113:91"
+                        },
+                        {
+                          "location": {
+                            "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts",
+                            "column": 78,
+                            "line": 114
+                          },
+                          "message": "Error: the product still exists\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m404\u001b[39m\n\n  112 |     const { product } = await createOwnProduct(api, created, 'delete-no-token');\n  113 |     expect.soft((await api.remove(product.id)).status(), 'DELETE status without a token').toBe(401);\n> 114 |     expect((await api.get(product.id)).status(), 'the product still exists').toBe(200);\n      |                                                                              ^\n  115 |   });\n  116 |\n  117 |   // S5: DELETE by an admin returns 204; the product is gone.\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts:114:78"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:31:30.155Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "clean-up",
+                          "contentType": "application/json",
+                          "body": "WwogIHsKICAgICJpZCI6IDU0LAogICAgImRlbGV0ZVN0YXR1cyI6IDQyMiwKICAgICJnZXRBZnRlciI6IDQwNCwKICAgICJvdXRjb21lIjogInJlbW92ZWQiCiAgfQpd"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/products-write-Product-wri-13b97-nd-the-product-still-exists-api/error-context.md"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/products-write-Product-wri-13b97-nd-the-product-still-exists-api/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts",
+                        "column": 91,
+                        "line": 113
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "05721555c6b6d3976439-f7fd8a93eb1d088b30cb",
+              "file": "api-tests/specs/products-write.spec.ts",
+              "line": 111,
+              "column": 7
+            },
+            {
+              "title": "API-25 DELETE /products/{id} as admin returns 204 and the product is gone",
+              "ok": true,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 15,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2195,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:31:34.141Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "clean-up",
+                          "contentType": "application/json",
+                          "body": "WwogIHsKICAgICJpZCI6IDU1LAogICAgImRlbGV0ZVN0YXR1cyI6IDQyMiwKICAgICJnZXRBZnRlciI6IDQwNCwKICAgICJvdXRjb21lIjogInJlbW92ZWQiCiAgfQpd"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "05721555c6b6d3976439-9e13f1ebbefd9cfc6989",
+              "file": "api-tests/specs/products-write.spec.ts",
+              "line": 118,
+              "column": 7
+            },
+            {
+              "title": "API-27 DELETE /products/{id} with a customer token is rejected and the product still exists",
+              "ok": false,
+              "tags": [
+                "P1"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 15,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2366,
+                      "error": {
+                        "message": "Error: DELETE with a customer token returned 200; expected 401 or 403\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m",
+                        "stack": "Error: DELETE with a customer token returned 200; expected 401 or 403\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts:128:118",
+                        "location": {
+                          "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts",
+                          "column": 118,
+                          "line": 128
+                        },
+                        "snippet": "  126 |     const { product } = await createOwnProduct(api, created, 'delete-customer');\n  127 |     const status = (await api.remove(product.id, customerToken)).status();\n> 128 |     expect.soft([401, 403].includes(status), `DELETE with a customer token returned ${status}; expected 401 or 403`).toBe(true);\n      |                                                                                                                      ^\n  129 |     expect((await api.get(product.id)).status(), 'the product still exists').toBe(200);\n  130 |   });\n  131 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts",
+                            "column": 118,
+                            "line": 128
+                          },
+                          "message": "Error: DELETE with a customer token returned 200; expected 401 or 403\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\n  126 |     const { product } = await createOwnProduct(api, created, 'delete-customer');\n  127 |     const status = (await api.remove(product.id, customerToken)).status();\n> 128 |     expect.soft([401, 403].includes(status), `DELETE with a customer token returned ${status}; expected 401 or 403`).toBe(true);\n      |                                                                                                                      ^\n  129 |     expect((await api.get(product.id)).status(), 'the product still exists').toBe(200);\n  130 |   });\n  131 |\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts:128:118"
+                        },
+                        {
+                          "location": {
+                            "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts",
+                            "column": 78,
+                            "line": 129
+                          },
+                          "message": "Error: the product still exists\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m404\u001b[39m\n\n  127 |     const status = (await api.remove(product.id, customerToken)).status();\n  128 |     expect.soft([401, 403].includes(status), `DELETE with a customer token returned ${status}; expected 401 or 403`).toBe(true);\n> 129 |     expect((await api.get(product.id)).status(), 'the product still exists').toBe(200);\n      |                                                                              ^\n  130 |   });\n  131 |\n  132 |   // S5: PUT documents 422; a non-numeric price must be refused like POST, and the product must not change.\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts:129:78"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:31:36.356Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "clean-up",
+                          "contentType": "application/json",
+                          "body": "WwogIHsKICAgICJpZCI6IDU2LAogICAgImRlbGV0ZVN0YXR1cyI6IDQyMiwKICAgICJnZXRBZnRlciI6IDQwNCwKICAgICJvdXRjb21lIjogInJlbW92ZWQiCiAgfQpd"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/products-write-Product-wri-d79b8-nd-the-product-still-exists-api/error-context.md"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/products-write-Product-wri-d79b8-nd-the-product-still-exists-api/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts",
+                        "column": 118,
+                        "line": 128
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "05721555c6b6d3976439-72e2512fd7aa5dd8661c",
+              "file": "api-tests/specs/products-write.spec.ts",
+              "line": 125,
+              "column": 7
+            },
+            {
+              "title": "API-31 PUT /products/{id} with a non-numeric price is refused with 422 and the product is unchanged",
+              "ok": false,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 16,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 3081,
+                      "error": {
+                        "message": "Error: PUT status\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m422\u001b[39m\nReceived: \u001b[31m500\u001b[39m",
+                        "stack": "Error: PUT status\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m422\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts:136:103",
+                        "location": {
+                          "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts",
+                          "column": 103,
+                          "line": 136
+                        },
+                        "snippet": "  134 |     const { body: original, product } = await createOwnProduct(api, created, 'put-bad-price');\n  135 |     const before = await storedSnapshot(api, product.id);\n> 136 |     expect.soft((await api.update(product.id, { ...original, price: 'abc' })).status(), 'PUT status').toBe(422);\n      |                                                                                                       ^\n  137 |     expect(await storedSnapshot(api, product.id), 'every stored field is unchanged').toEqual(before);\n  138 |   });\n  139 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts",
+                            "column": 103,
+                            "line": 136
+                          },
+                          "message": "Error: PUT status\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m422\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n\n  134 |     const { body: original, product } = await createOwnProduct(api, created, 'put-bad-price');\n  135 |     const before = await storedSnapshot(api, product.id);\n> 136 |     expect.soft((await api.update(product.id, { ...original, price: 'abc' })).status(), 'PUT status').toBe(422);\n      |                                                                                                       ^\n  137 |     expect(await storedSnapshot(api, product.id), 'every stored field is unchanged').toEqual(before);\n  138 |   });\n  139 |\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts:136:103"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:31:40.567Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "clean-up",
+                          "contentType": "application/json",
+                          "body": "WwogIHsKICAgICJpZCI6IDU3LAogICAgImRlbGV0ZVN0YXR1cyI6IDIwNCwKICAgICJnZXRBZnRlciI6IDQwNCwKICAgICJvdXRjb21lIjogInJlbW92ZWQiCiAgfQpd"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/products-write-Product-wri-64d6e-nd-the-product-is-unchanged-api/error-context.md"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/products-write-Product-wri-64d6e-nd-the-product-is-unchanged-api/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts",
+                        "column": 103,
+                        "line": 136
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "05721555c6b6d3976439-f33053d64332f55258ba",
+              "file": "api-tests/specs/products-write.spec.ts",
+              "line": 133,
+              "column": 7
+            },
+            {
+              "title": "API-32 PUT /products/{id} with an empty body is refused with 422 and the product is unchanged",
+              "ok": false,
+              "tags": [
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 17,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 2393,
+                      "error": {
+                        "message": "Error: PUT status\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m422\u001b[39m\nReceived: \u001b[31m200\u001b[39m",
+                        "stack": "Error: PUT status\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m422\u001b[39m\nReceived: \u001b[31m200\u001b[39m\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts:144:76",
+                        "location": {
+                          "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts",
+                          "column": 76,
+                          "line": 144
+                        },
+                        "snippet": "  142 |     const { product } = await createOwnProduct(api, created, 'put-empty');\n  143 |     const before = await storedSnapshot(api, product.id);\n> 144 |     expect.soft((await api.update(product.id, {})).status(), 'PUT status').toBe(422);\n      |                                                                            ^\n  145 |     expect(await storedSnapshot(api, product.id), 'every stored field is unchanged').toEqual(before);\n  146 |   });\n  147 | });"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts",
+                            "column": 76,
+                            "line": 144
+                          },
+                          "message": "Error: PUT status\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m422\u001b[39m\nReceived: \u001b[31m200\u001b[39m\n\n  142 |     const { product } = await createOwnProduct(api, created, 'put-empty');\n  143 |     const before = await storedSnapshot(api, product.id);\n> 144 |     expect.soft((await api.update(product.id, {})).status(), 'PUT status').toBe(422);\n      |                                                                            ^\n  145 |     expect(await storedSnapshot(api, product.id), 'every stored field is unchanged').toEqual(before);\n  146 |   });\n  147 | });\n    at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts:144:76"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-15T12:31:45.354Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "clean-up",
+                          "contentType": "application/json",
+                          "body": "WwogIHsKICAgICJpZCI6IDU4LAogICAgImRlbGV0ZVN0YXR1cyI6IDIwNCwKICAgICJnZXRBZnRlciI6IDQwNCwKICAgICJvdXRjb21lIjogInJlbW92ZWQiCiAgfQpd"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/products-write-Product-wri-2c3ff-nd-the-product-is-unchanged-api/error-context.md"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/test-results/products-write-Product-wri-2c3ff-nd-the-product-is-unchanged-api/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts",
+                        "column": 76,
+                        "line": 144
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "05721555c6b6d3976439-c82a052707c5f57fc351",
+              "file": "api-tests/specs/products-write.spec.ts",
+              "line": 141,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "api-tests/specs/smoke.spec.ts",
+      "file": "api-tests/specs/smoke.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "SMOKE-API GET /products returns 200 with products",
+          "ok": true,
+          "tags": [
+            "smoke"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 18,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 679,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-15T12:31:49.416Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4219922fea2e2bd3c691-dc9b3395c17468f38bbe",
+          "file": "api-tests/specs/smoke.spec.ts",
+          "line": 4,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-15T12:28:21.320Z",
+    "duration": 208798.366,
+    "expected": 32,
+    "skipped": 0,
+    "unexpected": 17,
+    "flaky": 0
+  }
+}
