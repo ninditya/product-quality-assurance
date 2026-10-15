@@ -3,12 +3,27 @@ import { APIRequestContext, APIResponse, expect } from '@playwright/test';
 export interface Product {
   id: number;
   name: string;
+  description?: string;
   price: number;
   is_rental: number;
   co2_rating: string;
   is_eco_friendly: boolean;
   brand: { id: number; name: string };
   category: { id: number; name: string };
+  product_image?: { id: number };
+}
+
+/** ProductRequest in the spec (S5). */
+export interface ProductRequest {
+  name: string;
+  description: string;
+  price: number | string;
+  category_id: number;
+  brand_id: number;
+  product_image_id: number;
+  is_location_offer: number;
+  is_rental: number;
+  co2_rating: string;
 }
 
 interface Paginated<T> {
@@ -34,6 +49,25 @@ export class ProductApi {
 
   related(id: number | string): Promise<APIResponse> {
     return this.request.get(`/products/${id}/related`);
+  }
+
+  create(body: Partial<ProductRequest>): Promise<APIResponse> {
+    return this.request.post('/products', { data: body });
+  }
+
+  update(id: number, body: Partial<ProductRequest>): Promise<APIResponse> {
+    return this.request.put(`/products/${id}`, { data: body });
+  }
+
+  remove(id: number, token?: string): Promise<APIResponse> {
+    return this.request.delete(`/products/${id}`, token ? { headers: { Authorization: `Bearer ${token}` } } : {});
+  }
+
+  /** Logs in with a VALID password only (shared demo accounts lock after 3 failures). Returns the token. */
+  async token(email: string | undefined, password: string | undefined, role: string): Promise<string> {
+    const response = await this.request.post('/users/login', { data: { email, password } });
+    expect(response.status(), `${role} login (423 = shared account locked: environment blocker)`).toBe(200);
+    return ((await response.json()) as { access_token: string }).access_token;
   }
 
   /** Every item across all pages of a paginated query (stops at last_page). */
