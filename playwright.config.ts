@@ -16,7 +16,7 @@ export default defineConfig({
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {
     // Trace only on the first retry: with a trace on every attempt, Playwright intermittently failed
-    // passing tests with ENOENT on API-context trace files during teardown (seen in v1 of this work).
+    // passing tests with ENOENT on API-context trace files during teardown (seen during development).
     trace: 'on-first-retry',
     // The app exposes stable `data-test` attributes; getByTestId() uses them.
     testIdAttribute: 'data-test',

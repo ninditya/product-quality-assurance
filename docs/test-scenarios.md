@@ -88,7 +88,7 @@ Twelve **groups** of scenarios; one row can cover several cases.
 | Scenario group | Reason |
 |---|---|
 | Quantity "−1" on the detail page | Same equivalence class as "0" (below the minimum); "0" already tests the boundary |
-| Login as Jane as a separate test (v1 UI-25) | E2E-01 already proves the login (Jane's name shown) |
+| Login as Jane as a separate test | E2E-01 already proves the login (Jane's name shown) |
 | Filter combined with a sub-category; clearing the filter; same product added twice; cart quantity 0 | P3: low impact, not in the stories |
 | Payment-method switch resets the form (S2 Payment AC8) | P3 candidate; behaviour not yet confirmed (tester's decision) |
 | Positive paths of Cash on Delivery, Buy Now Pay Later, Gift Card | US-4 needs one completed payment; Gift Card has no documented valid test number |

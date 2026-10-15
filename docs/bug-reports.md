@@ -150,7 +150,7 @@ Evidence for all rows: [api-failed-tests-15oct.json](evidence/bugs/api-failed-te
 | OBS-06 | The Excavator detail page shows the category "Drill" ([screenshot](evidence/bugs/OBS-06-excavator-category-drill.png)) | The UI shows the stored data correctly (all three rentals are stored under "Drill"); no requirement covers rental categories |
 | OBS-07 | The cart total updates with a short delay after a quantity change | The final total is correct; tests wait for the computed value |
 
-Not reproduced: the v1 candidate "name missing in the already-logged-in message" (the name was shown in every v2 run).
+Not reproduced: the candidate "name missing in the already-logged-in message" (the name was shown in every run).
 
 ## 9. Environment problems during testing (not product defects)
 

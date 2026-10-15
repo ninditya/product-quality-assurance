@@ -1,6 +1,6 @@
 # Final runs (EX3): comparison
 
-Generated from `run1.json`, `run2.json` and `run3.json` (Playwright JSON reports, copied unchanged). Command for every run: `npx playwright test --reporter=list,json` on commit `c105b82`, with no change between runs.
+Generated from `run1.json`, `run2.json` and `run3.json` (Playwright JSON reports, copied unchanged except one edit: the local absolute repository path was replaced with `<repo>` in these files and in `run2.log` / `run3.log`). Command for every run: `npx playwright test --reporter=list,json` on commit `c105b82`, with no change between runs.
 
 | Run | Start (UTC) | Duration | Passed | Failed | Flaky | Skipped |
 |---|---|---|---|---|---|---|

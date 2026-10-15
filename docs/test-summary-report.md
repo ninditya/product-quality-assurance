@@ -15,7 +15,6 @@ Main reasons:
 - **US-1 is not met** (BUG-01, Major): the environmental filter hides the only Power Tools product rated better than E.
 - **US-3 "Checkout requires login" is not met** on observed behaviour: a guest can reach the billing step (PO-01, the requirement conflict is pending the PO).
 - **EX3 failed**: one test (UI-26b) gave different results in the three final runs.
-- **EX9 not verified**: README and clean-clone check are not done yet.
 
 NO-GO means the feature cannot be declared accepted on the current evidence. It does not mean everything failed: the tested UI purchase flow through invoice generation passed for the covered scenario (payment gateway behaviour was not tested; the demo has none), and the load test met its thresholds. A "Pass" on an exit criterion below means that criterion is met, not that all tests passed.
 
@@ -62,7 +61,7 @@ Workaround used: the E2E picks the product from the unfiltered Power Tools list 
 | EX6 | Load test within limits; thresholds evaluated with actual numbers | Pass | [load-test-results.md](load-test-results.md): p95 333.23 ms, 0 % failures, max 20 VUs, 1m21s (one run, one endpoint) |
 | EX7 | No test data left on the API under test | Pass | Leak check in every write run, and a scan of all list pages after the final runs: 0 "QA take-home" products |
 | EX8 | Scenarios not run are listed with a reason | Pass | [test-scenarios.md](test-scenarios.md) (Not run, and "Considered, not automated") |
-| EX9 | README covers setup, commands, results, AI usage, assumptions, limitations; works from a clean clone | **Not verified** | README not written yet; clean clone is STLC step 9 |
+| EX9 | README covers setup, commands, results, AI usage, assumptions, limitations; works from a clean clone | Pass | README complete; clean clone on 2026-10-16: `npm ci`, typecheck (exit 0), 49 tests listed |
 
 ## 5. Defect summary
 
@@ -119,8 +118,7 @@ Needed before a re-evaluation:
 2. Fix BUG-01 (filter "better than E") and re-run UI-01 and E2E-01.
 3. PO decision on PO-01 (guest checkout) and PO-02 (cart rental hours); then update or fix accordingly.
 4. Make UI-26b deterministic (e.g. delay the second profile response in the test so the race always occurs, and report that it is simulated), then repeat the three final runs for EX3.
-5. Complete the README and the clean-clone check (EX9).
-6. Confirm the expected responses for CAND-01 to CAND-06 and the assumptions behind API-22a and API-32 (questions Q-API-1 and the PUT rules).
+5. Confirm the expected responses for CAND-01 to CAND-06 and the assumptions behind API-22a and API-32 (questions Q-API-1 and the PUT rules).
 
 ## 10. Lessons learned
 

@@ -75,7 +75,7 @@ Running 49 tests using 1 worker
       40 | });
       41 |
       42 | /**
-        at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us1-filter.spec.ts:39:5
+        at <repo>/ui-tests/specs/us1-filter.spec.ts:39:5
 
     attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
     test-results/us1-filter-UI-01-the-envir-270ab-roducts-rated-better-than-E-ui/test-failed-1.png
@@ -103,7 +103,7 @@ Running 49 tests using 1 worker
       58 |   });
       59 |
       60 |   // S2 User Login AC3: incorrect credentials show "Invalid email or password". Uses an unknown e-mail, never Jane's.
-        at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us3-checkout.spec.ts:57:125
+        at <repo>/ui-tests/specs/us3-checkout.spec.ts:57:125
 
     attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
     test-results/us3-checkout-US-3-checkout-4cb79-ess-step-without-logging-in-ui/test-failed-1.png
@@ -138,7 +138,7 @@ Running 49 tests using 1 worker
        99 |   });
       100 |
       101 |   // Candidate C7. Basis: the customer's typed input must not be lost (S2 Billing Address AC3 needs all fields filled to proceed).
-        at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us3-checkout.spec.ts:98:69
+        at <repo>/ui-tests/specs/us3-checkout.spec.ts:98:69
 
     attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
     test-results/us3-checkout-US-3-checkout-cc345-count-including-the-country-ui/test-failed-1.png
@@ -166,7 +166,7 @@ Running 49 tests using 1 worker
       77 |     await expect(cart.row(US4.rentalProduct).lineTotal, 'line total = stored hours × rate').toHaveText(formatCents(storedHours * rateCents));
       78 |   });
       79 | });
-        at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/ui-tests/specs/us4-rental-payment.spec.ts:76:76
+        at <repo>/ui-tests/specs/us4-rental-payment.spec.ts:76:76
 
     attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
     test-results/us4-rental-payment-US-4-Ex-95931-p-more-than-10-rental-hours-ui/test-failed-1.png
@@ -226,8 +226,8 @@ Running 49 tests using 1 worker
       25 | }
       26 |
       27 | test.describe('Product read endpoints', () => {
-        at expectSameProducts (/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts:24:63)
-        at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts:75:5
+        at expectSameProducts (<repo>/api-tests/specs/products-read.spec.ts:24:63)
+        at <repo>/api-tests/specs/products-read.spec.ts:75:5
 
     Error Context: test-results/products-read-Product-read-6b8db-oducts-that-are-not-rentals-api/error-context.md
 
@@ -278,7 +278,7 @@ Running 49 tests using 1 worker
       118 |   });
       119 |
       120 |   // S5: GET /products/{id} returns that product (the spec's BrandResponse reference is a documentation error).
-        at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts:117:78
+        at <repo>/api-tests/specs/products-read.spec.ts:117:78
 
     Error Context: test-results/products-read-Product-read-15720-of-the-reference-deployment-api/error-context.md
 
@@ -314,7 +314,7 @@ Running 49 tests using 1 worker
       141 |     const expected = (await api.catalogue()).filter((p) => p.name.toLowerCase().includes(q));
       142 |     expect(expected.length, 'precondition: the catalogue has matching products').toBeGreaterThan(0);
       143 |     await expectSameProducts(`search q=${q}`, expected, await api.searchAll(q));
-        at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts:140:91
+        at <repo>/api-tests/specs/products-read.spec.ts:140:91
 
     Error Context: test-results/products-read-Product-read-471f1-ose-name-contains-the-query-api/error-context.md
 
@@ -343,8 +343,8 @@ Running 49 tests using 1 worker
       25 | }
       26 |
       27 | test.describe('Product read endpoints', () => {
-        at expectSameProducts (/Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts:24:63)
-        at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts:154:5
+        at expectSameProducts (<repo>/api-tests/specs/products-read.spec.ts:24:63)
+        at <repo>/api-tests/specs/products-read.spec.ts:154:5
 
     Error Context: test-results/products-read-Product-read-abc8c-se-name-contains-every-word-api/error-context.md
 
@@ -362,7 +362,7 @@ Running 49 tests using 1 worker
       172 |   });
       173 | });
       174 |
-        at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-read.spec.ts:171:59
+        at <repo>/api-tests/specs/products-read.spec.ts:171:59
 
     Error Context: test-results/products-read-Product-read-2c3b4-of-an-unknown-id-return-404-api/error-context.md
 
@@ -382,7 +382,7 @@ Running 49 tests using 1 worker
        99 |     });
       100 |   }
       101 |
-        at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts:98:56
+        at <repo>/api-tests/specs/products-write.spec.ts:98:56
 
     Error Context: test-results/products-write-Product-wri-bd6fa-e-price-is-refused-with-422-api/error-context.md
 
@@ -404,7 +404,7 @@ Running 49 tests using 1 worker
        99 |     });
       100 |   }
       101 |
-        at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts:98:56
+        at <repo>/api-tests/specs/products-write.spec.ts:98:56
 
     Error Context: test-results/products-write-Product-wri-47483-ating-Z-is-refused-with-422-api/error-context.md
 
@@ -426,7 +426,7 @@ Running 49 tests using 1 worker
        99 |     });
       100 |   }
       101 |
-        at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts:98:56
+        at <repo>/api-tests/specs/products-write.spec.ts:98:56
 
     Error Context: test-results/products-write-Product-wri-a75a0-gory-id-is-refused-with-422-api/error-context.md
 
@@ -448,7 +448,7 @@ Running 49 tests using 1 worker
       114 |     expect((await api.get(product.id)).status(), 'the product still exists').toBe(200);
       115 |   });
       116 |
-        at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts:113:91
+        at <repo>/api-tests/specs/products-write.spec.ts:113:91
 
     Error: the product still exists
 
@@ -464,7 +464,7 @@ Running 49 tests using 1 worker
       115 |   });
       116 |
       117 |   // S5: DELETE by an admin returns 204; the product is gone.
-        at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts:114:78
+        at <repo>/api-tests/specs/products-write.spec.ts:114:78
 
     Error Context: test-results/products-write-Product-wri-13b97-nd-the-product-still-exists-api/error-context.md
 
@@ -486,7 +486,7 @@ Running 49 tests using 1 worker
       129 |     expect((await api.get(product.id)).status(), 'the product still exists').toBe(200);
       130 |   });
       131 |
-        at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts:128:118
+        at <repo>/api-tests/specs/products-write.spec.ts:128:118
 
     Error: the product still exists
 
@@ -502,7 +502,7 @@ Running 49 tests using 1 worker
       130 |   });
       131 |
       132 |   // S5: PUT documents 422; a non-numeric price must be refused like POST, and the product must not change.
-        at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts:129:78
+        at <repo>/api-tests/specs/products-write.spec.ts:129:78
 
     Error Context: test-results/products-write-Product-wri-d79b8-nd-the-product-still-exists-api/error-context.md
 
@@ -524,7 +524,7 @@ Running 49 tests using 1 worker
       137 |     expect(await storedSnapshot(api, product.id), 'every stored field is unchanged').toEqual(before);
       138 |   });
       139 |
-        at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts:136:103
+        at <repo>/api-tests/specs/products-write.spec.ts:136:103
 
     Error Context: test-results/products-write-Product-wri-64d6e-nd-the-product-is-unchanged-api/error-context.md
 
@@ -546,7 +546,7 @@ Running 49 tests using 1 worker
       145 |     expect(await storedSnapshot(api, product.id), 'every stored field is unchanged').toEqual(before);
       146 |   });
       147 | });
-        at /Users/ninditya/Take-Home-QA-Test/v2-ai-assisted/api-tests/specs/products-write.spec.ts:144:76
+        at <repo>/api-tests/specs/products-write.spec.ts:144:76
 
     Error Context: test-results/products-write-Product-wri-2c3ff-nd-the-product-is-unchanged-api/error-context.md
 

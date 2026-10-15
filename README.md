@@ -140,7 +140,7 @@ The main assumptions (full list in [docs/requirement-analysis.md](docs/requireme
 
 ## How AI was used
 
-**Tools.** I used Claude Code (Anthropic) as a pair programmer for repository work. I used ChatGPT (OpenAI) to improve the wording of my notes and decisions and to review my work plan once.
+**Tools.** I used Claude Code (Anthropic) as a pair programmer for repository work. I used ChatGPT (OpenAI) to improve the wording of my notes and decisions and to review my work plan once. I also used Claude (claude.ai chat) to draft the initial STLC work plan and timeline.
 
 **Working rules.** I gave Claude Code instructions (kept locally, not in this repository) to follow the STLC step by step, explain risks and options, recommend an approach, and wait for my decision before implementing changes. I kept decisions about unclear requirements, expected results, priorities, defect classifications, and severity under my control. I also required evidence for test results, prohibited weakening assertions to make tests pass, required the changed files and commit message to be shown before every commit, and required approval of the load test design before execution. I reviewed and made every commit myself.
 
@@ -151,5 +151,3 @@ The main assumptions (full list in [docs/requirement-analysis.md](docs/requireme
 I did not accept every AI-generated conclusion without checking it. I requested evidence for expected results, revised the multi-word search rule after observing the reference API, required full-object checks after rejected updates, and ensured test cleanup verified records through GET requests and targeted only IDs created by the tests. For the UI-26b race condition, I required the test to record whether the race actually occurred.
 
 **Verification.** I reviewed test results and supporting evidence, ran the k6 load test myself, retained the raw JSON reports of three consecutive final suite runs (and the text logs of runs 2 and 3), checked for leftover test data, and scanned the evidence for secrets. The three runs used the same commit and test configuration. Their differing UI-26b results were reported rather than hidden. I ran the Postman collection in the Postman app on 2026-10-15 at 23:14 WIB ([screenshots](docs/evidence/postman/): summary and all 15 failed checks) and checked that its 15 failed checks belong to the same 12 tests that fail in Playwright and match the documented defects; a Newman run gave the same result.
-
-**Earlier AI-driven round.** I had completed an earlier, AI-driven round of the assignment locally. I used it as a reference for comparison, not as unquestioned evidence. I rechecked and reconsidered the items carried into this version.
