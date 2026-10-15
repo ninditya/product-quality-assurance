@@ -54,8 +54,8 @@ Target: https://api-with-bugs.practicesoftwaretesting.com. Contract: S5. A field
 | API-10 | `GET /products/{id}` | Existing product | 200; schema valid; same data as in the list | S5 | R6 | P1 | Auto |
 | API-11 | `GET /products/{id}` | Unknown id | 404 | S5 | R6 | P1 | Auto |
 | API-13 | `GET /products/search?q=` | Search by name | 200; schema valid; only **and all** products whose name contains the query | S5 ("search is performed on the name column") + S6 | R6 | P1 | Auto |
-| API-13c | `GET /products/search?q=` | Multi-word query | Only products whose name contains the phrase | S6 | R6 | P2 | Auto |
-| API-15 | `GET /products/{id}/related` | Related products | 200; schema valid; the product itself is not included | S5 + inference ("related" excludes itself) | R6 | P2 | Auto |
+| API-13c | `GET /products/search?q=` | Multi-word query | Only **and all** products whose name contains **every word** of the query, in any order (S6 observed 2026-10-15: "claw hammer" = "hammer claw") | S6 | R6 | P2 | Auto |
+| API-15 | `GET /products/{id}/related` | Related products | 200; schema valid; the product itself is not included | S5 + **assumption** ("related" excludes itself; a failure is a finding to clarify) | R6 | P2 | Auto |
 | API-16 | `GET /products/search` | Missing `q` (required in S5) | A 4xx client error (S5 documents no specific code) | S5 | R5 | P3 | Not run |
 | API-17 | `GET /products/{id}/related` | Unknown id | 404, never 5xx | S5 | R5 | P2 | Auto |
 | API-20 | `POST /products` | Create a valid product | 201; echoes the input with an id; a later GET returns it | S5 | R6 | P1 | Auto |
