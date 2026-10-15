@@ -31,9 +31,9 @@
 | Maximum VUs reached | 20 |
 | Completed iterations | 1,039 |
 | Interrupted iterations | 0 |
-| Actual wall-clock duration | 1 minute 21 seconds (`1m21.0s`), according to the k6 terminal output |
+| Actual wall-clock duration | 1 minute 21 seconds (`1m21.0s`), according to the k6 terminal output ([screenshot](evidence/load/k6-terminal-output.png)) |
 
-All values except the wall-clock duration come from `load-tests/results/summary.json`.
+All values except the wall-clock duration come from `load-tests/results/summary.json`. The terminal screenshot shows the same run; some of its values differ by 0.01 ms because the terminal rounds them (for example max 558.63 ms vs 558.64 ms in the JSON).
 
 ## 3. Threshold evaluation
 
@@ -74,4 +74,4 @@ The earlier sequential curl baseline averaged about 0.828 s. This is context onl
 ## 7. Evidence
 
 - `load-tests/results/summary.json`: exported k6 metrics and threshold data (all numbers above except the duration).
-- k6 terminal output of the run: source of the wall-clock duration (`1m21.0s`); not saved as a file.
+- [evidence/load/k6-terminal-output.png](evidence/load/k6-terminal-output.png): screenshot of the k6 terminal output of the same run, taken by the tester from the terminal where k6 ran; source of the wall-clock duration (`1m21.0s`).

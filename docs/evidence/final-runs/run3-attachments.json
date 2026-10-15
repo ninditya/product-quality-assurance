@@ -1,0 +1,850 @@
+{
+  "UI-01 the environmental filter in Power Tools lists only and all products rated better than E": {
+    "status": "failed",
+    "UI-01 expected vs actual": {
+      "expectedFromApi": [
+        "Circular Saw"
+      ],
+      "actualInUi": []
+    }
+  },
+  "UI-02 each Power Tools card shows the price and CO2 rating stored for that product": {
+    "status": "passed",
+    "UI-02 shown vs stored": {
+      "shownInUi": [
+        {
+          "name": "Sheet Sander",
+          "priceCents": 5848,
+          "co2": "E"
+        },
+        {
+          "name": "Belt Sander",
+          "priceCents": 7359,
+          "co2": "E"
+        },
+        {
+          "name": "Circular Saw",
+          "priceCents": 8019,
+          "co2": "D"
+        },
+        {
+          "name": "Random Orbit Sander",
+          "priceCents": 10079,
+          "co2": "E"
+        },
+        {
+          "name": "Cordless Drill 20V",
+          "priceCents": 12523,
+          "co2": "E"
+        },
+        {
+          "name": "Cordless Drill 24V",
+          "priceCents": 6654,
+          "co2": "E"
+        },
+        {
+          "name": "Cordless Drill 18V",
+          "priceCents": 11924,
+          "co2": "E"
+        },
+        {
+          "name": "Cordless Drill 12V",
+          "priceCents": 4650,
+          "co2": "E"
+        }
+      ],
+      "storedInProductData": [
+        {
+          "name": "Sheet Sander",
+          "priceCents": 5848,
+          "co2": "E"
+        },
+        {
+          "name": "Belt Sander",
+          "priceCents": 7359,
+          "co2": "E"
+        },
+        {
+          "name": "Circular Saw",
+          "priceCents": 8019,
+          "co2": "D"
+        },
+        {
+          "name": "Random Orbit Sander",
+          "priceCents": 10079,
+          "co2": "E"
+        },
+        {
+          "name": "Cordless Drill 20V",
+          "priceCents": 12523,
+          "co2": "E"
+        },
+        {
+          "name": "Cordless Drill 24V",
+          "priceCents": 6654,
+          "co2": "E"
+        },
+        {
+          "name": "Cordless Drill 18V",
+          "priceCents": 11924,
+          "co2": "E"
+        },
+        {
+          "name": "Cordless Drill 12V",
+          "priceCents": 4650,
+          "co2": "E"
+        }
+      ]
+    }
+  },
+  "UI-26 the billing step is pre-filled with the address stored on Jane's account, including the country": {
+    "status": "failed",
+    "UI-26 shown vs stored": {
+      "shown": {
+        "street": "Test street 98",
+        "city": "Vienna",
+        "country": ""
+      },
+      "stored": {
+        "street": "Test street 98",
+        "city": "Vienna",
+        "country": "Austria"
+      }
+    }
+  },
+  "UI-26b typed billing input is kept when the account pre-fill arrives late": {
+    "status": "failed",
+    "UI-26b typed vs kept": {
+      "typed": {
+        "countryCode": "AT",
+        "postalCode": "1010",
+        "houseNumber": "98"
+      },
+      "kept": {
+        "country": "",
+        "postalCode": "",
+        "houseNumber": ""
+      },
+      "lateProfileResponses": 1
+    }
+  },
+  "UI-35 the cart does not keep more than 10 rental hours": {
+    "status": "failed",
+    "UI-35 typed vs stored": {
+      "typed": 11,
+      "storedHours": 11
+    }
+  },
+  "API-04 by_category returns only and all products of that category": {
+    "status": "passed",
+    "by_category=7 expected vs actual": {
+      "expected": [
+        {
+          "id": 1,
+          "name": "Combination Pliers"
+        },
+        {
+          "id": 2,
+          "name": "Pliers"
+        },
+        {
+          "id": 3,
+          "name": "Bolt Cutters"
+        },
+        {
+          "id": 4,
+          "name": "Long Nose Pliers"
+        },
+        {
+          "id": 5,
+          "name": "Slip Joint Pliers"
+        }
+      ],
+      "actual": [
+        {
+          "id": 1,
+          "name": "Combination Pliers"
+        },
+        {
+          "id": 2,
+          "name": "Pliers"
+        },
+        {
+          "id": 3,
+          "name": "Bolt Cutters"
+        },
+        {
+          "id": 4,
+          "name": "Long Nose Pliers"
+        },
+        {
+          "id": 5,
+          "name": "Slip Joint Pliers"
+        }
+      ]
+    }
+  },
+  "API-05 by_brand returns only and all products of that brand": {
+    "status": "passed",
+    "by_brand=1 expected vs actual": {
+      "expected": [
+        {
+          "id": 1,
+          "name": "Combination Pliers"
+        },
+        {
+          "id": 2,
+          "name": "Pliers"
+        },
+        {
+          "id": 4,
+          "name": "Long Nose Pliers"
+        },
+        {
+          "id": 6,
+          "name": "Claw Hammer with Shock Reduction Grip"
+        },
+        {
+          "id": 7,
+          "name": "Hammer"
+        },
+        {
+          "id": 8,
+          "name": "Claw Hammer"
+        },
+        {
+          "id": 9,
+          "name": "Thor Hammer"
+        },
+        {
+          "id": 10,
+          "name": "Sledgehammer"
+        },
+        {
+          "id": 11,
+          "name": "Claw Hammer with Fiberglass Handle"
+        },
+        {
+          "id": 12,
+          "name": "Court Hammer"
+        },
+        {
+          "id": 13,
+          "name": "Wood Saw"
+        },
+        {
+          "id": 14,
+          "name": "Adjustable Wrench"
+        },
+        {
+          "id": 15,
+          "name": "Angled Spanner"
+        },
+        {
+          "id": 16,
+          "name": "Open-end Spanners (Set)"
+        },
+        {
+          "id": 17,
+          "name": "Phillips Screwdriver"
+        },
+        {
+          "id": 18,
+          "name": "Mini Screwdriver"
+        },
+        {
+          "id": 19,
+          "name": "Sheet Sander"
+        },
+        {
+          "id": 20,
+          "name": "Belt Sander"
+        },
+        {
+          "id": 21,
+          "name": "Circular Saw"
+        },
+        {
+          "id": 22,
+          "name": "Random Orbit Sander"
+        },
+        {
+          "id": 23,
+          "name": "Cordless Drill 20V"
+        },
+        {
+          "id": 24,
+          "name": "Cordless Drill 24V"
+        },
+        {
+          "id": 25,
+          "name": "Cordless Drill 18V"
+        },
+        {
+          "id": 26,
+          "name": "Cordless Drill 12V"
+        },
+        {
+          "id": 27,
+          "name": "Excavator"
+        },
+        {
+          "id": 28,
+          "name": "Bulldozer"
+        },
+        {
+          "id": 29,
+          "name": "Crane"
+        }
+      ],
+      "actual": [
+        {
+          "id": 1,
+          "name": "Combination Pliers"
+        },
+        {
+          "id": 2,
+          "name": "Pliers"
+        },
+        {
+          "id": 4,
+          "name": "Long Nose Pliers"
+        },
+        {
+          "id": 6,
+          "name": "Claw Hammer with Shock Reduction Grip"
+        },
+        {
+          "id": 7,
+          "name": "Hammer"
+        },
+        {
+          "id": 8,
+          "name": "Claw Hammer"
+        },
+        {
+          "id": 9,
+          "name": "Thor Hammer"
+        },
+        {
+          "id": 10,
+          "name": "Sledgehammer"
+        },
+        {
+          "id": 11,
+          "name": "Claw Hammer with Fiberglass Handle"
+        },
+        {
+          "id": 12,
+          "name": "Court Hammer"
+        },
+        {
+          "id": 13,
+          "name": "Wood Saw"
+        },
+        {
+          "id": 14,
+          "name": "Adjustable Wrench"
+        },
+        {
+          "id": 15,
+          "name": "Angled Spanner"
+        },
+        {
+          "id": 16,
+          "name": "Open-end Spanners (Set)"
+        },
+        {
+          "id": 17,
+          "name": "Phillips Screwdriver"
+        },
+        {
+          "id": 18,
+          "name": "Mini Screwdriver"
+        },
+        {
+          "id": 19,
+          "name": "Sheet Sander"
+        },
+        {
+          "id": 20,
+          "name": "Belt Sander"
+        },
+        {
+          "id": 21,
+          "name": "Circular Saw"
+        },
+        {
+          "id": 22,
+          "name": "Random Orbit Sander"
+        },
+        {
+          "id": 23,
+          "name": "Cordless Drill 20V"
+        },
+        {
+          "id": 24,
+          "name": "Cordless Drill 24V"
+        },
+        {
+          "id": 25,
+          "name": "Cordless Drill 18V"
+        },
+        {
+          "id": 26,
+          "name": "Cordless Drill 12V"
+        },
+        {
+          "id": 27,
+          "name": "Excavator"
+        },
+        {
+          "id": 28,
+          "name": "Bulldozer"
+        },
+        {
+          "id": 29,
+          "name": "Crane"
+        }
+      ]
+    }
+  },
+  "API-06b is_rental=false returns only and all products that are not rentals": {
+    "status": "failed",
+    "is_rental=false expected vs actual": {
+      "expected": [
+        {
+          "id": 1,
+          "name": "Combination Pliers"
+        },
+        {
+          "id": 2,
+          "name": "Pliers"
+        },
+        {
+          "id": 3,
+          "name": "Bolt Cutters"
+        },
+        {
+          "id": 4,
+          "name": "Long Nose Pliers"
+        },
+        {
+          "id": 5,
+          "name": "Slip Joint Pliers"
+        },
+        {
+          "id": 6,
+          "name": "Claw Hammer with Shock Reduction Grip"
+        },
+        {
+          "id": 7,
+          "name": "Hammer"
+        },
+        {
+          "id": 8,
+          "name": "Claw Hammer"
+        },
+        {
+          "id": 9,
+          "name": "Thor Hammer"
+        },
+        {
+          "id": 10,
+          "name": "Sledgehammer"
+        },
+        {
+          "id": 11,
+          "name": "Claw Hammer with Fiberglass Handle"
+        },
+        {
+          "id": 12,
+          "name": "Court Hammer"
+        },
+        {
+          "id": 13,
+          "name": "Wood Saw"
+        },
+        {
+          "id": 14,
+          "name": "Adjustable Wrench"
+        },
+        {
+          "id": 15,
+          "name": "Angled Spanner"
+        },
+        {
+          "id": 16,
+          "name": "Open-end Spanners (Set)"
+        },
+        {
+          "id": 17,
+          "name": "Phillips Screwdriver"
+        },
+        {
+          "id": 18,
+          "name": "Mini Screwdriver"
+        },
+        {
+          "id": 19,
+          "name": "Sheet Sander"
+        },
+        {
+          "id": 20,
+          "name": "Belt Sander"
+        },
+        {
+          "id": 21,
+          "name": "Circular Saw"
+        },
+        {
+          "id": 22,
+          "name": "Random Orbit Sander"
+        },
+        {
+          "id": 23,
+          "name": "Cordless Drill 20V"
+        },
+        {
+          "id": 24,
+          "name": "Cordless Drill 24V"
+        },
+        {
+          "id": 25,
+          "name": "Cordless Drill 18V"
+        },
+        {
+          "id": 26,
+          "name": "Cordless Drill 12V"
+        }
+      ],
+      "actual": [
+        {
+          "id": 27,
+          "name": "Excavator"
+        },
+        {
+          "id": 28,
+          "name": "Bulldozer"
+        },
+        {
+          "id": 29,
+          "name": "Crane"
+        }
+      ]
+    }
+  },
+  "API-07 between=price,10,30 returns only and all products priced from 10 to 30": {
+    "status": "passed",
+    "between=price,10,30 expected vs actual": {
+      "expected": [
+        {
+          "id": 1,
+          "name": "Combination Pliers"
+        },
+        {
+          "id": 2,
+          "name": "Pliers"
+        },
+        {
+          "id": 4,
+          "name": "Long Nose Pliers"
+        },
+        {
+          "id": 6,
+          "name": "Claw Hammer with Shock Reduction Grip"
+        },
+        {
+          "id": 7,
+          "name": "Hammer"
+        },
+        {
+          "id": 8,
+          "name": "Claw Hammer"
+        },
+        {
+          "id": 9,
+          "name": "Thor Hammer"
+        },
+        {
+          "id": 10,
+          "name": "Sledgehammer"
+        },
+        {
+          "id": 11,
+          "name": "Claw Hammer with Fiberglass Handle"
+        },
+        {
+          "id": 12,
+          "name": "Court Hammer"
+        },
+        {
+          "id": 13,
+          "name": "Wood Saw"
+        },
+        {
+          "id": 14,
+          "name": "Adjustable Wrench"
+        },
+        {
+          "id": 15,
+          "name": "Angled Spanner"
+        },
+        {
+          "id": 18,
+          "name": "Mini Screwdriver"
+        }
+      ],
+      "actual": [
+        {
+          "id": 1,
+          "name": "Combination Pliers"
+        },
+        {
+          "id": 2,
+          "name": "Pliers"
+        },
+        {
+          "id": 4,
+          "name": "Long Nose Pliers"
+        },
+        {
+          "id": 6,
+          "name": "Claw Hammer with Shock Reduction Grip"
+        },
+        {
+          "id": 7,
+          "name": "Hammer"
+        },
+        {
+          "id": 8,
+          "name": "Claw Hammer"
+        },
+        {
+          "id": 9,
+          "name": "Thor Hammer"
+        },
+        {
+          "id": 10,
+          "name": "Sledgehammer"
+        },
+        {
+          "id": 11,
+          "name": "Claw Hammer with Fiberglass Handle"
+        },
+        {
+          "id": 12,
+          "name": "Court Hammer"
+        },
+        {
+          "id": 13,
+          "name": "Wood Saw"
+        },
+        {
+          "id": 14,
+          "name": "Adjustable Wrench"
+        },
+        {
+          "id": 15,
+          "name": "Angled Spanner"
+        },
+        {
+          "id": 18,
+          "name": "Mini Screwdriver"
+        }
+      ]
+    }
+  },
+  "API-09 is_eco_friendly agrees with the CO2 rating rule of the reference deployment": {
+    "status": "failed",
+    "API-09 S6 rule": {
+      "D": [
+        false
+      ],
+      "B": [
+        true
+      ],
+      "C": [
+        false
+      ],
+      "E": [
+        false
+      ]
+    }
+  },
+  "API-13c a multi-word search returns only and all products whose name contains every word": {
+    "status": "failed",
+    "search q=\"claw hammer\" expected vs actual": {
+      "expected": [
+        {
+          "id": 6,
+          "name": "Claw Hammer with Shock Reduction Grip"
+        },
+        {
+          "id": 8,
+          "name": "Claw Hammer"
+        },
+        {
+          "id": 11,
+          "name": "Claw Hammer with Fiberglass Handle"
+        }
+      ],
+      "actual": [
+        {
+          "id": 6,
+          "name": "Claw Hammer with Shock Reduction Grip"
+        },
+        {
+          "id": 7,
+          "name": "Hammer"
+        },
+        {
+          "id": 8,
+          "name": "Claw Hammer"
+        },
+        {
+          "id": 9,
+          "name": "Thor Hammer"
+        },
+        {
+          "id": 11,
+          "name": "Claw Hammer with Fiberglass Handle"
+        },
+        {
+          "id": 12,
+          "name": "Court Hammer"
+        }
+      ]
+    }
+  },
+  "API-20 POST /products creates a product that a later GET returns": {
+    "status": "passed",
+    "clean-up": [
+      {
+        "id": 50,
+        "deleteStatus": 204,
+        "getAfter": 404,
+        "outcome": "removed"
+      }
+    ]
+  },
+  "API-21 POST /products with an empty body is refused with 422 and validation errors": {
+    "status": "passed",
+    "API-21 response": {
+      "status": 422,
+      "body": {
+        "name": [
+          "The name field is required."
+        ],
+        "price": [
+          "The price field is required."
+        ],
+        "category_id": [
+          "The category id field is required."
+        ],
+        "brand_id": [
+          "The brand id field is required."
+        ],
+        "is_location_offer": [
+          "The is location offer field is required."
+        ],
+        "is_rental": [
+          "The is rental field is required."
+        ],
+        "product_image_id": [
+          "The product image id field is required."
+        ]
+      }
+    },
+    "clean-up": []
+  },
+  "API-22a POST /products with a negative price is refused with 422": {
+    "status": "failed",
+    "clean-up": [
+      {
+        "id": 51,
+        "deleteStatus": 204,
+        "getAfter": 404,
+        "outcome": "removed"
+      }
+    ]
+  },
+  "API-22b POST /products with a non-numeric price is refused with 422": {
+    "status": "passed",
+    "clean-up": []
+  },
+  "API-22c POST /products with CO2 rating \"Z\" is refused with 422": {
+    "status": "failed",
+    "clean-up": []
+  },
+  "API-22d POST /products with an unknown category id is refused with 422": {
+    "status": "failed",
+    "clean-up": []
+  },
+  "API-23 PUT /products/{id} updates the product and the change persists": {
+    "status": "passed",
+    "clean-up": [
+      {
+        "id": 53,
+        "deleteStatus": 204,
+        "getAfter": 404,
+        "outcome": "removed"
+      }
+    ]
+  },
+  "API-24 DELETE /products/{id} without a token is refused with 401 and the product still exists": {
+    "status": "failed",
+    "clean-up": [
+      {
+        "id": 54,
+        "deleteStatus": 422,
+        "getAfter": 404,
+        "outcome": "removed"
+      }
+    ]
+  },
+  "API-25 DELETE /products/{id} as admin returns 204 and the product is gone": {
+    "status": "passed",
+    "clean-up": [
+      {
+        "id": 55,
+        "deleteStatus": 422,
+        "getAfter": 404,
+        "outcome": "removed"
+      }
+    ]
+  },
+  "API-27 DELETE /products/{id} with a customer token is rejected and the product still exists": {
+    "status": "failed",
+    "clean-up": [
+      {
+        "id": 56,
+        "deleteStatus": 422,
+        "getAfter": 404,
+        "outcome": "removed"
+      }
+    ]
+  },
+  "API-31 PUT /products/{id} with a non-numeric price is refused with 422 and the product is unchanged": {
+    "status": "failed",
+    "clean-up": [
+      {
+        "id": 57,
+        "deleteStatus": 204,
+        "getAfter": 404,
+        "outcome": "removed"
+      }
+    ]
+  },
+  "API-32 PUT /products/{id} with an empty body is refused with 422 and the product is unchanged": {
+    "status": "failed",
+    "clean-up": [
+      {
+        "id": 58,
+        "deleteStatus": 204,
+        "getAfter": 404,
+        "outcome": "removed"
+      }
+    ]
+  }
+}

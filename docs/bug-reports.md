@@ -5,6 +5,13 @@
 **Systems:** UI https://practicesoftwaretesting.com (v2.5, built 2026-10-11) and its API https://api.practicesoftwaretesting.com · API under test (Part B) https://api-with-bugs.practicesoftwaretesting.com (v5)
 **Evidence folder:** [evidence/bugs/](evidence/bugs/)
 
+**Where to find the evidence.** When a row says "attachment", it means data that the test saved during the run (for example, expected vs actual values). You can read it in these files:
+- [evidence/final-runs/run3-attachments.json](evidence/final-runs/run3-attachments.json): all text attachments of final run 3, in readable form, grouped by test.
+- [evidence/bugs/api-failed-tests-15oct.json](evidence/bugs/api-failed-tests-15oct.json): the failed API tests of the runs at 17:32 and 17:48 WIB, with their error messages and attachments.
+- [evidence/bugs/](evidence/bugs/): screenshots and network captures.
+
+The raw reports in [evidence/final-runs/](evidence/final-runs/) (`run1.json` to `run3.json`) contain the same attachments, but base64-encoded. If you run the tests yourself, `npm run report` shows the attachments of your own run.
+
 ## 1. How findings are classified
 
 Sources in order of priority (decision D7): **S1** the brief → **S2** Sprint 5 user stories (supporting) → observed behaviour → labelled assumptions. For Part B the API contract is the OpenAPI spec **S5** the brief points to; **S6** (the deployment without bugs) is a supporting reference where S5 is silent.
@@ -55,7 +62,7 @@ Unique items: **3 confirmed defects**, **6 candidate defects**, **4 findings aga
 - **Reproducibility:** 3/3 automated runs + network capture, 2026-10-15.
 
 ### BUG-02 · DELETE /products/{id} deletes a product without any token
-- **Severity:** Critical (tester's decision): an authentication bypass lets anyone delete catalogue data without logging in; no workaround. Severity describes the potential technical impact; this was observed on a shared public demo, not on a production system.
+- **Severity:** Critical (tester's decision): an authentication bypass lets anyone delete catalogue data without logging in; no workaround. This severity reflects the potential technical impact. The issue was found on a shared public demo, not in production.
 - **Expected (S5):** DELETE is secured (`security: apiAuth`, response 401 documented; "Admin role is required to delete a specific product").
 - **Actual:** `204`, and the product is gone (`GET` → 404).
 - **Steps:** 1) `POST /products` with a valid body (201, id N). 2) `DELETE /products/N` **without** an Authorization header. 3) `GET /products/N`.
@@ -63,7 +70,7 @@ Unique items: **3 confirmed defects**, **6 candidate defects**, **4 findings aga
 - **Reproducibility:** automated run 17:48 + manual reproduction 19:11.
 
 ### BUG-03 · DELETE /products/{id} lets a customer (non-admin) delete a product
-- **Severity:** Critical (tester's decision): an authorization bypass lets any logged-in customer delete catalogue data; no workaround. Severity describes the potential technical impact; this was observed on a shared public demo, not on a production system.
+- **Severity:** Critical (tester's decision): an authorization bypass lets any logged-in customer delete catalogue data; no workaround. This severity reflects the potential technical impact. The issue was found on a shared public demo, not in production.
 - **Expected (S5):** *"Admin role is required to delete a specific product."* A customer token must be rejected (401 or 403).
 - **Actual:** `200 {"success":true}`, and the product is gone (`GET` → 404). The main problem is the missing role check; the 200 instead of the documented 204 is secondary.
 - **Steps:** 1) Log in as the demo customer (Jane Doe) on the API. 2) `POST /products` (201, id N). 3) `DELETE /products/N` with `Authorization: Bearer <customer token>`. 4) `GET /products/N`.
@@ -75,8 +82,8 @@ Unique items: **3 confirmed defects**, **6 candidate defects**, **4 findings aga
 | ID | Steps | Expected (S5) | Actual | Evidence |
 |---|---|---|---|---|
 | CAND-01 | `GET /products?is_rental=false` (all pages) | Only and all products that are not rentals (26) | Only the 3 rentals (Excavator, Bulldozer, Crane); all 26 products for sale missing | API-06b attachment |
-| CAND-02 | `GET /products/search?q=hammer` | Items are `ProductResponse` with `brand` and `category` objects (S6 search also returns them) | Items carry only `brand_id` / `category_id`; 14 schema errors | API-13 attachment |
-| CAND-03 | `GET /products/999999999/related` | 404 (documented: 200, 404, 405) | 500 with an HTML error page | API-17 |
+| CAND-02 | `GET /products/search?q=hammer` | Items are `ProductResponse` with `brand` and `category` objects (S6 search also returns them) | Items carry only `brand_id` / `category_id`; 12 schema errors in each final run (6 results, each missing `brand` and `category`) | API-13 error message in [run3.json](evidence/final-runs/run3.json) (the schema errors are listed there; API-13 saves no attachment); [screenshot](evidence/bugs/CAND-02-search-no-brand-category.png) taken manually in the browser on 2026-10-16 (~05:21 WIB) |
+| CAND-03 | `GET /products/999999999/related` | 404 (documented: 200, 404, 405) | 500 with an HTML error page | API-17; [screenshot](evidence/bugs/CAND-03-related-unknown-id-500.png) taken manually in the browser on 2026-10-16 (~05:19 WIB) shows the page "500 Server Error" |
 | CAND-04 | `POST /products` with `co2_rating: "Z"` | 422 (enum A–E; 422 documented) | 500 | API-22c |
 | CAND-05 | `PUT /products/{id}` with `price: "abc"` | 422 (price is a number; 422 documented) | 500; the stored product is unchanged (full snapshot compared) | API-31 |
 | CAND-06 | `POST /products` with `category_id: 999999999` | A client error; 422 is our assumption (S5 does not say references must exist) | 500 (a server error is never documented for client input) | API-22d |
@@ -92,11 +99,12 @@ Evidence for all rows: [api-failed-tests-15oct.json](evidence/bugs/api-failed-te
 - **Evidence:** [UI-26-country-not-prefilled.png](evidence/bugs/UI-26-country-not-prefilled.png); UI-26 attachment `shown {country: ""}` vs `stored {country: "Austria"}`.
 
 ### FIND-02 · A late account pre-fill wipes the billing input the customer typed
-- **Severity:** Medium (tester's decision): the customer loses the address typed and has to enter it again; checkout can still be completed.
-- **Basis:** S2 Billing Address AC3 (all fields must be filled to proceed) and the general expectation that typed input is not lost. Not a breach of the brief.
-- **Steps:** log in as Jane in checkout → billing → back to the cart → proceed → billing again → type country/postcode/house number as soon as the form shows.
-- **Actual:** about 230 ms later a second `GET /users/me` response arrives and resets the form: `AT / 1010 / 98` → empty.
-- **Evidence:** [UI-26b-typed-input-wiped.png](evidence/bugs/UI-26b-typed-input-wiped.png); UI-26b attachment `{typed: AT/1010/98, kept: ""/""/"", lateProfileResponses: 1}`; timing probe in the review log. Reproduced in 2 runs (one further run failed earlier because the demo cart did not load: environment).
+- **Severity:** Medium (tester's decision). The customer loses the address they entered and must enter it again. Checkout can still be completed.
+- **Basis:** S2 Billing Address AC3 (all fields must be filled to proceed) and the general expectation that entered input is not lost. The brief does not cover this behaviour, so it is not a breach of the brief.
+- **Steps:** 1) Open checkout and log in as Jane Doe. 2) Open the billing step, go back to the cart, and proceed to billing again. 3) Enter the country, postcode and house number as soon as the form appears.
+- **Actual:** a late `GET /users/me` response arrives after the form is shown and clears the entered values: `AT / 1010 / 98` → empty.
+- **Evidence:** [UI-26b-typed-input-wiped.png](evidence/bugs/UI-26b-typed-input-wiped.png); UI-26b attachment `{typed: AT/1010/98, kept: ""/""/"", lateProfileResponses: 1}` (the test counts the late profile responses), see [run3-attachments.json](evidence/final-runs/run3-attachments.json). Supporting capture: [FIND-02-users-me-called-repeatedly.png](evidence/bugs/FIND-02-users-me-called-repeatedly.png), taken manually by the tester in DevTools during one checkout session as Jane Doe: `GET /users/me` was sent 6 times (all 200). It shows the repeated profile requests. It does not show when they occurred or which fields were cleared.
+- **Reproducibility:** reproduced in 2 runs. One further run could not be completed because the demo cart did not load (environment, see section 9).
 
 ### FIND-03 · `is_eco_friendly` is inverted against the CO₂ rating
 - **Basis:** S6 only (S5 is silent): S6 sets `B → true`, `C/D/E → false`.
@@ -139,7 +147,7 @@ Evidence for all rows: [api-failed-tests-15oct.json](evidence/bugs/api-failed-te
 | OBS-03 | One "Quantity" column holds pieces and rental hours; the cart badge counts hours as items (2 + 10 = 12) | Usability; PO question 7 |
 | OBS-04 | Rental label "Item for rent, price per hour" vs S2 "This is a rental item" | Same meaning, wording only |
 | OBS-05 | Checkout sign-in shows "Hello Jane Doe, you are already logged in." vs S2 AC5 "You are already signed in as [First Name] [Last Name]" | Same meaning, wording only; the name is shown |
-| OBS-06 | The Excavator detail page shows the category "Drill" | The UI shows the stored data correctly (all three rentals are stored under "Drill"); no requirement covers rental categories |
+| OBS-06 | The Excavator detail page shows the category "Drill" ([screenshot](evidence/bugs/OBS-06-excavator-category-drill.png)) | The UI shows the stored data correctly (all three rentals are stored under "Drill"); no requirement covers rental categories |
 | OBS-07 | The cart total updates with a short delay after a quantity change | The final total is correct; tests wait for the computed value |
 
 Not reproduced: the v1 candidate "name missing in the already-logged-in message" (the name was shown in every v2 run).
@@ -148,7 +156,7 @@ Not reproduced: the v1 candidate "name missing in the already-logged-in message"
 
 | Time (WIB) | Problem | Effect | Handling |
 |---|---|---|---|
-| 13:41–14:05 | Shared Jane Doe account locked on the UI API (HTTP 423) by other users | E2E-01 blocked | Suspended per test plan §9; E2E stabilised with the documented demo account Jack Howe (labelled, not final evidence); final 3 runs with Jane after the account was unlocked |
+| 13:41–14:05 | Shared Jane Doe account locked on the UI API (HTTP 423) by other users ([screenshot](evidence/bugs/ENV-jane-locked.png) taken at the start of the incident: "Account locked, too many failed attempts") | E2E-01 blocked | Suspended per test plan §9; E2E stabilised with the documented demo account Jack Howe (labelled, not final evidence); final 3 runs with Jane after the account was unlocked |
 | ~14:00 | Demo data reset (invoice numbers restarted) | None for the tests | Invoices are found by the number of the same run |
 | 13:49 | A UI API request took > 15 s | One E2E run failed | Test redesigned to 1 request; data-API timeout 30 s |
 | 17:00 | The demo cart did not load within 10 s | One UI-26b run failed in its setup | Re-run; not counted |
