@@ -1,0 +1,18 @@
+Reproduction of API-24 and API-27 on https://api-with-bugs.practicesoftwaretesting.com | 2026-10-15 19:11:14 WIB
+Tokens are not printed. Each product is created by this script and only these ids are touched.
+
+== API-24 DELETE without a token
+1. POST /products                 -> 201 (id 30)
+2. GET  /products/30            -> 200  (exists before)
+3. DELETE /products/30 (no Authorization header) -> 204 body=''
+4. GET  /products/30            -> 404  (after)
+
+== API-27 DELETE with a customer (Jane Doe) token
+1. POST /products                 -> 201 (id 31)
+2. GET  /products/31            -> 200  (exists before)
+3. DELETE /products/31 (Authorization: Bearer <customer token>) -> 200 body='{"success":true}'
+4. GET  /products/31            -> 404  (after)
+
+== Clean-up as admin (only the ids above)
+DELETE 30 -> 422; GET -> 404
+DELETE 31 -> 422; GET -> 404

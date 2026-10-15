@@ -1,0 +1,39 @@
+{
+  "captured": "2026-10-15T12:07:54.862Z",
+  "page": "https://practicesoftwaretesting.com/category/power-tools",
+  "requests": [
+    {
+      "phase": "page load",
+      "method": "QUERY",
+      "url": "https://api.practicesoftwaretesting.com/products",
+      "requestBody": {
+        "page": "1",
+        "by_category_slug": "power-tools"
+      },
+      "status": 200,
+      "total": 8,
+      "names": [
+        "Sheet Sander (CO2 E, eco false)",
+        "Belt Sander (CO2 E, eco false)",
+        "Circular Saw (CO2 D, eco false)",
+        "Random Orbit Sander (CO2 E, eco false)",
+        "Cordless Drill 20V (CO2 E, eco false)",
+        "Cordless Drill 24V (CO2 E, eco false)",
+        "Cordless Drill 18V (CO2 E, eco false)",
+        "Cordless Drill 12V (CO2 E, eco false)"
+      ]
+    },
+    {
+      "phase": "after ticking \"Show only eco-friendly products\"",
+      "method": "QUERY",
+      "url": "https://api.practicesoftwaretesting.com/products",
+      "requestBody": {
+        "by_category_slug": "power-tools",
+        "eco_friendly": "true"
+      },
+      "status": 200,
+      "total": 0,
+      "names": []
+    }
+  ]
+}

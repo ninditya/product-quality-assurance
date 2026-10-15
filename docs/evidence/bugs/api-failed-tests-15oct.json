@@ -1,0 +1,334 @@
+{
+ "Part A (read) 2026-10-15 17:32 WIB": [
+  {
+   "test": "API-06b is_rental=false returns only and all products that are not rentals",
+   "status": "failed",
+   "errors": [
+    "Error: is_rental=false: product ids (only and all)"
+   ],
+   "attachments": {
+    "is_rental=false expected vs actual": {
+     "expected": [
+      {
+       "id": 1,
+       "name": "Combination Pliers"
+      },
+      {
+       "id": 2,
+       "name": "Pliers"
+      },
+      {
+       "id": 3,
+       "name": "Bolt Cutters"
+      },
+      {
+       "id": 4,
+       "name": "Long Nose Pliers"
+      },
+      {
+       "id": 5,
+       "name": "Slip Joint Pliers"
+      },
+      {
+       "id": 6,
+       "name": "Claw Hammer with Shock Reduction Grip"
+      },
+      {
+       "id": 7,
+       "name": "Hammer"
+      },
+      {
+       "id": 8,
+       "name": "Claw Hammer"
+      },
+      {
+       "id": 9,
+       "name": "Thor Hammer"
+      },
+      {
+       "id": 10,
+       "name": "Sledgehammer"
+      },
+      {
+       "id": 11,
+       "name": "Claw Hammer with Fiberglass Handle"
+      },
+      {
+       "id": 12,
+       "name": "Court Hammer"
+      },
+      {
+       "id": 13,
+       "name": "Wood Saw"
+      },
+      {
+       "id": 14,
+       "name": "Adjustable Wrench"
+      },
+      {
+       "id": 15,
+       "name": "Angled Spanner"
+      },
+      {
+       "id": 16,
+       "name": "Open-end Spanners (Set)"
+      },
+      {
+       "id": 17,
+       "name": "Phillips Screwdriver"
+      },
+      {
+       "id": 18,
+       "name": "Mini Screwdriver"
+      },
+      {
+       "id": 19,
+       "name": "Sheet Sander"
+      },
+      {
+       "id": 20,
+       "name": "Belt Sander"
+      },
+      {
+       "id": 21,
+       "name": "Circular Saw"
+      },
+      {
+       "id": 22,
+       "name": "Random Orbit Sander"
+      },
+      {
+       "id": 23,
+       "name": "Cordless Drill 20V"
+      },
+      {
+       "id": 24,
+       "name": "Cordless Drill 24V"
+      },
+      {
+       "id": 25,
+       "name": "Cordless Drill 18V"
+      },
+      {
+       "id": 26,
+       "name": "Cordless Drill 12V"
+      }
+     ],
+     "actual": [
+      {
+       "id": 27,
+       "name": "Excavator"
+      },
+      {
+       "id": 28,
+       "name": "Bulldozer"
+      },
+      {
+       "id": 29,
+       "name": "Crane"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "test": "API-09 is_eco_friendly agrees with the CO2 rating rule of the reference deployment",
+   "status": "failed",
+   "errors": [
+    "Error: products whose is_eco_friendly differs from the S6 rule"
+   ],
+   "attachments": {
+    "API-09 S6 rule": {
+     "D": [
+      false
+     ],
+     "B": [
+      true
+     ],
+     "C": [
+      false
+     ],
+     "E": [
+      false
+     ]
+    }
+   }
+  },
+  {
+   "test": "API-13 search returns 200, a valid body, and only and all products whose name contains the query",
+   "status": "failed",
+   "errors": [
+    "Error: schema errors"
+   ],
+   "attachments": {}
+  },
+  {
+   "test": "API-13c a multi-word search returns only and all products whose name contains every word",
+   "status": "failed",
+   "errors": [
+    "Error: search q=\"claw hammer\": product ids (only and all)"
+   ],
+   "attachments": {
+    "search q=\"claw hammer\" expected vs actual": {
+     "expected": [
+      {
+       "id": 6,
+       "name": "Claw Hammer with Shock Reduction Grip"
+      },
+      {
+       "id": 8,
+       "name": "Claw Hammer"
+      },
+      {
+       "id": 11,
+       "name": "Claw Hammer with Fiberglass Handle"
+      }
+     ],
+     "actual": [
+      {
+       "id": 6,
+       "name": "Claw Hammer with Shock Reduction Grip"
+      },
+      {
+       "id": 7,
+       "name": "Hammer"
+      },
+      {
+       "id": 8,
+       "name": "Claw Hammer"
+      },
+      {
+       "id": 9,
+       "name": "Thor Hammer"
+      },
+      {
+       "id": 11,
+       "name": "Claw Hammer with Fiberglass Handle"
+      },
+      {
+       "id": 12,
+       "name": "Court Hammer"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "test": "API-17 related products of an unknown id return 404",
+   "status": "failed",
+   "errors": [
+    "Error: expect(received).toBe(expected) // Object.is equality | Expected: 404 | Received: 500"
+   ],
+   "attachments": {}
+  }
+ ],
+ "Part B (write) 2026-10-15 17:48 WIB": [
+  {
+   "test": "API-22a POST /products with a negative price is refused with 422",
+   "status": "failed",
+   "errors": [
+    "Error: status for a negative price | Expected: 422 | Received: 201"
+   ],
+   "attachments": {
+    "clean-up": [
+     {
+      "id": 40,
+      "deleteStatus": 204,
+      "getAfter": 404,
+      "outcome": "removed"
+     }
+    ]
+   }
+  },
+  {
+   "test": "API-22c POST /products with CO2 rating \"Z\" is refused with 422",
+   "status": "failed",
+   "errors": [
+    "Error: status for CO2 rating \"Z\" | Expected: 422 | Received: 500"
+   ],
+   "attachments": {
+    "clean-up": []
+   }
+  },
+  {
+   "test": "API-22d POST /products with an unknown category id is refused with 422",
+   "status": "failed",
+   "errors": [
+    "Error: status for an unknown category id | Expected: 422 | Received: 500"
+   ],
+   "attachments": {
+    "clean-up": []
+   }
+  },
+  {
+   "test": "API-24 DELETE /products/{id} without a token is refused with 401 and the product still exists",
+   "status": "failed",
+   "errors": [
+    "Error: DELETE status without a token | Expected: 401 | Received: 204",
+    "Error: the product still exists | Expected: 200 | Received: 404"
+   ],
+   "attachments": {
+    "clean-up": [
+     {
+      "id": 46,
+      "deleteStatus": 422,
+      "getAfter": 404,
+      "outcome": "removed"
+     }
+    ]
+   }
+  },
+  {
+   "test": "API-27 DELETE /products/{id} with a customer token is rejected and the product still exists",
+   "status": "failed",
+   "errors": [
+    "Error: DELETE status with a customer token | Expected value: 200 | Received array: [401, 403]",
+    "Error: the product still exists | Expected: 200 | Received: 404"
+   ],
+   "attachments": {
+    "clean-up": [
+     {
+      "id": 50,
+      "deleteStatus": 422,
+      "getAfter": 404,
+      "outcome": "removed"
+     }
+    ]
+   }
+  },
+  {
+   "test": "API-31 PUT /products/{id} with a non-numeric price is refused with 422 and the product is unchanged",
+   "status": "failed",
+   "errors": [
+    "Error: PUT status | Expected: 422 | Received: 500"
+   ],
+   "attachments": {
+    "clean-up": [
+     {
+      "id": 52,
+      "deleteStatus": 204,
+      "getAfter": 404,
+      "outcome": "removed"
+     }
+    ]
+   }
+  },
+  {
+   "test": "API-32 PUT /products/{id} with an empty body is refused with 422 and the product is unchanged",
+   "status": "failed",
+   "errors": [
+    "Error: PUT status | Expected: 422 | Received: 200"
+   ],
+   "attachments": {
+    "clean-up": [
+     {
+      "id": 55,
+      "deleteStatus": 204,
+      "getAfter": 404,
+      "outcome": "removed"
+     }
+    ]
+   }
+  }
+ ]
+}
