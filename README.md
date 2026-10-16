@@ -118,6 +118,10 @@ postman/                    Postman collection and environment (the API tests, r
 
 Every expected result names its source (column "Basis" in [docs/test-scenarios.md](docs/test-scenarios.md)): the brief first, then the official Toolshop Sprint 5 user stories as a supporting source (the brief does not reference them), the OpenAPI spec for Part B, the bug-free deployment only where the spec is silent, and labelled assumptions with Product Owner questions. Prices, ratings and product sets are read at run time; totals and discounts are computed by the tests, not read from the app.
 
+## Negative and edge-case coverage
+
+Of the 50 designed scenarios, 22 are negative and 5 are edge cases; 18 negative and all 5 edge cases are automated (column "Type" and the counts in [docs/test-scenarios.md](docs/test-scenarios.md#6-summary)). Automated negatives: in the UI, a guest trying to reach billing without logging in, login with an unknown e-mail and with empty fields, an invalid bank account number, no payment method, wrongly formatted card fields and an expired card; in the API, unknown product ids (404, never 5xx), invalid create and update bodies (empty, negative or non-numeric price, CO₂ rating outside A–E, unknown category) and DELETE without a token or with a customer token. Edge cases cover the quantity limits (1 and 0), the rental hours (1, 10 and above 10) and a multi-word search. Not automated on purpose: four P3 negatives (UI-27, API-16, API-26, API-28; time box), and cases that repeat an already tested equivalence class or have no documented rule (for example quantity −1, an unknown brand id, a non-numeric product id); each has its reason in [Considered, not automated](docs/test-scenarios.md#5-considered-not-automated). Negative login tests never use Jane Doe's e-mail, so the shared account cannot be locked.
+
 ## Assumptions
 
 The main assumptions (full list in [docs/requirement-analysis.md](docs/requirement-analysis.md)):

@@ -43,7 +43,7 @@ All values except the wall-clock duration come from `load-tests/results/summary.
 | HTTP failure rate < 1 % | 0.00 % | PASS |
 | Abort when the failure rate exceeds 10 % | Not triggered | PASS (the run completed) |
 
-These thresholds are acceptance criteria for this take-home test, not official service-level objectives (SLAs). Their basis is in the plan (baseline of 10 sequential requests, median 0.826 s).
+These thresholds are acceptance criteria for this take-home test, not official service-level objectives (SLAs). Their basis is in the plan (baseline of 10 sequential requests, median 0.826 s). The thresholds were defined and committed in `73631f8` at 18:45 WIB before the load test run at approximately 18:47–18:48 WIB, and were not changed afterward. Requesting one static URL (`GET /products`, page 1, no query parameters; other pages, filters and search were not loaded) is a known and accepted limitation of this test.
 
 **Reading `summary.json` (k6 export format):** in the `thresholds` objects, `false` means the threshold did **not** fail (e.g. `"p(95)<2000": false` = passed). For the `http_req_failed` metric, `passes` counts samples where the metric evaluates to `true` (the request failed), while `fails` counts samples where it evaluates to `false` (the request did not fail). Therefore, `passes: 0, fails: 1039` means **0 failed requests out of 1,039**. This metric-specific reading does not apply to the separate `checks` results, where `passes: 1039, fails: 0` per check means every check succeeded.
 
